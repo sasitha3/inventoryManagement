@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FndNavigator xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" Legacy="false" Source="trnexm\client\navigator-functional.xml">
+  <FndNavigatorEntries>
+    <FndNavigatorEntry>
+      <Key>PRODCT_MANANT</Key>
+      <Name>Product management</Name>
+      <Url />
+      <Type>Folder</Type>
+      <ParentKey>NAVIGATOR_Root</ParentKey>
+      <Ordinal>300</Ordinal>
+    </FndNavigatorEntry>
+    <FndNavigatorEntry>
+      <Key>PRODCT_MANANT.INVERY</Key>
+      <Name>Inventory</Name>
+      <Url />
+      <Type>Folder</Type>
+      <ParentKey>PRODCT_MANANT</ParentKey>
+      <Ordinal>50</Ordinal>
+    </FndNavigatorEntry>
+    <FndNavigatorEntry>
+      <Key>PRODCT_MANANT.SALE</Key>
+      <Name>Sales</Name>
+      <Url />
+      <Type>Folder</Type>
+      <ParentKey>PRODCT_MANANT</ParentKey>
+      <Ordinal>100</Ordinal>
+    </FndNavigatorEntry>
+    <FndNavigatorEntry>
+      <Key>PRODCT_MANANT.MANUNG</Key>
+      <Name>Manufacturing</Name>
+      <Url />
+      <Type>Folder</Type>
+      <ParentKey>PRODCT_MANANT</ParentKey>
+      <Ordinal>150</Ordinal>
+    </FndNavigatorEntry>
+    <FndNavigatorEntry>
+      <Key>PRODCT_MANANT.INVERY.INVERY_DETALS</Key>
+      <Name>Inventory Details</Name>
+      <Url>ifsapf:tbwInventoryPartDetails</Url>
+      <Type>TableWindow</Type>
+      <ParentKey>PRODCT_MANANT.INVERY</ParentKey>
+      <Ordinal>50</Ordinal>
+    </FndNavigatorEntry>
+  </FndNavigatorEntries>
+  <FndShortcutItems />
+</FndNavigator>
