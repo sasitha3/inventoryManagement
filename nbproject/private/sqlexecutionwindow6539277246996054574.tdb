@@ -1,0 +1,10 @@
+DECLARE
+   module_ VARCHAR2(50) := 'TRNEXM';
+   name_ VARCHAR2(50) := 'Training Exam Enterprise';
+   version_ VARCHAR2(50) := '9.0.0';
+   description_ VARCHAR2(50) := 'Training Exam Enterprise 9.0.0';
+   patch_version_ VARCHAR2(50) := NULL;
+BEGIN
+   Module_API.Create_And_Set_Version(module_, name_, version_, description_, patch_version_);
+END;
+COMMIT;

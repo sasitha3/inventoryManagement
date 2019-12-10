@@ -1,0 +1,57 @@
+-----------------------------------------------------------------------------
+--
+--  Logical unit: ExmInventoryProduct
+--  Component:    TRNEXM
+--
+--  Template:     3.0
+--  Built by:     IFS Developer Studio 10.82.6479.20191204
+--
+--  NOTE! Do not edit!! This file is completely generated and will be
+--        overwritten next time the corresponding model is saved.
+-----------------------------------------------------------------------------
+
+
+layer Base;
+
+-------------------- COMMON COLUMN DEFINITIONS ------------------------------
+
+COLUMN Location_Number IS
+   Flags      = 'PMI-L'
+   Datatype   = 'NUMBER'
+   Prompt     = 'Location Number';
+COLUMN Inventory_Id IS
+   Flags      = 'PMI-L'
+   Datatype   = 'NUMBER'
+   Prompt     = 'Inventory Id'
+   Ref        = 'ExmInventoryLocation(location_number)';
+COLUMN Part_No IS
+   Flags      = 'PMI-L'
+   Datatype   = 'NUMBER'
+   Prompt     = 'Part No'
+   Ref        = 'ExmPart';
+COLUMN Key IS
+   Flags      = 'KMI-L'
+   Datatype   = 'NUMBER'
+   Prompt     = 'Key';
+COLUMN Quantity IS
+   Flags      = 'AMIUL'
+   Datatype   = 'NUMBER'
+   Prompt     = 'Quantity';
+
+-------------------- PUBLIC VIEW DEFINITIONS --------------------------------
+
+
+-------------------- PRIVATE VIEW DEFINITIONS -------------------------------
+
+VIEW Exm_Inventory_Product IS
+   Prompt     = 'Exm Inventory Product'
+SELECT
+       location_number                location_number,
+       inventory_id                   inventory_id,
+       part_no                        part_no,
+       key                            key,
+       quantity                       quantity,
+       rowkey                         objkey,
+       to_char(rowversion,'YYYYMMDDHH24MISS') objversion,
+       rowid                          objid
+FROM   exm_inventory_product_tab;

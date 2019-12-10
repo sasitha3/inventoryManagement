@@ -1,0 +1,33 @@
+-----------------------------------------------------------------------------
+--
+--  Logical unit: ExmPart
+--  Component:    TRNEXM
+--
+--  Template:     3.0
+--  Built by:     IFS Developer Studio 10.82.6479.20191204
+--
+--  NOTE! Do not edit!! This file is completely generated and will be
+--        overwritten next time the corresponding model is saved.
+-----------------------------------------------------------------------------
+
+
+layer Base;
+
+-------------------- TABLE DEFINITIONS --------------------------------------
+
+TABLE exm_part_tab IS (
+   part_no                        NUMBER         NOT NULL,
+   part_descrption                VARCHAR2(200)  NOT NULL,
+   rowversion                     DATE           NOT NULL,
+   rowkey                         VARCHAR2(50)   DEFAULT sys_guid() NOT NULL);
+
+
+PRIMARY KEY exm_part_pk IS exm_part_tab (
+   part_no);
+
+
+UNIQUE CONSTRAINT exm_part_rk IS exm_part_tab (
+   rowkey);
+
+-------------------- OTHER DEFINITIONS --------------------------------------
+

@@ -1,0 +1,39 @@
+-----------------------------------------------------------------------------
+--
+--  Logical unit: ExmInventoryProduct
+--  Component:    TRNEXM
+--
+--  Template:     3.0
+--  Built by:     IFS Developer Studio 10.82.6479.20191204
+--
+--  NOTE! Do not edit!! This file is completely generated and will be
+--        overwritten next time the corresponding model is saved.
+-----------------------------------------------------------------------------
+
+
+layer Base;
+
+-------------------- TABLE DEFINITIONS --------------------------------------
+
+TABLE exm_inventory_product_tab IS (
+   location_number                NUMBER         NOT NULL,
+   inventory_id                   NUMBER         NOT NULL,
+   part_no                        NUMBER         NOT NULL,
+   key                            NUMBER         NOT NULL,
+   quantity                       NUMBER         NOT NULL,
+   rowversion                     DATE           NOT NULL,
+   rowkey                         VARCHAR2(50)   DEFAULT sys_guid() NOT NULL);
+
+
+PRIMARY KEY exm_inventory_product_pk IS exm_inventory_product_tab (
+   location_number,
+   inventory_id,
+   part_no,
+   key);
+
+
+UNIQUE CONSTRAINT exm_inventory_product_rk IS exm_inventory_product_tab (
+   rowkey);
+
+-------------------- OTHER DEFINITIONS --------------------------------------
+

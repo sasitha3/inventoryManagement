@@ -1,0 +1,34 @@
+-----------------------------------------------------------------------------
+--
+--  Logical unit: ExmInventoryLocation
+--  Component:    TRNEXM
+--
+--  Template:     3.0
+--  Built by:     IFS Developer Studio 10.82.6479.20191204
+--
+--  NOTE! Do not edit!! This file is completely generated and will be
+--        overwritten next time the corresponding model is saved.
+-----------------------------------------------------------------------------
+
+
+layer Base;
+
+-------------------- TABLE DEFINITIONS --------------------------------------
+
+TABLE exm_inventory_location_tab IS (
+   inventory_id                   NUMBER         NOT NULL,
+   location_number                NUMBER         NOT NULL,
+   rowversion                     DATE           NOT NULL,
+   rowkey                         VARCHAR2(50)   DEFAULT sys_guid() NOT NULL);
+
+
+PRIMARY KEY exm_inventory_location_pk IS exm_inventory_location_tab (
+   inventory_id,
+   location_number);
+
+
+UNIQUE CONSTRAINT exm_inventory_location_rk IS exm_inventory_location_tab (
+   rowkey);
+
+-------------------- OTHER DEFINITIONS --------------------------------------
+

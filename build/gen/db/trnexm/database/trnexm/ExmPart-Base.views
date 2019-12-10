@@ -1,0 +1,40 @@
+-----------------------------------------------------------------------------
+--
+--  Logical unit: ExmPart
+--  Component:    TRNEXM
+--
+--  Template:     3.0
+--  Built by:     IFS Developer Studio 10.82.6479.20191204
+--
+--  NOTE! Do not edit!! This file is completely generated and will be
+--        overwritten next time the corresponding model is saved.
+-----------------------------------------------------------------------------
+
+
+layer Base;
+
+-------------------- COMMON COLUMN DEFINITIONS ------------------------------
+
+COLUMN Part_No IS
+   Flags      = 'KMI-L'
+   Datatype   = 'NUMBER'
+   Prompt     = 'Part No';
+COLUMN Part_Descrption IS
+   Flags      = 'AMIUL'
+   Datatype   = 'STRING(200)'
+   Prompt     = 'Part Descrption';
+
+-------------------- PUBLIC VIEW DEFINITIONS --------------------------------
+
+
+-------------------- PRIVATE VIEW DEFINITIONS -------------------------------
+
+VIEW Exm_Part IS
+   Prompt     = 'Exm Part'
+SELECT
+       part_no                        part_no,
+       part_descrption                part_descrption,
+       rowkey                         objkey,
+       to_char(rowversion,'YYYYMMDDHH24MISS') objversion,
+       rowid                          objid
+FROM   exm_part_tab;

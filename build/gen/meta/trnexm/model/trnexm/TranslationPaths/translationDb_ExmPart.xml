@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LogicalUnits version="1.0" module="TRNEXM" type="LU" layer="Core">
+   <LogicalUnit name="ExmPart">
+      <Text><![CDATA[Exm Part]]></Text>
+      <View ID="ExmPart.EXM_PART">
+         <Text><![CDATA[Exm Part]]></Text>
+         <Column ID="ExmPart.EXM_PART.PART_NO">
+            <Text><![CDATA[Part No]]></Text>
+         </Column>
+         <Column ID="ExmPart.EXM_PART.PART_DESCRPTION">
+            <Text><![CDATA[Part Descrption]]></Text>
+         </Column>
+      </View>
+   </LogicalUnit>
+</LogicalUnits>

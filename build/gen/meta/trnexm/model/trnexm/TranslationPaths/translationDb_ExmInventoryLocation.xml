@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LogicalUnits version="1.0" module="TRNEXM" type="LU" layer="Core">
+   <LogicalUnit name="ExmInventoryLocation">
+      <Text><![CDATA[Exm Inventory Location]]></Text>
+      <View ID="ExmInventoryLocation.EXM_INVENTORY_LOCATION">
+         <Text><![CDATA[Exm Inventory Location]]></Text>
+         <Column ID="ExmInventoryLocation.EXM_INVENTORY_LOCATION.INVENTORY_ID">
+            <Text><![CDATA[Inventory Id]]></Text>
+         </Column>
+         <Column ID="ExmInventoryLocation.EXM_INVENTORY_LOCATION.LOCATION_NUMBER">
+            <Text><![CDATA[Location Number]]></Text>
+         </Column>
+      </View>
+   </LogicalUnit>
+</LogicalUnits>

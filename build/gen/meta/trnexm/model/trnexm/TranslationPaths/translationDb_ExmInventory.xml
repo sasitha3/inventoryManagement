@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LogicalUnits version="1.0" module="TRNEXM" type="LU" layer="Core">
+   <LogicalUnit name="ExmInventory">
+      <Text><![CDATA[Exm Inventory]]></Text>
+      <View ID="ExmInventory.EXM_INVENTORY">
+         <Text><![CDATA[Exm Inventory]]></Text>
+         <Column ID="ExmInventory.EXM_INVENTORY.INVENTORY_ID">
+            <Text><![CDATA[Inventory Id]]></Text>
+         </Column>
+      </View>
+   </LogicalUnit>
+</LogicalUnits>
