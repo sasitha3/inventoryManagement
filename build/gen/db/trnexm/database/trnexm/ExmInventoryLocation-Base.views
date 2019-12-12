@@ -22,7 +22,7 @@ COLUMN Inventory_Id IS
    Ref        = 'ExmInventory';
 COLUMN Location_Number IS
    Flags      = 'KMI-L'
-   Datatype   = 'STRING(100)'
+   Datatype   = 'NUMBER'
    Prompt     = 'Location Number';
 COLUMN Description IS
    Flags      = 'AMIUL'

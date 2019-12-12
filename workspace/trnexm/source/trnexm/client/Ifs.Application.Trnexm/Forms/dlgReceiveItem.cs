@@ -36,7 +36,7 @@ namespace Ifs.Application.Trnexm
     public partial class dlgReceiveItem : cDialog
     {
         #region Member Variables
-
+        SalWindowHandle hWndCurrentFocus = null;
         #endregion
 
         #region Constructors/Destructors
@@ -85,6 +85,46 @@ namespace Ifs.Application.Trnexm
 
         #region Methods
 
+        private void dfnPartId_OnPM_DataItemValidate(object sender, WindowActionsEventArgs e)
+        {
+            e.Handled = true;
+            SalNumber nReturn;
+            SalBoolean bOK = false;
+            SalString stmt = "";
+
+            //Run framework valdation first, proceed if it succeeds, if set sendmessage it will be a nevr ending loop
+            nReturn = Sal.SendClassMessage(Const.PM_DataItemValidate, e.WParam, e.LParam);
+            if (nReturn == Sys.VALIDATE_Ok)
+            {
+
+                //call the DB function and assign the Quantity to appropriate data fied
+
+                if (!this.dfnInventoryId.IsEmpty() && !this.dfnInventoryLocationId.IsEmpty() && !this.dfnPartId.IsEmpty())
+                {
+
+                    stmt = @":i_hWndFrame.dlgReceiveItem.dfnQtyAvailable := nvl(&AO.Exm_Inventory_Product_API.Get_Quantity(
+                                                                                            :i_hWndFrame.dlgReceiveItem.dfnInventoryLocationId  IN,
+                                                                                            :i_hWndFrame.dlgReceiveItem.dfnInventoryId          IN,
+                                                                                            :i_hWndFrame.dlgReceiveItem.dfnPartId               IN), 0)";
+
+                    bOK = DbPLSQLBlock(cSessionManager.c_hSql, stmt);
+                    if (bOK)
+                    {
+
+                        e.Return = Sys.VALIDATE_Ok;
+                    }
+                    else
+                    {
+
+                        e.Return = Sys.VALIDATE_Cancel;
+                    }
+                }
+            }
+            else
+            {
+                e.Return = nReturn;
+            }
+        }
         #endregion
 
         #region Overrides
@@ -113,6 +153,40 @@ namespace Ifs.Application.Trnexm
             DialogResult = DialogResult.None;
 
             Sal.EndDialog(this, Sys.IDCANCEL);
+        }
+
+        private void commandList_Inquire(object sender, Fnd.Windows.Forms.FndCommandInquireEventArgs e)
+        {
+            Ifs.Fnd.Windows.Forms.FndCommand command = (Ifs.Fnd.Windows.Forms.FndCommand)sender;
+            hWndCurrentFocus = Sal.GetFocus();
+            command.Enabled = hWndCurrentFocus.SendMessage(Const.PM_DataItemLov, Const.METHOD_Inquire, 0);
+        }
+
+        private void commandList_Execute(object sender, Fnd.Windows.Forms.FndCommandExecuteEventArgs e)
+        {
+            hWndCurrentFocus.SendMessage(Const.PM_DataItemLov, Const.METHOD_Execute, 0);
+        }
+
+        private void commandCancel_Inquire(object sender, Fnd.Windows.Forms.FndCommandInquireEventArgs e)
+        {
+
+        }
+
+        private void commandOk_Inquire(object sender, Fnd.Windows.Forms.FndCommandInquireEventArgs e)
+        {
+
+        }
+
+
+        private void dfnPartId_WindowActions(object sender, WindowActionsEventArgs e)
+        {
+            switch (e.ActionType)
+            {
+
+                case Const.PM_DataItemValidate:
+                    dfnPartId_OnPM_DataItemValidate(sender, e);
+                    break;
+            }
         }
 
         #endregion

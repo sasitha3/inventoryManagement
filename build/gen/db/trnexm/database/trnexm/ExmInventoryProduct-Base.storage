@@ -16,7 +16,7 @@ layer Base;
 -------------------- TABLE DEFINITIONS --------------------------------------
 
 TABLE exm_inventory_product_tab IS (
-   location_number                VARCHAR2(100)  NOT NULL,
+   location_number                NUMBER         NOT NULL,
    inventory_id                   NUMBER         NOT NULL,
    part_no                        NUMBER         NOT NULL,
    quantity                       NUMBER         NOT NULL,

@@ -63,7 +63,7 @@ namespace Ifs.Application.Trnexm
             this.colnInventoryId.DataType = PPJ.Runtime.Windows.DataType.Number;
             this.colnInventoryId.Name = "colnInventoryId";
             this.colnInventoryId.NamedProperties.Put("EnumerateMethod", "");
-            this.colnInventoryId.NamedProperties.Put("FieldFlags", "163");
+            this.colnInventoryId.NamedProperties.Put("FieldFlags", "162");
             this.colnInventoryId.NamedProperties.Put("Format", "");
             this.colnInventoryId.NamedProperties.Put("LovReference", "");
             this.colnInventoryId.NamedProperties.Put("SqlColumn", "INVENTORY_ID");

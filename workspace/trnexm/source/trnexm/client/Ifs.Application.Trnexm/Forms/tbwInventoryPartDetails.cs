@@ -32,7 +32,7 @@ namespace Ifs.Application.Trnexm
 
     /// <summary>
     /// </summary>
-    [FndWindowRegistration("EXM_INVENORY_PRODUCT", "ExmInventoryProduct", "", FndWindowRegistrationFlags.HomePage, false, "")]        
+    [FndWindowRegistration("EXM_INVENTORY_PRODUCT", "ExmInventoryProduct", "", FndWindowRegistrationFlags.HomePage, false, "")]        
     public partial class tbwInventoryPartDetails : cTableWindow
     {
         #region Member Variables
@@ -89,6 +89,23 @@ namespace Ifs.Application.Trnexm
 
         #region Menu Event Handlers
 
+        private void cmdAddQty_Inquire(object sender, Fnd.Windows.Forms.FndCommandInquireEventArgs e)
+        {
+            Ifs.Fnd.Windows.Forms.FndCommand command = (Ifs.Fnd.Windows.Forms.FndCommand)sender;
+
+            command.Enabled = false;
+
+            command.Enabled = DataSourceCreateWindow(Ifs.Fnd.ApplicationForms.Const.METHOD_Inquire, (SalString)"dlgReceiveItem"); 
+
+        }
+
+        private void cmdAddQty_Execute(object sender, Fnd.Windows.Forms.FndCommandExecuteEventArgs e)
+        {
+            if (dlgReceiveItem.ModalDialog(Ifs.Fnd.ApplicationForms.Int.ExplorerForm) == Sys.IDOK)
+            {
+                DataSourceRefresh(Const.METHOD_Execute);
+            }
+        }
         #endregion
     }
 }

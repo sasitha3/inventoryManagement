@@ -39,7 +39,7 @@ TYPE Indicator_Rec IS RECORD
 --    Raises error for: More then one row found for a single key.
 PROCEDURE Raise_Too_Many_Rows___ (
    inventory_id_ IN NUMBER,
-   location_number_ IN VARCHAR2,
+   location_number_ IN NUMBER,
    methodname_ IN VARCHAR2 )
 IS
 BEGIN
@@ -51,7 +51,7 @@ END Raise_Too_Many_Rows___;
 --    Raises error for: No data found for given key.
 PROCEDURE Raise_Record_Not_Exist___ (
    inventory_id_ IN NUMBER,
-   location_number_ IN VARCHAR2 )
+   location_number_ IN NUMBER )
 IS
 BEGIN
    Error_SYS.Record_Not_Exist(Exm_Inventory_Location_API.lu_name_);
@@ -92,7 +92,7 @@ END Raise_Record_Modified___;
 --    Raises error for: The database row is already locked.
 PROCEDURE Raise_Record_Locked___ (
    inventory_id_ IN NUMBER,
-   location_number_ IN VARCHAR2 )
+   location_number_ IN NUMBER )
 IS
 BEGIN
    Error_SYS.Record_Locked(Exm_Inventory_Location_API.lu_name_);
@@ -103,7 +103,7 @@ END Raise_Record_Locked___;
 --    Raises error for: The database row is no longer present.
 PROCEDURE Raise_Record_Removed___ (
    inventory_id_ IN NUMBER,
-   location_number_ IN VARCHAR2 )
+   location_number_ IN NUMBER )
 IS
 BEGIN
    Error_SYS.Record_Removed(Exm_Inventory_Location_API.lu_name_);
@@ -154,7 +154,7 @@ END Lock_By_Id___;
 --    Waits until record released if locked by another session.
 FUNCTION Lock_By_Keys___ (
    inventory_id_ IN NUMBER,
-   location_number_ IN VARCHAR2) RETURN exm_inventory_location_tab%ROWTYPE
+   location_number_ IN NUMBER) RETURN exm_inventory_location_tab%ROWTYPE
 IS
    row_locked  EXCEPTION;
    PRAGMA      EXCEPTION_INIT(row_locked, -0054);
@@ -182,7 +182,7 @@ END Lock_By_Keys___;
 --    Raises exception if row already locked.
 FUNCTION Lock_By_Keys_Nowait___ (
    inventory_id_ IN NUMBER,
-   location_number_ IN VARCHAR2) RETURN exm_inventory_location_tab%ROWTYPE
+   location_number_ IN NUMBER) RETURN exm_inventory_location_tab%ROWTYPE
 IS
    row_locked  EXCEPTION;
    PRAGMA      EXCEPTION_INIT(row_locked, -0054);
@@ -245,7 +245,7 @@ END Get_Object_By_Id___;
 @UncheckedAccess
 FUNCTION Get_Object_By_Keys___ (
    inventory_id_ IN NUMBER,
-   location_number_ IN VARCHAR2 ) RETURN exm_inventory_location_tab%ROWTYPE
+   location_number_ IN NUMBER ) RETURN exm_inventory_location_tab%ROWTYPE
 IS
    lu_rec_ exm_inventory_location_tab%ROWTYPE;
 BEGIN
@@ -268,7 +268,7 @@ END Get_Object_By_Keys___;
 @UncheckedAccess
 FUNCTION Check_Exist___ (
    inventory_id_ IN NUMBER,
-   location_number_ IN VARCHAR2 ) RETURN BOOLEAN
+   location_number_ IN NUMBER ) RETURN BOOLEAN
 IS
    dummy_ NUMBER;
 BEGIN
@@ -311,7 +311,7 @@ PROCEDURE Get_Id_Version_By_Keys___ (
    objid_      IN OUT VARCHAR2,
    objversion_ IN OUT VARCHAR2,
    inventory_id_ IN NUMBER,
-   location_number_ IN VARCHAR2 )
+   location_number_ IN NUMBER )
 IS
 BEGIN
    SELECT rowid, to_char(rowversion,'YYYYMMDDHH24MISS')
@@ -370,7 +370,7 @@ BEGIN
          newrec_.inventory_id := Client_SYS.Attr_Value_To_Number(value_);
          indrec_.inventory_id := TRUE;
       WHEN ('LOCATION_NUMBER') THEN
-         newrec_.location_number := value_;
+         newrec_.location_number := Client_SYS.Attr_Value_To_Number(value_);
          indrec_.location_number := TRUE;
       WHEN ('DESCRIPTION') THEN
          newrec_.description := value_;
@@ -856,7 +856,7 @@ END Remove__;
 @UncheckedAccess
 PROCEDURE Exist (
    inventory_id_ IN NUMBER,
-   location_number_ IN VARCHAR2 )
+   location_number_ IN NUMBER )
 IS
 BEGIN
    IF (NOT Check_Exist___(inventory_id_, location_number_)) THEN
@@ -870,7 +870,7 @@ END Exist;
 @UncheckedAccess
 FUNCTION Exists (
    inventory_id_ IN NUMBER,
-   location_number_ IN VARCHAR2 ) RETURN BOOLEAN
+   location_number_ IN NUMBER ) RETURN BOOLEAN
 IS
 BEGIN
    RETURN Check_Exist___(inventory_id_, location_number_);
@@ -882,7 +882,7 @@ END Exists;
 @UncheckedAccess
 FUNCTION Get_Description (
    inventory_id_ IN NUMBER,
-   location_number_ IN VARCHAR2 ) RETURN VARCHAR2
+   location_number_ IN NUMBER ) RETURN VARCHAR2
 IS
    temp_ exm_inventory_location_tab.description%TYPE;
 BEGIN
@@ -908,7 +908,7 @@ END Get_Description;
 @UncheckedAccess
 FUNCTION Get (
    inventory_id_ IN NUMBER,
-   location_number_ IN VARCHAR2 ) RETURN Public_Rec
+   location_number_ IN NUMBER ) RETURN Public_Rec
 IS
    temp_ Public_Rec;
 BEGIN
@@ -936,7 +936,7 @@ END Get;
 @UncheckedAccess
 FUNCTION Get_Objkey (
    inventory_id_ IN NUMBER,
-   location_number_ IN VARCHAR2 ) RETURN VARCHAR2
+   location_number_ IN NUMBER ) RETURN VARCHAR2
 IS
    rowkey_ exm_inventory_location_tab.rowkey%TYPE;
 BEGIN

@@ -59,7 +59,7 @@ namespace Ifs.Application.Trnexm
             this.labelAvailableQty = new Ifs.Fnd.ApplicationForms.cBackgroundText();
             this.labelAddQty = new Ifs.Fnd.ApplicationForms.cBackgroundText();
             this.dfnInventoryId = new Ifs.Fnd.ApplicationForms.cDataField();
-            this.dfsInventoryLocationId = new Ifs.Fnd.ApplicationForms.cDataField();
+            this.dfnInventoryLocationId = new Ifs.Fnd.ApplicationForms.cDataField();
             this.dfnPartId = new Ifs.Fnd.ApplicationForms.cDataField();
             this.dfnQtyAvailable = new Ifs.Fnd.ApplicationForms.cDataField();
             this.dfnAddQty = new Ifs.Fnd.ApplicationForms.cDataField();
@@ -89,6 +89,7 @@ namespace Ifs.Application.Trnexm
             resources.ApplyResources(this.commandOk, "commandOk");
             this.commandOk.Name = "commandOk";
             this.commandOk.Execute += new Ifs.Fnd.Windows.Forms.FndCommandExecuteHandler(this.commandOk_Execute);
+            this.commandOk.Inquire += new Ifs.Fnd.Windows.Forms.FndCommandInquireHandler(this.commandOk_Inquire);
             // 
             // cCommandButtonCancel
             // 
@@ -104,6 +105,7 @@ namespace Ifs.Application.Trnexm
             resources.ApplyResources(this.commandCancel, "commandCancel");
             this.commandCancel.Name = "commandCancel";
             this.commandCancel.Execute += new Ifs.Fnd.Windows.Forms.FndCommandExecuteHandler(this.commandCancel_Execute);
+            this.commandCancel.Inquire += new Ifs.Fnd.Windows.Forms.FndCommandInquireHandler(this.commandCancel_Inquire);
             // 
             // cCommandButtonList
             // 
@@ -114,7 +116,11 @@ namespace Ifs.Application.Trnexm
             // commandList
             // 
             resources.ApplyResources(this.commandList, "commandList");
+            this.commandList.Enabled = false;
+            this.commandList.EventCategory = Ifs.Fnd.Windows.Forms.CommandEventCategory.Focus;
             this.commandList.Name = "commandList";
+            this.commandList.Execute += new Ifs.Fnd.Windows.Forms.FndCommandExecuteHandler(this.commandList_Execute);
+            this.commandList.Inquire += new Ifs.Fnd.Windows.Forms.FndCommandInquireHandler(this.commandList_Inquire);
             // 
             // labelInventoryId
             // 
@@ -145,26 +151,35 @@ namespace Ifs.Application.Trnexm
             // 
             resources.ApplyResources(this.dfnInventoryId, "dfnInventoryId");
             this.dfnInventoryId.Name = "dfnInventoryId";
+            this.dfnInventoryId.NamedProperties.Put("FieldFlags", "260");
+            this.dfnInventoryId.NamedProperties.Put("LovReference", "EXM_INVENTORY");
             // 
-            // dfsInventoryLocationId
+            // dfnInventoryLocationId
             // 
-            resources.ApplyResources(this.dfsInventoryLocationId, "dfsInventoryLocationId");
-            this.dfsInventoryLocationId.Name = "dfsInventoryLocationId";
+            resources.ApplyResources(this.dfnInventoryLocationId, "dfnInventoryLocationId");
+            this.dfnInventoryLocationId.Name = "dfnInventoryLocationId";
+            this.dfnInventoryLocationId.NamedProperties.Put("FieldFlags", "260");
+            this.dfnInventoryLocationId.NamedProperties.Put("LovReference", "EXM_INVENTORY_LOCATION");
             // 
             // dfnPartId
             // 
             resources.ApplyResources(this.dfnPartId, "dfnPartId");
             this.dfnPartId.Name = "dfnPartId";
+            this.dfnPartId.NamedProperties.Put("FieldFlags", "260");
+            this.dfnPartId.NamedProperties.Put("LovReference", "EXM_PART");
+            this.dfnPartId.WindowActions += new PPJ.Runtime.Windows.WindowActionsEventHandler(this.dfnPartId_WindowActions);
             // 
             // dfnQtyAvailable
             // 
             resources.ApplyResources(this.dfnQtyAvailable, "dfnQtyAvailable");
             this.dfnQtyAvailable.Name = "dfnQtyAvailable";
+            this.dfnQtyAvailable.NamedProperties.Put("FieldFlags", "260");
             // 
             // dfnAddQty
             // 
             resources.ApplyResources(this.dfnAddQty, "dfnAddQty");
             this.dfnAddQty.Name = "dfnAddQty";
+            this.dfnAddQty.NamedProperties.Put("FieldFlags", "260");
             // 
             // dlgReceiveItem
             // 
@@ -175,7 +190,7 @@ namespace Ifs.Application.Trnexm
             this.Controls.Add(this.dfnAddQty);
             this.Controls.Add(this.dfnQtyAvailable);
             this.Controls.Add(this.dfnPartId);
-            this.Controls.Add(this.dfsInventoryLocationId);
+            this.Controls.Add(this.dfnInventoryLocationId);
             this.Controls.Add(this.dfnInventoryId);
             this.Controls.Add(this.labelAddQty);
             this.Controls.Add(this.labelAvailableQty);
@@ -220,7 +235,7 @@ namespace Ifs.Application.Trnexm
         private cBackgroundText labelAvailableQty;
         private cBackgroundText labelAddQty;
         private cDataField dfnInventoryId;
-        private cDataField dfsInventoryLocationId;
+        private cDataField dfnInventoryLocationId;
         private cDataField dfnPartId;
         private cDataField dfnQtyAvailable;
         private cDataField dfnAddQty;

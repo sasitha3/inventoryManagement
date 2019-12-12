@@ -135,7 +135,7 @@
   </data>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="cCommandButtonOK.Location" type="System.Drawing.Point, System.Drawing">
-    <value>700, 12</value>
+    <value>550, 12</value>
   </data>
   <data name="cCommandButtonOK.Size" type="System.Drawing.Size, System.Drawing">
     <value>90, 28</value>
@@ -160,7 +160,7 @@
     <value>Bottom, Right</value>
   </data>
   <data name="cCommandButtonCancel.Location" type="System.Drawing.Point, System.Drawing">
-    <value>700, 46</value>
+    <value>550, 46</value>
   </data>
   <data name="cCommandButtonCancel.Size" type="System.Drawing.Size, System.Drawing">
     <value>90, 28</value>
@@ -181,7 +181,7 @@
     <value>12</value>
   </data>
   <data name="cCommandButtonList.Location" type="System.Drawing.Point, System.Drawing">
-    <value>700, 120</value>
+    <value>550, 107</value>
   </data>
   <data name="cCommandButtonList.Size" type="System.Drawing.Size, System.Drawing">
     <value>90, 28</value>
@@ -231,8 +231,11 @@
   <data name="labelInventoryLocationId.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
+  <data name="labelInventoryLocationId.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
   <data name="labelInventoryLocationId.Location" type="System.Drawing.Point, System.Drawing">
-    <value>12, 46</value>
+    <value>13, 47</value>
   </data>
   <data name="labelInventoryLocationId.Size" type="System.Drawing.Size, System.Drawing">
     <value>150, 17</value>
@@ -259,7 +262,7 @@
     <value>True</value>
   </data>
   <data name="labelPartId.Location" type="System.Drawing.Point, System.Drawing">
-    <value>12, 80</value>
+    <value>13, 82</value>
   </data>
   <data name="labelPartId.Size" type="System.Drawing.Size, System.Drawing">
     <value>58, 17</value>
@@ -286,7 +289,7 @@
     <value>True</value>
   </data>
   <data name="labelAvailableQty.Location" type="System.Drawing.Point, System.Drawing">
-    <value>12, 120</value>
+    <value>13, 117</value>
   </data>
   <data name="labelAvailableQty.Size" type="System.Drawing.Size, System.Drawing">
     <value>121, 17</value>
@@ -313,7 +316,7 @@
     <value>True</value>
   </data>
   <data name="labelAddQty.Location" type="System.Drawing.Point, System.Drawing">
-    <value>12, 153</value>
+    <value>13, 152</value>
   </data>
   <data name="labelAddQty.Size" type="System.Drawing.Size, System.Drawing">
     <value>98, 17</value>
@@ -337,7 +340,7 @@
     <value>5</value>
   </data>
   <data name="dfnInventoryId.Location" type="System.Drawing.Point, System.Drawing">
-    <value>183, 7</value>
+    <value>183, 9</value>
   </data>
   <data name="dfnInventoryId.Size" type="System.Drawing.Size, System.Drawing">
     <value>323, 21</value>
@@ -357,29 +360,29 @@
   <data name="&gt;&gt;dfnInventoryId.ZOrder" xml:space="preserve">
     <value>4</value>
   </data>
-  <data name="dfsInventoryLocationId.Location" type="System.Drawing.Point, System.Drawing">
-    <value>183, 46</value>
+  <data name="dfnInventoryLocationId.Location" type="System.Drawing.Point, System.Drawing">
+    <value>183, 44</value>
   </data>
-  <data name="dfsInventoryLocationId.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="dfnInventoryLocationId.Size" type="System.Drawing.Size, System.Drawing">
     <value>323, 21</value>
   </data>
-  <data name="dfsInventoryLocationId.TabIndex" type="System.Int32, mscorlib">
+  <data name="dfnInventoryLocationId.TabIndex" type="System.Int32, mscorlib">
     <value>10</value>
   </data>
-  <data name="&gt;&gt;dfsInventoryLocationId.Name" xml:space="preserve">
-    <value>dfsInventoryLocationId</value>
+  <data name="&gt;&gt;dfnInventoryLocationId.Name" xml:space="preserve">
+    <value>dfnInventoryLocationId</value>
   </data>
-  <data name="&gt;&gt;dfsInventoryLocationId.Type" xml:space="preserve">
+  <data name="&gt;&gt;dfnInventoryLocationId.Type" xml:space="preserve">
     <value>Ifs.Fnd.ApplicationForms.cDataField, Ifs.Fnd.ApplicationForms, Version=4.52.9.0, Culture=neutral, PublicKeyToken=ff90f512e10aef0d</value>
   </data>
-  <data name="&gt;&gt;dfsInventoryLocationId.Parent" xml:space="preserve">
+  <data name="&gt;&gt;dfnInventoryLocationId.Parent" xml:space="preserve">
     <value>$this</value>
   </data>
-  <data name="&gt;&gt;dfsInventoryLocationId.ZOrder" xml:space="preserve">
+  <data name="&gt;&gt;dfnInventoryLocationId.ZOrder" xml:space="preserve">
     <value>3</value>
   </data>
   <data name="dfnPartId.Location" type="System.Drawing.Point, System.Drawing">
-    <value>183, 80</value>
+    <value>183, 79</value>
   </data>
   <data name="dfnPartId.Size" type="System.Drawing.Size, System.Drawing">
     <value>323, 21</value>
@@ -400,7 +403,7 @@
     <value>2</value>
   </data>
   <data name="dfnQtyAvailable.Location" type="System.Drawing.Point, System.Drawing">
-    <value>183, 120</value>
+    <value>183, 114</value>
   </data>
   <data name="dfnQtyAvailable.Size" type="System.Drawing.Size, System.Drawing">
     <value>323, 21</value>
@@ -421,7 +424,7 @@
     <value>1</value>
   </data>
   <data name="dfnAddQty.Location" type="System.Drawing.Point, System.Drawing">
-    <value>183, 163</value>
+    <value>183, 149</value>
   </data>
   <data name="dfnAddQty.Size" type="System.Drawing.Size, System.Drawing">
     <value>323, 21</value>
@@ -445,7 +448,7 @@
     <value>True</value>
   </metadata>
   <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
-    <value>802, 196</value>
+    <value>652, 196</value>
   </data>
   <data name="$this.Text" xml:space="preserve">
     <value>dlgReceiveItem</value>

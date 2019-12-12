@@ -24,7 +24,7 @@ DECLARE
    column_     Database_SYS.ColRec;
 BEGIN
    Database_SYS.Reset_Column_Table(columns_);
-   Database_SYS.Set_Table_Column(columns_, 'LOCATION_NUMBER', 'VARCHAR2(100)', 'N');
+   Database_SYS.Set_Table_Column(columns_, 'LOCATION_NUMBER', 'NUMBER', 'N');
    Database_SYS.Set_Table_Column(columns_, 'INVENTORY_ID', 'NUMBER', 'N');
    Database_SYS.Set_Table_Column(columns_, 'PART_NO', 'NUMBER', 'N');
    Database_SYS.Set_Table_Column(columns_, 'QUANTITY', 'NUMBER', 'N');

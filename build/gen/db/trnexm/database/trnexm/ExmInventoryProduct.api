@@ -98,31 +98,31 @@ FUNCTION Get_Key_By_Rowkey (
 
 --@PoReadOnly(Exist)
 PROCEDURE Exist (
-   location_number_ IN VARCHAR2,
+   location_number_ IN NUMBER,
    inventory_id_ IN NUMBER,
    part_no_ IN NUMBER );
 
 --@PoReadOnly(Exists)
 FUNCTION Exists (
-   location_number_ IN VARCHAR2,
+   location_number_ IN NUMBER,
    inventory_id_ IN NUMBER,
    part_no_ IN NUMBER ) RETURN BOOLEAN;
 
 --@PoReadOnly(Get_Quantity)
 FUNCTION Get_Quantity (
-   location_number_ IN VARCHAR2,
+   location_number_ IN NUMBER,
    inventory_id_ IN NUMBER,
    part_no_ IN NUMBER ) RETURN NUMBER;
 
 --@PoReadOnly(Get)
 FUNCTION Get (
-   location_number_ IN VARCHAR2,
+   location_number_ IN NUMBER,
    inventory_id_ IN NUMBER,
    part_no_ IN NUMBER ) RETURN Public_Rec;
 
 --@PoReadOnly(Get_Objkey)
 FUNCTION Get_Objkey (
-   location_number_ IN VARCHAR2,
+   location_number_ IN NUMBER,
    inventory_id_ IN NUMBER,
    part_no_ IN NUMBER ) RETURN VARCHAR2;
 

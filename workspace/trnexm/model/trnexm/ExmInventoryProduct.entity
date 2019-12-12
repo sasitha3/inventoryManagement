@@ -25,8 +25,7 @@
          <IS_DEFAULT_LOV>1</IS_DEFAULT_LOV>
          <IS_QUERYABLE>1</IS_QUERYABLE>
          <IS_DERIVED>0</IS_DERIVED>
-         <DATATYPE>TEXT</DATATYPE>
-         <LENGTH>100</LENGTH>
+         <DATATYPE>NUMBER</DATATYPE>
       </ATTRIBUTE>
       <ATTRIBUTE>
          <NAME>InventoryId</NAME>

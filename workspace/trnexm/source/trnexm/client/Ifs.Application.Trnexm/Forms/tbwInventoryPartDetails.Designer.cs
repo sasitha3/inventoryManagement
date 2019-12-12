@@ -45,12 +45,22 @@ namespace Ifs.Application.Trnexm
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(tbwInventoryPartDetails));
             this.colnInventoryId = new Ifs.Fnd.ApplicationForms.cColumn();
             this.colnLocationNumber = new Ifs.Fnd.ApplicationForms.cColumn();
             this.colnPartNo = new Ifs.Fnd.ApplicationForms.cColumn();
             this.colnQuantity = new Ifs.Fnd.ApplicationForms.cColumn();
+            this.cmdAddQty = new Ifs.Fnd.Windows.Forms.FndCommand(this.components);
+            this.contextMenu = new Ifs.Fnd.Windows.Forms.FndContextMenuStrip(this.components);
+            this.tsMenuItemAddQty = new Ifs.Fnd.Windows.Forms.FndToolStripMenuItem(this.components);
+            this.contextMenu.SuspendLayout();
             this.SuspendLayout();
+            // 
+            // commandManager
+            // 
+            this.commandManager.Commands.Add(this.cmdAddQty);
+            this.commandManager.ContextMenus.Add(this.contextMenu);
             // 
             // __colObjid
             // 
@@ -112,10 +122,32 @@ namespace Ifs.Application.Trnexm
             this.colnQuantity.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             resources.ApplyResources(this.colnQuantity, "colnQuantity");
             // 
+            // cmdAddQty
+            // 
+            resources.ApplyResources(this.cmdAddQty, "cmdAddQty");
+            this.cmdAddQty.Name = "cmdAddQty";
+            this.cmdAddQty.Execute += new Ifs.Fnd.Windows.Forms.FndCommandExecuteHandler(this.cmdAddQty_Execute);
+            this.cmdAddQty.Inquire += new Ifs.Fnd.Windows.Forms.FndCommandInquireHandler(this.cmdAddQty_Inquire);
+            // 
+            // contextMenu
+            // 
+            this.contextMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tsMenuItemAddQty});
+            this.contextMenu.Name = "contextMenu";
+            resources.ApplyResources(this.contextMenu, "contextMenu");
+            // 
+            // tsMenuItemAddQty
+            // 
+            this.tsMenuItemAddQty.Command = this.cmdAddQty;
+            this.tsMenuItemAddQty.Name = "tsMenuItemAddQty";
+            resources.ApplyResources(this.tsMenuItemAddQty, "tsMenuItemAddQty");
+            this.tsMenuItemAddQty.Text = "Add Quantities..";
+            // 
             // tbwInventoryPartDetails
             // 
             this.AutoScaleBaseDpi = new System.Drawing.Size(120, 120);
             resources.ApplyResources(this, "$this");
+            this.ContextMenuStrip = this.contextMenu;
             this.Controls.Add(this.colnInventoryId);
             this.Controls.Add(this.colnLocationNumber);
             this.Controls.Add(this.colnPartNo);
@@ -131,6 +163,7 @@ namespace Ifs.Application.Trnexm
             this.Controls.SetChildIndex(this.colnLocationNumber, 0);
             this.Controls.SetChildIndex(this.colnInventoryId, 0);
             this.Controls.SetChildIndex(this.@__colObjid, 0);
+            this.contextMenu.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -156,5 +189,8 @@ namespace Ifs.Application.Trnexm
         protected cColumn colnLocationNumber;
         protected cColumn colnPartNo;
         protected cColumn colnQuantity;
+        protected Fnd.Windows.Forms.FndCommand cmdAddQty;
+        protected Fnd.Windows.Forms.FndContextMenuStrip contextMenu;
+        protected Fnd.Windows.Forms.FndToolStripMenuItem tsMenuItemAddQty;
     }
 }

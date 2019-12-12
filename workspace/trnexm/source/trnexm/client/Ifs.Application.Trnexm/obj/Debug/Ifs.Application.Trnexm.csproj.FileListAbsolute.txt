@@ -1,12 +1,12 @@
 C:\Users\sapdlk\Documents\NetBeansProjects\TrnExmProject\workspace\trnexm\source\trnexm\client\Ifs.Application.Trnexm\bin\Debug\Ifs.Application.Trnexm.dll
 C:\Users\sapdlk\Documents\NetBeansProjects\TrnExmProject\workspace\trnexm\source\trnexm\client\Ifs.Application.Trnexm\bin\Debug\Ifs.Application.Trnexm.pdb
-C:\Users\sapdlk\Documents\NetBeansProjects\TrnExmProject\workspace\trnexm\source\trnexm\client\Ifs.Application.Trnexm\obj\Debug\Ifs.Application.Trnexm.csprojResolveAssemblyReference.cache
+C:\Users\sapdlk\Documents\NetBeansProjects\TrnExmProject\workspace\trnexm\source\trnexm\client\Ifs.Application.Trnexm\obj\Debug\Ifs.Application.Trnexm.dlgReceiveItem.resources
+C:\Users\sapdlk\Documents\NetBeansProjects\TrnExmProject\workspace\trnexm\source\trnexm\client\Ifs.Application.Trnexm\obj\Debug\Ifs.Application.Trnexm.tbwInventoryLocation.resources
 C:\Users\sapdlk\Documents\NetBeansProjects\TrnExmProject\workspace\trnexm\source\trnexm\client\Ifs.Application.Trnexm\obj\Debug\Ifs.Application.Trnexm.tbwInventoryPartDetails.resources
+C:\Users\sapdlk\Documents\NetBeansProjects\TrnExmProject\workspace\trnexm\source\trnexm\client\Ifs.Application.Trnexm\obj\Debug\Ifs.Application.Trnexm.tbwMainInventories.resources
+C:\Users\sapdlk\Documents\NetBeansProjects\TrnExmProject\workspace\trnexm\source\trnexm\client\Ifs.Application.Trnexm\obj\Debug\Ifs.Application.Trnexm.tbwParts.resources
 C:\Users\sapdlk\Documents\NetBeansProjects\TrnExmProject\workspace\trnexm\source\trnexm\client\Ifs.Application.Trnexm\obj\Debug\Ifs.Application.Trnexm.Properties.Resources.resources
 C:\Users\sapdlk\Documents\NetBeansProjects\TrnExmProject\workspace\trnexm\source\trnexm\client\Ifs.Application.Trnexm\obj\Debug\Ifs.Application.Trnexm.csproj.GenerateResource.Cache
 C:\Users\sapdlk\Documents\NetBeansProjects\TrnExmProject\workspace\trnexm\source\trnexm\client\Ifs.Application.Trnexm\obj\Debug\Ifs.Application.Trnexm.dll
 C:\Users\sapdlk\Documents\NetBeansProjects\TrnExmProject\workspace\trnexm\source\trnexm\client\Ifs.Application.Trnexm\obj\Debug\Ifs.Application.Trnexm.pdb
-C:\Users\sapdlk\Documents\NetBeansProjects\TrnExmProject\workspace\trnexm\source\trnexm\client\Ifs.Application.Trnexm\obj\Debug\Ifs.Application.Trnexm.dlgReceiveItem.resources
-C:\Users\sapdlk\Documents\NetBeansProjects\TrnExmProject\workspace\trnexm\source\trnexm\client\Ifs.Application.Trnexm\obj\Debug\Ifs.Application.Trnexm.tbwMainInventories.resources
-C:\Users\sapdlk\Documents\NetBeansProjects\TrnExmProject\workspace\trnexm\source\trnexm\client\Ifs.Application.Trnexm\obj\Debug\Ifs.Application.Trnexm.tbwParts.resources
-C:\Users\sapdlk\Documents\NetBeansProjects\TrnExmProject\workspace\trnexm\source\trnexm\client\Ifs.Application.Trnexm\obj\Debug\Ifs.Application.Trnexm.tbwInventoryLocation.resources
+C:\Users\sapdlk\Documents\NetBeansProjects\TrnExmProject\workspace\trnexm\source\trnexm\client\Ifs.Application.Trnexm\obj\Debug\Ifs.Application.Trnexm.csprojResolveAssemblyReference.cache

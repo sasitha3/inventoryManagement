@@ -34,7 +34,7 @@ COMMENT ON TABLE EXM_INVENTORY_PRODUCT
    IS 'LU=ExmInventoryProduct^PROMPT=Exm Inventory Product^MODULE=TRNEXM^';
 
 COMMENT ON COLUMN EXM_INVENTORY_PRODUCT.location_number
-   IS 'FLAGS=PMI-L^DATATYPE=STRING(100)^PROMPT=Location Number^';
+   IS 'FLAGS=PMI-L^DATATYPE=NUMBER^PROMPT=Location Number^';
 COMMENT ON COLUMN EXM_INVENTORY_PRODUCT.inventory_id
    IS 'FLAGS=PMI-L^DATATYPE=NUMBER^PROMPT=Inventory Id^REF=ExmInventoryLocation(location_number)^';
 COMMENT ON COLUMN EXM_INVENTORY_PRODUCT.part_no
@@ -67,13 +67,13 @@ TYPE Indicator_Rec IS RECORD
 -----------------------------------------------------------------------------
 
 PROCEDURE Raise_Too_Many_Rows___ (
-   location_number_ IN VARCHAR2,
+   location_number_ IN NUMBER,
    inventory_id_ IN NUMBER,
    part_no_ IN NUMBER,
    methodname_ IN VARCHAR2 );
 
 PROCEDURE Raise_Record_Not_Exist___ (
-   location_number_ IN VARCHAR2,
+   location_number_ IN NUMBER,
    inventory_id_ IN NUMBER,
    part_no_ IN NUMBER );
 
@@ -88,12 +88,12 @@ PROCEDURE Raise_Record_Modified___ (
    rec_ exm_inventory_product_tab%ROWTYPE );
 
 PROCEDURE Raise_Record_Locked___ (
-   location_number_ IN VARCHAR2,
+   location_number_ IN NUMBER,
    inventory_id_ IN NUMBER,
    part_no_ IN NUMBER );
 
 PROCEDURE Raise_Record_Removed___ (
-   location_number_ IN VARCHAR2,
+   location_number_ IN NUMBER,
    inventory_id_ IN NUMBER,
    part_no_ IN NUMBER );
 
@@ -102,12 +102,12 @@ FUNCTION Lock_By_Id___ (
    objversion_ IN VARCHAR2 ) RETURN exm_inventory_product_tab%ROWTYPE;
 
 FUNCTION Lock_By_Keys___ (
-   location_number_ IN VARCHAR2,
+   location_number_ IN NUMBER,
    inventory_id_ IN NUMBER,
    part_no_ IN NUMBER) RETURN exm_inventory_product_tab%ROWTYPE;
 
 FUNCTION Lock_By_Keys_Nowait___ (
-   location_number_ IN VARCHAR2,
+   location_number_ IN NUMBER,
    inventory_id_ IN NUMBER,
    part_no_ IN NUMBER) RETURN exm_inventory_product_tab%ROWTYPE;
 
@@ -115,12 +115,12 @@ FUNCTION Get_Object_By_Id___ (
    objid_ IN VARCHAR2 ) RETURN exm_inventory_product_tab%ROWTYPE;
 
 FUNCTION Get_Object_By_Keys___ (
-   location_number_ IN VARCHAR2,
+   location_number_ IN NUMBER,
    inventory_id_ IN NUMBER,
    part_no_ IN NUMBER ) RETURN exm_inventory_product_tab%ROWTYPE;
 
 FUNCTION Check_Exist___ (
-   location_number_ IN VARCHAR2,
+   location_number_ IN NUMBER,
    inventory_id_ IN NUMBER,
    part_no_ IN NUMBER ) RETURN BOOLEAN;
 
@@ -131,7 +131,7 @@ PROCEDURE Get_Version_By_Id___ (
 PROCEDURE Get_Id_Version_By_Keys___ (
    objid_      IN OUT NOCOPY VARCHAR2,
    objversion_ IN OUT NOCOPY VARCHAR2,
-   location_number_ IN VARCHAR2,
+   location_number_ IN NUMBER,
    inventory_id_ IN NUMBER,
    part_no_ IN NUMBER );
 
@@ -251,13 +251,13 @@ END Get_Key_By_Rowkey;
 
 --@IgnoreMissingSysinit
 PROCEDURE Exist (
-   location_number_ IN VARCHAR2,
+   location_number_ IN NUMBER,
    inventory_id_ IN NUMBER,
    part_no_ IN NUMBER )
 IS
    
    PROCEDURE Base (
-      location_number_ IN VARCHAR2,
+      location_number_ IN NUMBER,
       inventory_id_ IN NUMBER,
       part_no_ IN NUMBER )
    IS
@@ -274,13 +274,13 @@ END Exist;
 
 --@IgnoreMissingSysinit
 FUNCTION Exists (
-   location_number_ IN VARCHAR2,
+   location_number_ IN NUMBER,
    inventory_id_ IN NUMBER,
    part_no_ IN NUMBER ) RETURN BOOLEAN
 IS
    
    FUNCTION Base (
-      location_number_ IN VARCHAR2,
+      location_number_ IN NUMBER,
       inventory_id_ IN NUMBER,
       part_no_ IN NUMBER ) RETURN BOOLEAN
    IS
@@ -295,13 +295,13 @@ END Exists;
 
 --@IgnoreMissingSysinit
 FUNCTION Get_Quantity (
-   location_number_ IN VARCHAR2,
+   location_number_ IN NUMBER,
    inventory_id_ IN NUMBER,
    part_no_ IN NUMBER ) RETURN NUMBER
 IS
    
    FUNCTION Base (
-      location_number_ IN VARCHAR2,
+      location_number_ IN NUMBER,
       inventory_id_ IN NUMBER,
       part_no_ IN NUMBER ) RETURN NUMBER
    IS
@@ -331,13 +331,13 @@ END Get_Quantity;
 
 --@IgnoreMissingSysinit
 FUNCTION Get (
-   location_number_ IN VARCHAR2,
+   location_number_ IN NUMBER,
    inventory_id_ IN NUMBER,
    part_no_ IN NUMBER ) RETURN Public_Rec
 IS
    
    FUNCTION Base (
-      location_number_ IN VARCHAR2,
+      location_number_ IN NUMBER,
       inventory_id_ IN NUMBER,
       part_no_ IN NUMBER ) RETURN Public_Rec
    IS
@@ -369,13 +369,13 @@ END Get;
 
 --@IgnoreMissingSysinit
 FUNCTION Get_Objkey (
-   location_number_ IN VARCHAR2,
+   location_number_ IN NUMBER,
    inventory_id_ IN NUMBER,
    part_no_ IN NUMBER ) RETURN VARCHAR2
 IS
    
    FUNCTION Base (
-      location_number_ IN VARCHAR2,
+      location_number_ IN NUMBER,
       inventory_id_ IN NUMBER,
       part_no_ IN NUMBER ) RETURN VARCHAR2
    IS
@@ -536,14 +536,14 @@ END Remove__;
 
 
 PROCEDURE Raise_Too_Many_Rows___ (
-   location_number_ IN VARCHAR2,
+   location_number_ IN NUMBER,
    inventory_id_ IN NUMBER,
    part_no_ IN NUMBER,
    methodname_ IN VARCHAR2 )
 IS
    
    PROCEDURE Base (
-      location_number_ IN VARCHAR2,
+      location_number_ IN NUMBER,
       inventory_id_ IN NUMBER,
       part_no_ IN NUMBER,
       methodname_ IN VARCHAR2 )
@@ -558,13 +558,13 @@ END Raise_Too_Many_Rows___;
 
 
 PROCEDURE Raise_Record_Not_Exist___ (
-   location_number_ IN VARCHAR2,
+   location_number_ IN NUMBER,
    inventory_id_ IN NUMBER,
    part_no_ IN NUMBER )
 IS
    
    PROCEDURE Base (
-      location_number_ IN VARCHAR2,
+      location_number_ IN NUMBER,
       inventory_id_ IN NUMBER,
       part_no_ IN NUMBER )
    IS
@@ -628,13 +628,13 @@ END Raise_Record_Modified___;
 
 
 PROCEDURE Raise_Record_Locked___ (
-   location_number_ IN VARCHAR2,
+   location_number_ IN NUMBER,
    inventory_id_ IN NUMBER,
    part_no_ IN NUMBER )
 IS
    
    PROCEDURE Base (
-      location_number_ IN VARCHAR2,
+      location_number_ IN NUMBER,
       inventory_id_ IN NUMBER,
       part_no_ IN NUMBER )
    IS
@@ -648,13 +648,13 @@ END Raise_Record_Locked___;
 
 
 PROCEDURE Raise_Record_Removed___ (
-   location_number_ IN VARCHAR2,
+   location_number_ IN NUMBER,
    inventory_id_ IN NUMBER,
    part_no_ IN NUMBER )
 IS
    
    PROCEDURE Base (
-      location_number_ IN VARCHAR2,
+      location_number_ IN NUMBER,
       inventory_id_ IN NUMBER,
       part_no_ IN NUMBER )
    IS
@@ -714,13 +714,13 @@ END Lock_By_Id___;
 
 
 FUNCTION Lock_By_Keys___ (
-   location_number_ IN VARCHAR2,
+   location_number_ IN NUMBER,
    inventory_id_ IN NUMBER,
    part_no_ IN NUMBER) RETURN exm_inventory_product_tab%ROWTYPE
 IS
    
    FUNCTION Base (
-      location_number_ IN VARCHAR2,
+      location_number_ IN NUMBER,
       inventory_id_ IN NUMBER,
       part_no_ IN NUMBER) RETURN exm_inventory_product_tab%ROWTYPE
    IS
@@ -751,13 +751,13 @@ END Lock_By_Keys___;
 
 
 FUNCTION Lock_By_Keys_Nowait___ (
-   location_number_ IN VARCHAR2,
+   location_number_ IN NUMBER,
    inventory_id_ IN NUMBER,
    part_no_ IN NUMBER) RETURN exm_inventory_product_tab%ROWTYPE
 IS
    
    FUNCTION Base (
-      location_number_ IN VARCHAR2,
+      location_number_ IN NUMBER,
       inventory_id_ IN NUMBER,
       part_no_ IN NUMBER) RETURN exm_inventory_product_tab%ROWTYPE
    IS
@@ -831,13 +831,13 @@ END Get_Object_By_Id___;
 
 --@IgnoreMissingSysinit
 FUNCTION Get_Object_By_Keys___ (
-   location_number_ IN VARCHAR2,
+   location_number_ IN NUMBER,
    inventory_id_ IN NUMBER,
    part_no_ IN NUMBER ) RETURN exm_inventory_product_tab%ROWTYPE
 IS
    
    FUNCTION Base (
-      location_number_ IN VARCHAR2,
+      location_number_ IN NUMBER,
       inventory_id_ IN NUMBER,
       part_no_ IN NUMBER ) RETURN exm_inventory_product_tab%ROWTYPE
    IS
@@ -864,13 +864,13 @@ END Get_Object_By_Keys___;
 
 --@IgnoreMissingSysinit
 FUNCTION Check_Exist___ (
-   location_number_ IN VARCHAR2,
+   location_number_ IN NUMBER,
    inventory_id_ IN NUMBER,
    part_no_ IN NUMBER ) RETURN BOOLEAN
 IS
    
    FUNCTION Base (
-      location_number_ IN VARCHAR2,
+      location_number_ IN NUMBER,
       inventory_id_ IN NUMBER,
       part_no_ IN NUMBER ) RETURN BOOLEAN
    IS
@@ -924,7 +924,7 @@ END Get_Version_By_Id___;
 PROCEDURE Get_Id_Version_By_Keys___ (
    objid_      IN OUT NOCOPY VARCHAR2,
    objversion_ IN OUT NOCOPY VARCHAR2,
-   location_number_ IN VARCHAR2,
+   location_number_ IN NUMBER,
    inventory_id_ IN NUMBER,
    part_no_ IN NUMBER )
 IS
@@ -932,7 +932,7 @@ IS
    PROCEDURE Base (
       objid_      IN OUT NOCOPY VARCHAR2,
       objversion_ IN OUT NOCOPY VARCHAR2,
-      location_number_ IN VARCHAR2,
+      location_number_ IN NUMBER,
       inventory_id_ IN NUMBER,
       part_no_ IN NUMBER )
    IS
@@ -978,7 +978,7 @@ IS
       WHILE (Client_SYS.Get_Next_From_Attr(attr_, ptr_, name_, value_)) LOOP
          CASE name_
          WHEN ('LOCATION_NUMBER') THEN
-            newrec_.location_number := value_;
+            newrec_.location_number := Client_SYS.Attr_Value_To_Number(value_);
             indrec_.location_number := TRUE;
          WHEN ('INVENTORY_ID') THEN
             newrec_.inventory_id := Client_SYS.Attr_Value_To_Number(value_);

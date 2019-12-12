@@ -41,7 +41,7 @@ TYPE Indicator_Rec IS RECORD
 -- Raise_Too_Many_Rows___
 --    Raises error for: More then one row found for a single key.
 PROCEDURE Raise_Too_Many_Rows___ (
-   location_number_ IN VARCHAR2,
+   location_number_ IN NUMBER,
    inventory_id_ IN NUMBER,
    part_no_ IN NUMBER,
    methodname_ IN VARCHAR2 )
@@ -54,7 +54,7 @@ END Raise_Too_Many_Rows___;
 -- Raise_Record_Not_Exist___
 --    Raises error for: No data found for given key.
 PROCEDURE Raise_Record_Not_Exist___ (
-   location_number_ IN VARCHAR2,
+   location_number_ IN NUMBER,
    inventory_id_ IN NUMBER,
    part_no_ IN NUMBER )
 IS
@@ -96,7 +96,7 @@ END Raise_Record_Modified___;
 -- Raise_Record_Locked___
 --    Raises error for: The database row is already locked.
 PROCEDURE Raise_Record_Locked___ (
-   location_number_ IN VARCHAR2,
+   location_number_ IN NUMBER,
    inventory_id_ IN NUMBER,
    part_no_ IN NUMBER )
 IS
@@ -108,7 +108,7 @@ END Raise_Record_Locked___;
 -- Raise_Record_Removed___
 --    Raises error for: The database row is no longer present.
 PROCEDURE Raise_Record_Removed___ (
-   location_number_ IN VARCHAR2,
+   location_number_ IN NUMBER,
    inventory_id_ IN NUMBER,
    part_no_ IN NUMBER )
 IS
@@ -160,7 +160,7 @@ END Lock_By_Id___;
 --    Locks a database row based on the primary key values.
 --    Waits until record released if locked by another session.
 FUNCTION Lock_By_Keys___ (
-   location_number_ IN VARCHAR2,
+   location_number_ IN NUMBER,
    inventory_id_ IN NUMBER,
    part_no_ IN NUMBER) RETURN exm_inventory_product_tab%ROWTYPE
 IS
@@ -190,7 +190,7 @@ END Lock_By_Keys___;
 --    Locks a database row based on the primary key values.
 --    Raises exception if row already locked.
 FUNCTION Lock_By_Keys_Nowait___ (
-   location_number_ IN VARCHAR2,
+   location_number_ IN NUMBER,
    inventory_id_ IN NUMBER,
    part_no_ IN NUMBER) RETURN exm_inventory_product_tab%ROWTYPE
 IS
@@ -256,7 +256,7 @@ END Get_Object_By_Id___;
 --    Fetched a database row based on given the primary key values.
 @UncheckedAccess
 FUNCTION Get_Object_By_Keys___ (
-   location_number_ IN VARCHAR2,
+   location_number_ IN NUMBER,
    inventory_id_ IN NUMBER,
    part_no_ IN NUMBER ) RETURN exm_inventory_product_tab%ROWTYPE
 IS
@@ -281,7 +281,7 @@ END Get_Object_By_Keys___;
 --    Checks if a database row is already stored based on the primary key values.
 @UncheckedAccess
 FUNCTION Check_Exist___ (
-   location_number_ IN VARCHAR2,
+   location_number_ IN NUMBER,
    inventory_id_ IN NUMBER,
    part_no_ IN NUMBER ) RETURN BOOLEAN
 IS
@@ -326,7 +326,7 @@ END Get_Version_By_Id___;
 PROCEDURE Get_Id_Version_By_Keys___ (
    objid_      IN OUT VARCHAR2,
    objversion_ IN OUT VARCHAR2,
-   location_number_ IN VARCHAR2,
+   location_number_ IN NUMBER,
    inventory_id_ IN NUMBER,
    part_no_ IN NUMBER )
 IS
@@ -385,7 +385,7 @@ BEGIN
    WHILE (Client_SYS.Get_Next_From_Attr(attr_, ptr_, name_, value_)) LOOP
       CASE name_
       WHEN ('LOCATION_NUMBER') THEN
-         newrec_.location_number := value_;
+         newrec_.location_number := Client_SYS.Attr_Value_To_Number(value_);
          indrec_.location_number := TRUE;
       WHEN ('INVENTORY_ID') THEN
          newrec_.inventory_id := Client_SYS.Attr_Value_To_Number(value_);
@@ -895,7 +895,7 @@ END Remove__;
 --   logical unit exists. If not an exception will be raised.
 @UncheckedAccess
 PROCEDURE Exist (
-   location_number_ IN VARCHAR2,
+   location_number_ IN NUMBER,
    inventory_id_ IN NUMBER,
    part_no_ IN NUMBER )
 IS
@@ -910,7 +910,7 @@ END Exist;
 --   Same check as Exist, but returns a BOOLEAN value instead of exception.
 @UncheckedAccess
 FUNCTION Exists (
-   location_number_ IN VARCHAR2,
+   location_number_ IN NUMBER,
    inventory_id_ IN NUMBER,
    part_no_ IN NUMBER ) RETURN BOOLEAN
 IS
@@ -923,7 +923,7 @@ END Exists;
 --   Fetches the Quantity attribute for a record.
 @UncheckedAccess
 FUNCTION Get_Quantity (
-   location_number_ IN VARCHAR2,
+   location_number_ IN NUMBER,
    inventory_id_ IN NUMBER,
    part_no_ IN NUMBER ) RETURN NUMBER
 IS
@@ -951,7 +951,7 @@ END Get_Quantity;
 --   Fetches a record containing the public attributes.
 @UncheckedAccess
 FUNCTION Get (
-   location_number_ IN VARCHAR2,
+   location_number_ IN NUMBER,
    inventory_id_ IN NUMBER,
    part_no_ IN NUMBER ) RETURN Public_Rec
 IS
@@ -981,7 +981,7 @@ END Get;
 --   Fetches the objkey attribute for a record.
 @UncheckedAccess
 FUNCTION Get_Objkey (
-   location_number_ IN VARCHAR2,
+   location_number_ IN NUMBER,
    inventory_id_ IN NUMBER,
    part_no_ IN NUMBER ) RETURN VARCHAR2
 IS
