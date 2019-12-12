@@ -174,7 +174,12 @@ namespace Ifs.Application.Trnexm
 
         private void commandOk_Inquire(object sender, Fnd.Windows.Forms.FndCommandInquireEventArgs e)
         {
-
+            Ifs.Fnd.Windows.Forms.FndCommand command = (Ifs.Fnd.Windows.Forms.FndCommand)sender;
+            command.Enabled = false;
+            if (!(dfnInventoryId.IsEmpty() || dfnInventoryLocationId.IsEmpty() || dfnPartId.IsEmpty()))
+            {
+                command.Enabled = true;
+            }
         }
 
 

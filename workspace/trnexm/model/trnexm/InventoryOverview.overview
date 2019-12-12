@@ -29,7 +29,7 @@
                <SIZE>
                   <POINT>
                      <X>143</X>
-                     <Y>57</Y>
+                     <Y>76</Y>
                   </POINT>
                </SIZE>
             </DIAGRAM_NODE>
@@ -57,7 +57,7 @@
                <SIZE>
                   <POINT>
                      <X>128</X>
-                     <Y>76</Y>
+                     <Y>95</Y>
                   </POINT>
                </SIZE>
             </DIAGRAM_NODE>
@@ -85,35 +85,7 @@
                <SIZE>
                   <POINT>
                      <X>192</X>
-                     <Y>76</Y>
-                  </POINT>
-               </SIZE>
-            </DIAGRAM_NODE>
-            <DIAGRAM_NODE>
-               <ID>de897f10-1c91-11ea-3d64-c2ce4f89f6c3</ID>
-               <NODE_TYPE>UTILITY_LU</NODE_TYPE>
-               <MINIMIZED>0</MINIMIZED>
-               <IS_MERGED>0</IS_MERGED>
-               <PROPERTIES>
-                  <PROPERTY>
-                     <NAME>UtilityName</NAME>
-                     <VALUE>ExmInventoryProdUtil</VALUE>
-                  </PROPERTY>
-                  <PROPERTY>
-                     <NAME>ShowMethods</NAME>
-                     <VALUE>false</VALUE>
-                  </PROPERTY>
-               </PROPERTIES>
-               <LOCATION>
-                  <POINT>
-                     <X>245</X>
-                     <Y>418</Y>
-                  </POINT>
-               </LOCATION>
-               <SIZE>
-                  <POINT>
-                     <X>0</X>
-                     <Y>0</Y>
+                     <Y>95</Y>
                   </POINT>
                </SIZE>
             </DIAGRAM_NODE>
@@ -141,7 +113,7 @@
                <SIZE>
                   <POINT>
                      <X>188</X>
-                     <Y>133</Y>
+                     <Y>114</Y>
                   </POINT>
                </SIZE>
             </DIAGRAM_NODE>
@@ -177,7 +149,7 @@
                   </POINT>
                   <POINT>
                      <X>620</X>
-                     <Y>108</Y>
+                     <Y>127</Y>
                   </POINT>
                </CONTROL_POINTS>
             </DIAGRAM_EDGE>
@@ -207,25 +179,13 @@
                <CONTROL_POINTS>
                   <POINT>
                      <X>528</X>
-                     <Y>296</Y>
+                     <Y>291</Y>
                   </POINT>
                   <POINT>
                      <X>261</X>
-                     <Y>297</Y>
+                     <Y>303</Y>
                   </POINT>
                </CONTROL_POINTS>
-            </DIAGRAM_EDGE>
-            <DIAGRAM_EDGE>
-               <EDGE_TYPE>DEPENDENCY</EDGE_TYPE>
-               <SOURCE_NODE_ID>de897f10-1c91-11ea-3d64-c2ce4f89f6c3</SOURCE_NODE_ID>
-               <TARGET_NODE_ID>2cc5a3d0-1b38-11ea-3d64-c2ce4f89f6c3</TARGET_NODE_ID>
-               <IS_MERGED>0</IS_MERGED>
-               <PROPERTIES>
-                  <PROPERTY>
-                     <NAME>DependencyId</NAME>
-                     <VALUE>ExmInventoryProdUtilExmInventoryProductDependency</VALUE>
-                  </PROPERTY>
-               </PROPERTIES>
             </DIAGRAM_EDGE>
             <DIAGRAM_EDGE>
                <EDGE_TYPE>ASSOCIATION</EDGE_TYPE>
@@ -253,11 +213,11 @@
                <CONTROL_POINTS>
                   <POINT>
                      <X>524</X>
-                     <Y>69</Y>
+                     <Y>79</Y>
                   </POINT>
                   <POINT>
                      <X>271</X>
-                     <Y>68</Y>
+                     <Y>78</Y>
                   </POINT>
                </CONTROL_POINTS>
             </DIAGRAM_EDGE>
