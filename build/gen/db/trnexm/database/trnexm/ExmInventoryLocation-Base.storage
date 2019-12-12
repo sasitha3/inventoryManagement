@@ -17,7 +17,7 @@ layer Base;
 
 TABLE exm_inventory_location_tab IS (
    inventory_id                   NUMBER         NOT NULL,
-   location_number                NUMBER         NOT NULL,
+   location_number                VARCHAR2(100)  NOT NULL,
    description                    VARCHAR2(1000) NOT NULL,
    rowversion                     DATE           NOT NULL,
    rowkey                         VARCHAR2(50)   DEFAULT sys_guid() NOT NULL);

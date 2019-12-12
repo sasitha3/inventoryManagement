@@ -17,7 +17,7 @@ layer Base;
 
 COLUMN Location_Number IS
    Flags      = 'PMI-L'
-   Datatype   = 'NUMBER'
+   Datatype   = 'STRING(100)'
    Prompt     = 'Location Number';
 COLUMN Inventory_Id IS
    Flags      = 'PMI-L'

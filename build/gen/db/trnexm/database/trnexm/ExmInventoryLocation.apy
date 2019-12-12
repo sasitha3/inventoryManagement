@@ -35,7 +35,7 @@ COMMENT ON TABLE EXM_INVENTORY_LOCATION
 COMMENT ON COLUMN EXM_INVENTORY_LOCATION.inventory_id
    IS 'FLAGS=PMI-L^DATATYPE=NUMBER^PROMPT=Inventory Id^REF=ExmInventory^';
 COMMENT ON COLUMN EXM_INVENTORY_LOCATION.location_number
-   IS 'FLAGS=KMI-L^DATATYPE=NUMBER^PROMPT=Location Number^';
+   IS 'FLAGS=KMI-L^DATATYPE=STRING(100)^PROMPT=Location Number^';
 COMMENT ON COLUMN EXM_INVENTORY_LOCATION.description
    IS 'FLAGS=AMIUL^DATATYPE=STRING(1000)^PROMPT=Description^';
 
@@ -64,12 +64,12 @@ TYPE Indicator_Rec IS RECORD
 
 PROCEDURE Raise_Too_Many_Rows___ (
    inventory_id_ IN NUMBER,
-   location_number_ IN NUMBER,
+   location_number_ IN VARCHAR2,
    methodname_ IN VARCHAR2 );
 
 PROCEDURE Raise_Record_Not_Exist___ (
    inventory_id_ IN NUMBER,
-   location_number_ IN NUMBER );
+   location_number_ IN VARCHAR2 );
 
 PROCEDURE Raise_Record_Exist___ (
    rec_ exm_inventory_location_tab%ROWTYPE );
@@ -83,11 +83,11 @@ PROCEDURE Raise_Record_Modified___ (
 
 PROCEDURE Raise_Record_Locked___ (
    inventory_id_ IN NUMBER,
-   location_number_ IN NUMBER );
+   location_number_ IN VARCHAR2 );
 
 PROCEDURE Raise_Record_Removed___ (
    inventory_id_ IN NUMBER,
-   location_number_ IN NUMBER );
+   location_number_ IN VARCHAR2 );
 
 FUNCTION Lock_By_Id___ (
    objid_      IN VARCHAR2,
@@ -95,22 +95,22 @@ FUNCTION Lock_By_Id___ (
 
 FUNCTION Lock_By_Keys___ (
    inventory_id_ IN NUMBER,
-   location_number_ IN NUMBER) RETURN exm_inventory_location_tab%ROWTYPE;
+   location_number_ IN VARCHAR2) RETURN exm_inventory_location_tab%ROWTYPE;
 
 FUNCTION Lock_By_Keys_Nowait___ (
    inventory_id_ IN NUMBER,
-   location_number_ IN NUMBER) RETURN exm_inventory_location_tab%ROWTYPE;
+   location_number_ IN VARCHAR2) RETURN exm_inventory_location_tab%ROWTYPE;
 
 FUNCTION Get_Object_By_Id___ (
    objid_ IN VARCHAR2 ) RETURN exm_inventory_location_tab%ROWTYPE;
 
 FUNCTION Get_Object_By_Keys___ (
    inventory_id_ IN NUMBER,
-   location_number_ IN NUMBER ) RETURN exm_inventory_location_tab%ROWTYPE;
+   location_number_ IN VARCHAR2 ) RETURN exm_inventory_location_tab%ROWTYPE;
 
 FUNCTION Check_Exist___ (
    inventory_id_ IN NUMBER,
-   location_number_ IN NUMBER ) RETURN BOOLEAN;
+   location_number_ IN VARCHAR2 ) RETURN BOOLEAN;
 
 PROCEDURE Get_Version_By_Id___ (
    objid_      IN     VARCHAR2,
@@ -120,7 +120,7 @@ PROCEDURE Get_Id_Version_By_Keys___ (
    objid_      IN OUT NOCOPY VARCHAR2,
    objversion_ IN OUT NOCOPY VARCHAR2,
    inventory_id_ IN NUMBER,
-   location_number_ IN NUMBER );
+   location_number_ IN VARCHAR2 );
 
 PROCEDURE Unpack___ (
    newrec_   IN OUT NOCOPY exm_inventory_location_tab%ROWTYPE,
@@ -239,12 +239,12 @@ END Get_Key_By_Rowkey;
 --@IgnoreMissingSysinit
 PROCEDURE Exist (
    inventory_id_ IN NUMBER,
-   location_number_ IN NUMBER )
+   location_number_ IN VARCHAR2 )
 IS
    
    PROCEDURE Base (
       inventory_id_ IN NUMBER,
-      location_number_ IN NUMBER )
+      location_number_ IN VARCHAR2 )
    IS
    BEGIN
       IF (NOT Check_Exist___(inventory_id_, location_number_)) THEN
@@ -260,12 +260,12 @@ END Exist;
 --@IgnoreMissingSysinit
 FUNCTION Exists (
    inventory_id_ IN NUMBER,
-   location_number_ IN NUMBER ) RETURN BOOLEAN
+   location_number_ IN VARCHAR2 ) RETURN BOOLEAN
 IS
    
    FUNCTION Base (
       inventory_id_ IN NUMBER,
-      location_number_ IN NUMBER ) RETURN BOOLEAN
+      location_number_ IN VARCHAR2 ) RETURN BOOLEAN
    IS
    BEGIN
       RETURN Check_Exist___(inventory_id_, location_number_);
@@ -279,12 +279,12 @@ END Exists;
 --@IgnoreMissingSysinit
 FUNCTION Get_Description (
    inventory_id_ IN NUMBER,
-   location_number_ IN NUMBER ) RETURN VARCHAR2
+   location_number_ IN VARCHAR2 ) RETURN VARCHAR2
 IS
    
    FUNCTION Base (
       inventory_id_ IN NUMBER,
-      location_number_ IN NUMBER ) RETURN VARCHAR2
+      location_number_ IN VARCHAR2 ) RETURN VARCHAR2
    IS
       temp_ exm_inventory_location_tab.description%TYPE;
    BEGIN
@@ -312,12 +312,12 @@ END Get_Description;
 --@IgnoreMissingSysinit
 FUNCTION Get (
    inventory_id_ IN NUMBER,
-   location_number_ IN NUMBER ) RETURN Public_Rec
+   location_number_ IN VARCHAR2 ) RETURN Public_Rec
 IS
    
    FUNCTION Base (
       inventory_id_ IN NUMBER,
-      location_number_ IN NUMBER ) RETURN Public_Rec
+      location_number_ IN VARCHAR2 ) RETURN Public_Rec
    IS
       temp_ Public_Rec;
    BEGIN
@@ -347,12 +347,12 @@ END Get;
 --@IgnoreMissingSysinit
 FUNCTION Get_Objkey (
    inventory_id_ IN NUMBER,
-   location_number_ IN NUMBER ) RETURN VARCHAR2
+   location_number_ IN VARCHAR2 ) RETURN VARCHAR2
 IS
    
    FUNCTION Base (
       inventory_id_ IN NUMBER,
-      location_number_ IN NUMBER ) RETURN VARCHAR2
+      location_number_ IN VARCHAR2 ) RETURN VARCHAR2
    IS
       rowkey_ exm_inventory_location_tab.rowkey%TYPE;
    BEGIN
@@ -511,13 +511,13 @@ END Remove__;
 
 PROCEDURE Raise_Too_Many_Rows___ (
    inventory_id_ IN NUMBER,
-   location_number_ IN NUMBER,
+   location_number_ IN VARCHAR2,
    methodname_ IN VARCHAR2 )
 IS
    
    PROCEDURE Base (
       inventory_id_ IN NUMBER,
-      location_number_ IN NUMBER,
+      location_number_ IN VARCHAR2,
       methodname_ IN VARCHAR2 )
    IS
    BEGIN
@@ -531,12 +531,12 @@ END Raise_Too_Many_Rows___;
 
 PROCEDURE Raise_Record_Not_Exist___ (
    inventory_id_ IN NUMBER,
-   location_number_ IN NUMBER )
+   location_number_ IN VARCHAR2 )
 IS
    
    PROCEDURE Base (
       inventory_id_ IN NUMBER,
-      location_number_ IN NUMBER )
+      location_number_ IN VARCHAR2 )
    IS
    BEGIN
       Error_SYS.Record_Not_Exist(Exm_Inventory_Location_API.lu_name_);
@@ -599,12 +599,12 @@ END Raise_Record_Modified___;
 
 PROCEDURE Raise_Record_Locked___ (
    inventory_id_ IN NUMBER,
-   location_number_ IN NUMBER )
+   location_number_ IN VARCHAR2 )
 IS
    
    PROCEDURE Base (
       inventory_id_ IN NUMBER,
-      location_number_ IN NUMBER )
+      location_number_ IN VARCHAR2 )
    IS
    BEGIN
       Error_SYS.Record_Locked(Exm_Inventory_Location_API.lu_name_);
@@ -617,12 +617,12 @@ END Raise_Record_Locked___;
 
 PROCEDURE Raise_Record_Removed___ (
    inventory_id_ IN NUMBER,
-   location_number_ IN NUMBER )
+   location_number_ IN VARCHAR2 )
 IS
    
    PROCEDURE Base (
       inventory_id_ IN NUMBER,
-      location_number_ IN NUMBER )
+      location_number_ IN VARCHAR2 )
    IS
    BEGIN
       Error_SYS.Record_Removed(Exm_Inventory_Location_API.lu_name_);
@@ -681,12 +681,12 @@ END Lock_By_Id___;
 
 FUNCTION Lock_By_Keys___ (
    inventory_id_ IN NUMBER,
-   location_number_ IN NUMBER) RETURN exm_inventory_location_tab%ROWTYPE
+   location_number_ IN VARCHAR2) RETURN exm_inventory_location_tab%ROWTYPE
 IS
    
    FUNCTION Base (
       inventory_id_ IN NUMBER,
-      location_number_ IN NUMBER) RETURN exm_inventory_location_tab%ROWTYPE
+      location_number_ IN VARCHAR2) RETURN exm_inventory_location_tab%ROWTYPE
    IS
       row_locked  EXCEPTION;
       PRAGMA      EXCEPTION_INIT(row_locked, -0054);
@@ -715,12 +715,12 @@ END Lock_By_Keys___;
 
 FUNCTION Lock_By_Keys_Nowait___ (
    inventory_id_ IN NUMBER,
-   location_number_ IN NUMBER) RETURN exm_inventory_location_tab%ROWTYPE
+   location_number_ IN VARCHAR2) RETURN exm_inventory_location_tab%ROWTYPE
 IS
    
    FUNCTION Base (
       inventory_id_ IN NUMBER,
-      location_number_ IN NUMBER) RETURN exm_inventory_location_tab%ROWTYPE
+      location_number_ IN VARCHAR2) RETURN exm_inventory_location_tab%ROWTYPE
    IS
       row_locked  EXCEPTION;
       PRAGMA      EXCEPTION_INIT(row_locked, -0054);
@@ -791,12 +791,12 @@ END Get_Object_By_Id___;
 --@IgnoreMissingSysinit
 FUNCTION Get_Object_By_Keys___ (
    inventory_id_ IN NUMBER,
-   location_number_ IN NUMBER ) RETURN exm_inventory_location_tab%ROWTYPE
+   location_number_ IN VARCHAR2 ) RETURN exm_inventory_location_tab%ROWTYPE
 IS
    
    FUNCTION Base (
       inventory_id_ IN NUMBER,
-      location_number_ IN NUMBER ) RETURN exm_inventory_location_tab%ROWTYPE
+      location_number_ IN VARCHAR2 ) RETURN exm_inventory_location_tab%ROWTYPE
    IS
       lu_rec_ exm_inventory_location_tab%ROWTYPE;
    BEGIN
@@ -821,12 +821,12 @@ END Get_Object_By_Keys___;
 --@IgnoreMissingSysinit
 FUNCTION Check_Exist___ (
    inventory_id_ IN NUMBER,
-   location_number_ IN NUMBER ) RETURN BOOLEAN
+   location_number_ IN VARCHAR2 ) RETURN BOOLEAN
 IS
    
    FUNCTION Base (
       inventory_id_ IN NUMBER,
-      location_number_ IN NUMBER ) RETURN BOOLEAN
+      location_number_ IN VARCHAR2 ) RETURN BOOLEAN
    IS
       dummy_ NUMBER;
    BEGIN
@@ -878,14 +878,14 @@ PROCEDURE Get_Id_Version_By_Keys___ (
    objid_      IN OUT NOCOPY VARCHAR2,
    objversion_ IN OUT NOCOPY VARCHAR2,
    inventory_id_ IN NUMBER,
-   location_number_ IN NUMBER )
+   location_number_ IN VARCHAR2 )
 IS
    
    PROCEDURE Base (
       objid_      IN OUT NOCOPY VARCHAR2,
       objversion_ IN OUT NOCOPY VARCHAR2,
       inventory_id_ IN NUMBER,
-      location_number_ IN NUMBER )
+      location_number_ IN VARCHAR2 )
    IS
    BEGIN
       SELECT rowid, to_char(rowversion,'YYYYMMDDHH24MISS')
@@ -931,7 +931,7 @@ IS
             newrec_.inventory_id := Client_SYS.Attr_Value_To_Number(value_);
             indrec_.inventory_id := TRUE;
          WHEN ('LOCATION_NUMBER') THEN
-            newrec_.location_number := Client_SYS.Attr_Value_To_Number(value_);
+            newrec_.location_number := value_;
             indrec_.location_number := TRUE;
          WHEN ('DESCRIPTION') THEN
             newrec_.description := value_;

@@ -126,13 +126,16 @@
   <data name="commandCancel.Caption" xml:space="preserve">
     <value>Cancel</value>
   </data>
+  <data name="commandList.Caption" xml:space="preserve">
+    <value>List...</value>
+  </data>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="cCommandButtonOK.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Bottom, Right</value>
   </data>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="cCommandButtonOK.Location" type="System.Drawing.Point, System.Drawing">
-    <value>272, 405</value>
+    <value>700, 12</value>
   </data>
   <data name="cCommandButtonOK.Size" type="System.Drawing.Size, System.Drawing">
     <value>90, 28</value>
@@ -151,13 +154,13 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;cCommandButtonOK.ZOrder" xml:space="preserve">
-    <value>0</value>
+    <value>11</value>
   </data>
   <data name="cCommandButtonCancel.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Bottom, Right</value>
   </data>
   <data name="cCommandButtonCancel.Location" type="System.Drawing.Point, System.Drawing">
-    <value>370, 405</value>
+    <value>700, 46</value>
   </data>
   <data name="cCommandButtonCancel.Size" type="System.Drawing.Size, System.Drawing">
     <value>90, 28</value>
@@ -175,13 +178,274 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;cCommandButtonCancel.ZOrder" xml:space="preserve">
+    <value>12</value>
+  </data>
+  <data name="cCommandButtonList.Location" type="System.Drawing.Point, System.Drawing">
+    <value>700, 120</value>
+  </data>
+  <data name="cCommandButtonList.Size" type="System.Drawing.Size, System.Drawing">
+    <value>90, 28</value>
+  </data>
+  <data name="cCommandButtonList.TabIndex" type="System.Int32, mscorlib">
+    <value>3</value>
+  </data>
+  <data name="&gt;&gt;cCommandButtonList.Name" xml:space="preserve">
+    <value>cCommandButtonList</value>
+  </data>
+  <data name="&gt;&gt;cCommandButtonList.Type" xml:space="preserve">
+    <value>Ifs.Fnd.ApplicationForms.cCommandButton, Ifs.Fnd.ApplicationForms, Version=4.52.9.0, Culture=neutral, PublicKeyToken=ff90f512e10aef0d</value>
+  </data>
+  <data name="&gt;&gt;cCommandButtonList.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;cCommandButtonList.ZOrder" xml:space="preserve">
+    <value>10</value>
+  </data>
+  <data name="labelInventoryId.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="labelInventoryId.Location" type="System.Drawing.Point, System.Drawing">
+    <value>13, 12</value>
+  </data>
+  <data name="labelInventoryId.Size" type="System.Drawing.Size, System.Drawing">
+    <value>94, 17</value>
+  </data>
+  <data name="labelInventoryId.TabIndex" type="System.Int32, mscorlib">
+    <value>4</value>
+  </data>
+  <data name="labelInventoryId.Text" xml:space="preserve">
+    <value>Inventory Id: </value>
+  </data>
+  <data name="&gt;&gt;labelInventoryId.Name" xml:space="preserve">
+    <value>labelInventoryId</value>
+  </data>
+  <data name="&gt;&gt;labelInventoryId.Type" xml:space="preserve">
+    <value>Ifs.Fnd.ApplicationForms.cBackgroundText, Ifs.Fnd.ApplicationForms, Version=4.52.9.0, Culture=neutral, PublicKeyToken=ff90f512e10aef0d</value>
+  </data>
+  <data name="&gt;&gt;labelInventoryId.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;labelInventoryId.ZOrder" xml:space="preserve">
+    <value>9</value>
+  </data>
+  <data name="labelInventoryLocationId.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="labelInventoryLocationId.Location" type="System.Drawing.Point, System.Drawing">
+    <value>12, 46</value>
+  </data>
+  <data name="labelInventoryLocationId.Size" type="System.Drawing.Size, System.Drawing">
+    <value>150, 17</value>
+  </data>
+  <data name="labelInventoryLocationId.TabIndex" type="System.Int32, mscorlib">
+    <value>5</value>
+  </data>
+  <data name="labelInventoryLocationId.Text" xml:space="preserve">
+    <value>Inventory Location Id: </value>
+  </data>
+  <data name="&gt;&gt;labelInventoryLocationId.Name" xml:space="preserve">
+    <value>labelInventoryLocationId</value>
+  </data>
+  <data name="&gt;&gt;labelInventoryLocationId.Type" xml:space="preserve">
+    <value>Ifs.Fnd.ApplicationForms.cBackgroundText, Ifs.Fnd.ApplicationForms, Version=4.52.9.0, Culture=neutral, PublicKeyToken=ff90f512e10aef0d</value>
+  </data>
+  <data name="&gt;&gt;labelInventoryLocationId.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;labelInventoryLocationId.ZOrder" xml:space="preserve">
+    <value>8</value>
+  </data>
+  <data name="labelPartId.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="labelPartId.Location" type="System.Drawing.Point, System.Drawing">
+    <value>12, 80</value>
+  </data>
+  <data name="labelPartId.Size" type="System.Drawing.Size, System.Drawing">
+    <value>58, 17</value>
+  </data>
+  <data name="labelPartId.TabIndex" type="System.Int32, mscorlib">
+    <value>6</value>
+  </data>
+  <data name="labelPartId.Text" xml:space="preserve">
+    <value>Part Id: </value>
+  </data>
+  <data name="&gt;&gt;labelPartId.Name" xml:space="preserve">
+    <value>labelPartId</value>
+  </data>
+  <data name="&gt;&gt;labelPartId.Type" xml:space="preserve">
+    <value>Ifs.Fnd.ApplicationForms.cBackgroundText, Ifs.Fnd.ApplicationForms, Version=4.52.9.0, Culture=neutral, PublicKeyToken=ff90f512e10aef0d</value>
+  </data>
+  <data name="&gt;&gt;labelPartId.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;labelPartId.ZOrder" xml:space="preserve">
+    <value>7</value>
+  </data>
+  <data name="labelAvailableQty.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="labelAvailableQty.Location" type="System.Drawing.Point, System.Drawing">
+    <value>12, 120</value>
+  </data>
+  <data name="labelAvailableQty.Size" type="System.Drawing.Size, System.Drawing">
+    <value>121, 17</value>
+  </data>
+  <data name="labelAvailableQty.TabIndex" type="System.Int32, mscorlib">
+    <value>7</value>
+  </data>
+  <data name="labelAvailableQty.Text" xml:space="preserve">
+    <value>Quantity Available:</value>
+  </data>
+  <data name="&gt;&gt;labelAvailableQty.Name" xml:space="preserve">
+    <value>labelAvailableQty</value>
+  </data>
+  <data name="&gt;&gt;labelAvailableQty.Type" xml:space="preserve">
+    <value>Ifs.Fnd.ApplicationForms.cBackgroundText, Ifs.Fnd.ApplicationForms, Version=4.52.9.0, Culture=neutral, PublicKeyToken=ff90f512e10aef0d</value>
+  </data>
+  <data name="&gt;&gt;labelAvailableQty.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;labelAvailableQty.ZOrder" xml:space="preserve">
+    <value>6</value>
+  </data>
+  <data name="labelAddQty.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="labelAddQty.Location" type="System.Drawing.Point, System.Drawing">
+    <value>12, 153</value>
+  </data>
+  <data name="labelAddQty.Size" type="System.Drawing.Size, System.Drawing">
+    <value>98, 17</value>
+  </data>
+  <data name="labelAddQty.TabIndex" type="System.Int32, mscorlib">
+    <value>8</value>
+  </data>
+  <data name="labelAddQty.Text" xml:space="preserve">
+    <value>Add Quantity: </value>
+  </data>
+  <data name="&gt;&gt;labelAddQty.Name" xml:space="preserve">
+    <value>labelAddQty</value>
+  </data>
+  <data name="&gt;&gt;labelAddQty.Type" xml:space="preserve">
+    <value>Ifs.Fnd.ApplicationForms.cBackgroundText, Ifs.Fnd.ApplicationForms, Version=4.52.9.0, Culture=neutral, PublicKeyToken=ff90f512e10aef0d</value>
+  </data>
+  <data name="&gt;&gt;labelAddQty.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;labelAddQty.ZOrder" xml:space="preserve">
+    <value>5</value>
+  </data>
+  <data name="dfnInventoryId.Location" type="System.Drawing.Point, System.Drawing">
+    <value>183, 7</value>
+  </data>
+  <data name="dfnInventoryId.Size" type="System.Drawing.Size, System.Drawing">
+    <value>323, 21</value>
+  </data>
+  <data name="dfnInventoryId.TabIndex" type="System.Int32, mscorlib">
+    <value>9</value>
+  </data>
+  <data name="&gt;&gt;dfnInventoryId.Name" xml:space="preserve">
+    <value>dfnInventoryId</value>
+  </data>
+  <data name="&gt;&gt;dfnInventoryId.Type" xml:space="preserve">
+    <value>Ifs.Fnd.ApplicationForms.cDataField, Ifs.Fnd.ApplicationForms, Version=4.52.9.0, Culture=neutral, PublicKeyToken=ff90f512e10aef0d</value>
+  </data>
+  <data name="&gt;&gt;dfnInventoryId.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;dfnInventoryId.ZOrder" xml:space="preserve">
+    <value>4</value>
+  </data>
+  <data name="dfsInventoryLocationId.Location" type="System.Drawing.Point, System.Drawing">
+    <value>183, 46</value>
+  </data>
+  <data name="dfsInventoryLocationId.Size" type="System.Drawing.Size, System.Drawing">
+    <value>323, 21</value>
+  </data>
+  <data name="dfsInventoryLocationId.TabIndex" type="System.Int32, mscorlib">
+    <value>10</value>
+  </data>
+  <data name="&gt;&gt;dfsInventoryLocationId.Name" xml:space="preserve">
+    <value>dfsInventoryLocationId</value>
+  </data>
+  <data name="&gt;&gt;dfsInventoryLocationId.Type" xml:space="preserve">
+    <value>Ifs.Fnd.ApplicationForms.cDataField, Ifs.Fnd.ApplicationForms, Version=4.52.9.0, Culture=neutral, PublicKeyToken=ff90f512e10aef0d</value>
+  </data>
+  <data name="&gt;&gt;dfsInventoryLocationId.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;dfsInventoryLocationId.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="dfnPartId.Location" type="System.Drawing.Point, System.Drawing">
+    <value>183, 80</value>
+  </data>
+  <data name="dfnPartId.Size" type="System.Drawing.Size, System.Drawing">
+    <value>323, 21</value>
+  </data>
+  <data name="dfnPartId.TabIndex" type="System.Int32, mscorlib">
+    <value>11</value>
+  </data>
+  <data name="&gt;&gt;dfnPartId.Name" xml:space="preserve">
+    <value>dfnPartId</value>
+  </data>
+  <data name="&gt;&gt;dfnPartId.Type" xml:space="preserve">
+    <value>Ifs.Fnd.ApplicationForms.cDataField, Ifs.Fnd.ApplicationForms, Version=4.52.9.0, Culture=neutral, PublicKeyToken=ff90f512e10aef0d</value>
+  </data>
+  <data name="&gt;&gt;dfnPartId.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;dfnPartId.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="dfnQtyAvailable.Location" type="System.Drawing.Point, System.Drawing">
+    <value>183, 120</value>
+  </data>
+  <data name="dfnQtyAvailable.Size" type="System.Drawing.Size, System.Drawing">
+    <value>323, 21</value>
+  </data>
+  <data name="dfnQtyAvailable.TabIndex" type="System.Int32, mscorlib">
+    <value>12</value>
+  </data>
+  <data name="&gt;&gt;dfnQtyAvailable.Name" xml:space="preserve">
+    <value>dfnQtyAvailable</value>
+  </data>
+  <data name="&gt;&gt;dfnQtyAvailable.Type" xml:space="preserve">
+    <value>Ifs.Fnd.ApplicationForms.cDataField, Ifs.Fnd.ApplicationForms, Version=4.52.9.0, Culture=neutral, PublicKeyToken=ff90f512e10aef0d</value>
+  </data>
+  <data name="&gt;&gt;dfnQtyAvailable.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;dfnQtyAvailable.ZOrder" xml:space="preserve">
     <value>1</value>
+  </data>
+  <data name="dfnAddQty.Location" type="System.Drawing.Point, System.Drawing">
+    <value>183, 163</value>
+  </data>
+  <data name="dfnAddQty.Size" type="System.Drawing.Size, System.Drawing">
+    <value>323, 21</value>
+  </data>
+  <data name="dfnAddQty.TabIndex" type="System.Int32, mscorlib">
+    <value>13</value>
+  </data>
+  <data name="&gt;&gt;dfnAddQty.Name" xml:space="preserve">
+    <value>dfnAddQty</value>
+  </data>
+  <data name="&gt;&gt;dfnAddQty.Type" xml:space="preserve">
+    <value>Ifs.Fnd.ApplicationForms.cDataField, Ifs.Fnd.ApplicationForms, Version=4.52.9.0, Culture=neutral, PublicKeyToken=ff90f512e10aef0d</value>
+  </data>
+  <data name="&gt;&gt;dfnAddQty.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;dfnAddQty.ZOrder" xml:space="preserve">
+    <value>0</value>
   </data>
   <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </metadata>
   <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
-    <value>475, 448</value>
+    <value>802, 196</value>
   </data>
   <data name="$this.Text" xml:space="preserve">
     <value>dlgReceiveItem</value>
@@ -202,6 +466,12 @@
     <value>commandCancel</value>
   </data>
   <data name="&gt;&gt;commandCancel.Type" xml:space="preserve">
+    <value>Ifs.Fnd.Windows.Forms.FndCommand, Ifs.Fnd.Windows.Forms.CommonControls, Version=4.52.9.0, Culture=neutral, PublicKeyToken=ff90f512e10aef0d</value>
+  </data>
+  <data name="&gt;&gt;commandList.Name" xml:space="preserve">
+    <value>commandList</value>
+  </data>
+  <data name="&gt;&gt;commandList.Type" xml:space="preserve">
     <value>Ifs.Fnd.Windows.Forms.FndCommand, Ifs.Fnd.Windows.Forms.CommonControls, Version=4.52.9.0, Culture=neutral, PublicKeyToken=ff90f512e10aef0d</value>
   </data>
   <data name="&gt;&gt;$this.Name" xml:space="preserve">

@@ -32,6 +32,7 @@ namespace Ifs.Application.Trnexm
 
     /// <summary>
     /// </summary>
+    [FndWindowRegistration("", "", FndWindowRegistrationFlags.None)]
     public partial class dlgReceiveItem : cDialog
     {
         #region Member Variables
