@@ -27,7 +27,6 @@ BEGIN
    Database_SYS.Set_Table_Column(columns_, 'LOCATION_NUMBER', 'NUMBER', 'N');
    Database_SYS.Set_Table_Column(columns_, 'INVENTORY_ID', 'NUMBER', 'N');
    Database_SYS.Set_Table_Column(columns_, 'PART_NO', 'NUMBER', 'N');
-   Database_SYS.Set_Table_Column(columns_, 'KEY', 'NUMBER', 'N');
    Database_SYS.Set_Table_Column(columns_, 'QUANTITY', 'NUMBER', 'N');
    Database_SYS.Set_Table_Column(columns_, 'ROWVERSION', 'DATE', 'N');
    Database_SYS.Set_Table_Column(columns_, 'ROWKEY', 'VARCHAR2(50)', 'N', 'sys_guid()');
@@ -49,7 +48,6 @@ BEGIN
    Database_SYS.Set_Table_Column(columns_, 'LOCATION_NUMBER');
    Database_SYS.Set_Table_Column(columns_, 'INVENTORY_ID');
    Database_SYS.Set_Table_Column(columns_, 'PART_NO');
-   Database_SYS.Set_Table_Column(columns_, 'KEY');
    Database_SYS.Create_Constraint(table_name_, index_name_, columns_, 'P', '&IFSAPP_INDEX', NULL, TRUE, TRUE);
 END;
 /

@@ -7,6 +7,9 @@
          <Column ID="ExmInventory.EXM_INVENTORY.INVENTORY_ID">
             <Text><![CDATA[Inventory Id]]></Text>
          </Column>
+         <Column ID="ExmInventory.EXM_INVENTORY.AREA_NAME">
+            <Text><![CDATA[Area Name]]></Text>
+         </Column>
       </View>
    </LogicalUnit>
 </LogicalUnits>

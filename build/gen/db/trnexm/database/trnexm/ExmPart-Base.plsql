@@ -22,13 +22,15 @@ TYPE Public_Rec IS RECORD
    "rowid"                        rowid,
    rowversion                     EXM_PART_TAB.rowversion%TYPE,
    rowkey                         EXM_PART_TAB.rowkey%TYPE,
-   part_descrption                EXM_PART_TAB.part_descrption%TYPE);
+   part_descrption                EXM_PART_TAB.part_descrption%TYPE,
+   type                           EXM_PART_TAB.type%TYPE);
 
 -------------------- PRIVATE DECLARATIONS -----------------------------------
 
 TYPE Indicator_Rec IS RECORD
   (part_no                        BOOLEAN := FALSE,
-   part_descrption                BOOLEAN := FALSE);
+   part_descrption                BOOLEAN := FALSE,
+   type                           BOOLEAN := FALSE);
 
 -------------------- BASE METHODS -------------------------------------------
 
@@ -354,6 +356,15 @@ BEGIN
       WHEN ('PART_DESCRPTION') THEN
          newrec_.part_descrption := value_;
          indrec_.part_descrption := TRUE;
+      WHEN ('TYPE') THEN
+         newrec_.type := Party_Type_API.Encode(value_);
+         IF (value_ IS NOT NULL AND newrec_.type IS NULL) THEN
+            RAISE value_error;
+         END IF;
+         indrec_.type := TRUE;
+      WHEN ('TYPE_DB') THEN
+         newrec_.type := value_;
+         indrec_.type := TRUE;
       ELSE
          Client_SYS.Add_To_Attr(name_, value_, msg_);
       END CASE;
@@ -380,6 +391,10 @@ BEGIN
    IF (rec_.part_descrption IS NOT NULL) THEN
       Client_SYS.Add_To_Attr('PART_DESCRPTION', rec_.part_descrption, attr_);
    END IF;
+   IF (rec_.type IS NOT NULL) THEN
+      Client_SYS.Add_To_Attr('TYPE', Party_Type_API.Decode(rec_.type), attr_);
+      Client_SYS.Add_To_Attr('TYPE_DB', rec_.type, attr_);
+   END IF;
    RETURN attr_;
 END Pack___;
 
@@ -397,6 +412,10 @@ BEGIN
    IF (indrec_.part_descrption) THEN
       Client_SYS.Add_To_Attr('PART_DESCRPTION', rec_.part_descrption, attr_);
    END IF;
+   IF (indrec_.type) THEN
+      Client_SYS.Add_To_Attr('TYPE', Party_Type_API.Decode(rec_.type), attr_);
+      Client_SYS.Add_To_Attr('TYPE_DB', rec_.type, attr_);
+   END IF;
    RETURN attr_;
 END Pack___;
 
@@ -413,6 +432,7 @@ BEGIN
    Client_SYS.Clear_Attr(attr_);
    Client_SYS.Add_To_Attr('PART_NO', rec_.part_no, attr_);
    Client_SYS.Add_To_Attr('PART_DESCRPTION', rec_.part_descrption, attr_);
+   Client_SYS.Add_To_Attr('TYPE', rec_.type, attr_);
    Client_SYS.Add_To_Attr('ROWKEY', rec_.rowkey, attr_);
    RETURN attr_;
 END Pack_Table___;
@@ -438,6 +458,7 @@ IS
 BEGIN
    indrec_.part_no := rec_.part_no IS NOT NULL;
    indrec_.part_descrption := rec_.part_descrption IS NOT NULL;
+   indrec_.type := rec_.type IS NOT NULL;
    RETURN indrec_;
 END Get_Indicator_Rec___;
 
@@ -452,6 +473,7 @@ IS
 BEGIN
    indrec_.part_no := Validate_SYS.Is_Changed(oldrec_.part_no, newrec_.part_no);
    indrec_.part_descrption := Validate_SYS.Is_Changed(oldrec_.part_descrption, newrec_.part_descrption);
+   indrec_.type := Validate_SYS.Is_Changed(oldrec_.type, newrec_.type);
    RETURN indrec_;
 END Get_Indicator_Rec___;
 
@@ -465,8 +487,14 @@ PROCEDURE Check_Common___ (
    attr_   IN OUT VARCHAR2 )
 IS
 BEGIN
+   IF (newrec_.type IS NOT NULL)
+   AND (indrec_.type)
+   AND (Validate_SYS.Is_Changed(oldrec_.type, newrec_.type)) THEN
+      Party_Type_API.Exist_Db(newrec_.type);
+   END IF;
    Error_SYS.Check_Not_Null(lu_name_, 'PART_NO', newrec_.part_no);
    Error_SYS.Check_Not_Null(lu_name_, 'PART_DESCRPTION', newrec_.part_descrption);
+   Error_SYS.Check_Not_Null(lu_name_, 'TYPE', newrec_.type);
 END Check_Common___;
 
 
@@ -860,6 +888,54 @@ EXCEPTION
 END Get_Part_Descrption;
 
 
+-- Get_Type
+--   Fetches the Type attribute for a record.
+@UncheckedAccess
+FUNCTION Get_Type (
+   part_no_ IN NUMBER ) RETURN VARCHAR2
+IS
+   temp_ exm_part_tab.type%TYPE;
+BEGIN
+   IF (part_no_ IS NULL) THEN
+      RETURN NULL;
+   END IF;
+   SELECT type
+      INTO  temp_
+      FROM  exm_part_tab
+      WHERE part_no = part_no_;
+   RETURN Party_Type_API.Decode(temp_);
+EXCEPTION
+   WHEN no_data_found THEN
+      RETURN NULL;
+   WHEN too_many_rows THEN
+      Raise_Too_Many_Rows___(part_no_, 'Get_Type');
+END Get_Type;
+
+
+-- Get_Type_Db
+--   Fetches the DB value of Type attribute for a record.
+@UncheckedAccess
+FUNCTION Get_Type_Db (
+   part_no_ IN NUMBER ) RETURN exm_part_tab.type%TYPE
+IS
+   temp_ exm_part_tab.type%TYPE;
+BEGIN
+   IF (part_no_ IS NULL) THEN
+      RETURN NULL;
+   END IF;
+   SELECT type
+      INTO  temp_
+      FROM  exm_part_tab
+      WHERE part_no = part_no_;
+   RETURN temp_;
+EXCEPTION
+   WHEN no_data_found THEN
+      RETURN NULL;
+   WHEN too_many_rows THEN
+      Raise_Too_Many_Rows___(part_no_, 'Get_Type_Db');
+END Get_Type_Db;
+
+
 -- Get
 --   Fetches a record containing the public attributes.
 @UncheckedAccess
@@ -873,7 +949,8 @@ BEGIN
    END IF;
    SELECT part_no,
           rowid, rowversion, rowkey,
-          part_descrption
+          part_descrption, 
+          type
       INTO  temp_
       FROM  exm_part_tab
       WHERE part_no = part_no_;

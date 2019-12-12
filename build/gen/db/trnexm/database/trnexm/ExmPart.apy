@@ -22,6 +22,8 @@ CREATE OR REPLACE VIEW EXM_PART AS
 SELECT
        part_no                        part_no,
        part_descrption                part_descrption,
+       Party_Type_API.Decode(type) type,
+       type                           type_db,
        rowkey                         objkey,
        to_char(rowversion,'YYYYMMDDHH24MISS') objversion,
        rowid                          objid
@@ -35,6 +37,10 @@ COMMENT ON COLUMN EXM_PART.part_no
    IS 'FLAGS=KMI-L^DATATYPE=NUMBER^PROMPT=Part No^';
 COMMENT ON COLUMN EXM_PART.part_descrption
    IS 'FLAGS=AMIUL^DATATYPE=STRING(200)^PROMPT=Part Descrption^';
+COMMENT ON COLUMN EXM_PART.type
+   IS 'FLAGS=AMIUL^DATATYPE=STRING(200)^ENUMERATION=PartyType^PROMPT=Type^';
+COMMENT ON COLUMN EXM_PART.type_db
+   IS 'FLAGS=A----^DATATYPE=STRING(20)^PROMPT=Type^';
 
 
 -----------------------------------------------------------------------------
@@ -51,7 +57,8 @@ CREATE OR REPLACE PACKAGE BODY Exm_Part_API IS
 
 TYPE Indicator_Rec IS RECORD
   (part_no                        BOOLEAN := FALSE,
-   part_descrption                BOOLEAN := FALSE);
+   part_descrption                BOOLEAN := FALSE,
+   type                           BOOLEAN := FALSE);
 
 
 -----------------------------------------------------------------------------
@@ -290,6 +297,66 @@ END Get_Part_Descrption;
 
 
 --@IgnoreMissingSysinit
+FUNCTION Get_Type (
+   part_no_ IN NUMBER ) RETURN VARCHAR2
+IS
+   
+   FUNCTION Base (
+      part_no_ IN NUMBER ) RETURN VARCHAR2
+   IS
+      temp_ exm_part_tab.type%TYPE;
+   BEGIN
+      IF (part_no_ IS NULL) THEN
+         RETURN NULL;
+      END IF;
+      SELECT type
+         INTO  temp_
+         FROM  exm_part_tab
+         WHERE part_no = part_no_;
+      RETURN Party_Type_API.Decode(temp_);
+   EXCEPTION
+      WHEN no_data_found THEN
+         RETURN NULL;
+      WHEN too_many_rows THEN
+         Raise_Too_Many_Rows___(part_no_, 'Get_Type');
+   END Base;
+
+BEGIN
+   RETURN Base(part_no_);
+END Get_Type;
+
+
+--@IgnoreMissingSysinit
+FUNCTION Get_Type_Db (
+   part_no_ IN NUMBER ) RETURN exm_part_tab.type%TYPE
+IS
+   
+   FUNCTION Base (
+      part_no_ IN NUMBER ) RETURN exm_part_tab.type%TYPE
+   IS
+      temp_ exm_part_tab.type%TYPE;
+   BEGIN
+      IF (part_no_ IS NULL) THEN
+         RETURN NULL;
+      END IF;
+      SELECT type
+         INTO  temp_
+         FROM  exm_part_tab
+         WHERE part_no = part_no_;
+      RETURN temp_;
+   EXCEPTION
+      WHEN no_data_found THEN
+         RETURN NULL;
+      WHEN too_many_rows THEN
+         Raise_Too_Many_Rows___(part_no_, 'Get_Type_Db');
+   END Base;
+
+BEGIN
+   RETURN Base(part_no_);
+END Get_Type_Db;
+
+
+--@IgnoreMissingSysinit
 FUNCTION Get (
    part_no_ IN NUMBER ) RETURN Public_Rec
 IS
@@ -304,7 +371,8 @@ IS
       END IF;
       SELECT part_no,
              rowid, rowversion, rowkey,
-             part_descrption
+             part_descrption, 
+             type
          INTO  temp_
          FROM  exm_part_tab
          WHERE part_no = part_no_;
@@ -883,6 +951,15 @@ IS
          WHEN ('PART_DESCRPTION') THEN
             newrec_.part_descrption := value_;
             indrec_.part_descrption := TRUE;
+         WHEN ('TYPE') THEN
+            newrec_.type := Party_Type_API.Encode(value_);
+            IF (value_ IS NOT NULL AND newrec_.type IS NULL) THEN
+               RAISE value_error;
+            END IF;
+            indrec_.type := TRUE;
+         WHEN ('TYPE_DB') THEN
+            newrec_.type := value_;
+            indrec_.type := TRUE;
          ELSE
             Client_SYS.Add_To_Attr(name_, value_, msg_);
          END CASE;
@@ -914,6 +991,10 @@ IS
       IF (rec_.part_descrption IS NOT NULL) THEN
          Client_SYS.Add_To_Attr('PART_DESCRPTION', rec_.part_descrption, attr_);
       END IF;
+      IF (rec_.type IS NOT NULL) THEN
+         Client_SYS.Add_To_Attr('TYPE', Party_Type_API.Decode(rec_.type), attr_);
+         Client_SYS.Add_To_Attr('TYPE_DB', rec_.type, attr_);
+      END IF;
       RETURN attr_;
    END Base;
 
@@ -940,6 +1021,10 @@ IS
       IF (indrec_.part_descrption) THEN
          Client_SYS.Add_To_Attr('PART_DESCRPTION', rec_.part_descrption, attr_);
       END IF;
+      IF (indrec_.type) THEN
+         Client_SYS.Add_To_Attr('TYPE', Party_Type_API.Decode(rec_.type), attr_);
+         Client_SYS.Add_To_Attr('TYPE_DB', rec_.type, attr_);
+      END IF;
       RETURN attr_;
    END Base;
 
@@ -960,6 +1045,7 @@ IS
       Client_SYS.Clear_Attr(attr_);
       Client_SYS.Add_To_Attr('PART_NO', rec_.part_no, attr_);
       Client_SYS.Add_To_Attr('PART_DESCRPTION', rec_.part_descrption, attr_);
+      Client_SYS.Add_To_Attr('TYPE', rec_.type, attr_);
       Client_SYS.Add_To_Attr('ROWKEY', rec_.rowkey, attr_);
       RETURN attr_;
    END Base;
@@ -997,6 +1083,7 @@ IS
    BEGIN
       indrec_.part_no := rec_.part_no IS NOT NULL;
       indrec_.part_descrption := rec_.part_descrption IS NOT NULL;
+      indrec_.type := rec_.type IS NOT NULL;
       RETURN indrec_;
    END Base;
 
@@ -1018,6 +1105,7 @@ IS
    BEGIN
       indrec_.part_no := Validate_SYS.Is_Changed(oldrec_.part_no, newrec_.part_no);
       indrec_.part_descrption := Validate_SYS.Is_Changed(oldrec_.part_descrption, newrec_.part_descrption);
+      indrec_.type := Validate_SYS.Is_Changed(oldrec_.type, newrec_.type);
       RETURN indrec_;
    END Base;
 
@@ -1040,8 +1128,14 @@ IS
       attr_   IN OUT NOCOPY VARCHAR2 )
    IS
    BEGIN
+      IF (newrec_.type IS NOT NULL)
+      AND (indrec_.type)
+      AND (Validate_SYS.Is_Changed(oldrec_.type, newrec_.type)) THEN
+         Party_Type_API.Exist_Db(newrec_.type);
+      END IF;
       Error_SYS.Check_Not_Null(lu_name_, 'PART_NO', newrec_.part_no);
       Error_SYS.Check_Not_Null(lu_name_, 'PART_DESCRPTION', newrec_.part_descrption);
+      Error_SYS.Check_Not_Null(lu_name_, 'TYPE', newrec_.type);
    END Base;
 
 BEGIN

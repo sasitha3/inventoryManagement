@@ -27,7 +27,6 @@ TYPE Public_Rec IS RECORD
   (location_number                EXM_INVENTORY_PRODUCT_TAB.location_number%TYPE,
    inventory_id                   EXM_INVENTORY_PRODUCT_TAB.inventory_id%TYPE,
    part_no                        EXM_INVENTORY_PRODUCT_TAB.part_no%TYPE,
-   key                            EXM_INVENTORY_PRODUCT_TAB.key%TYPE,
    "rowid"                        rowid,
    rowversion                     EXM_INVENTORY_PRODUCT_TAB.rowversion%TYPE,
    rowkey                         EXM_INVENTORY_PRODUCT_TAB.rowkey%TYPE,
@@ -101,36 +100,31 @@ FUNCTION Get_Key_By_Rowkey (
 PROCEDURE Exist (
    location_number_ IN NUMBER,
    inventory_id_ IN NUMBER,
-   part_no_ IN NUMBER,
-   key_ IN NUMBER );
+   part_no_ IN NUMBER );
 
 --@PoReadOnly(Exists)
 FUNCTION Exists (
    location_number_ IN NUMBER,
    inventory_id_ IN NUMBER,
-   part_no_ IN NUMBER,
-   key_ IN NUMBER ) RETURN BOOLEAN;
+   part_no_ IN NUMBER ) RETURN BOOLEAN;
 
 --@PoReadOnly(Get_Quantity)
 FUNCTION Get_Quantity (
    location_number_ IN NUMBER,
    inventory_id_ IN NUMBER,
-   part_no_ IN NUMBER,
-   key_ IN NUMBER ) RETURN NUMBER;
+   part_no_ IN NUMBER ) RETURN NUMBER;
 
 --@PoReadOnly(Get)
 FUNCTION Get (
    location_number_ IN NUMBER,
    inventory_id_ IN NUMBER,
-   part_no_ IN NUMBER,
-   key_ IN NUMBER ) RETURN Public_Rec;
+   part_no_ IN NUMBER ) RETURN Public_Rec;
 
 --@PoReadOnly(Get_Objkey)
 FUNCTION Get_Objkey (
    location_number_ IN NUMBER,
    inventory_id_ IN NUMBER,
-   part_no_ IN NUMBER,
-   key_ IN NUMBER ) RETURN VARCHAR2;
+   part_no_ IN NUMBER ) RETURN VARCHAR2;
 
 --@PoReadOnly(Lock__)
 PROCEDURE Lock__ (

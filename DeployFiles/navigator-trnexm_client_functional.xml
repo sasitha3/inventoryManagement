@@ -41,6 +41,30 @@
       <ParentKey>PRODCT_MANANT.INVERY</ParentKey>
       <Ordinal>50</Ordinal>
     </FndNavigatorEntry>
+    <FndNavigatorEntry>
+      <Key>PRODCT_MANANT.INVERY.MAIN_INVERY</Key>
+      <Name>Main Inventory</Name>
+      <Url>ifsapf:tbwMainInventories</Url>
+      <Type>TableWindow</Type>
+      <ParentKey>PRODCT_MANANT.INVERY</ParentKey>
+      <Ordinal>15</Ordinal>
+    </FndNavigatorEntry>
+    <FndNavigatorEntry>
+      <Key>PRODCT_MANANT.INVERY.PART</Key>
+      <Name>Parts</Name>
+      <Url>ifsapf:tbwParts</Url>
+      <Type>TableWindow</Type>
+      <ParentKey>PRODCT_MANANT.INVERY</ParentKey>
+      <Ordinal>70</Ordinal>
+    </FndNavigatorEntry>
+    <FndNavigatorEntry>
+      <Key>PRODCT_MANANT.INVERY.INVERY_LOCAON</Key>
+      <Name>Inventory Location</Name>
+      <Url>ifsapf:tbwInventoryLocation</Url>
+      <Type>TableWindow</Type>
+      <ParentKey>PRODCT_MANANT.INVERY</ParentKey>
+      <Ordinal>30</Ordinal>
+    </FndNavigatorEntry>
   </FndNavigatorEntries>
   <FndShortcutItems />
 </FndNavigator>

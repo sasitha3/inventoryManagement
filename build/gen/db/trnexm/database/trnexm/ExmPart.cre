@@ -26,6 +26,7 @@ BEGIN
    Database_SYS.Reset_Column_Table(columns_);
    Database_SYS.Set_Table_Column(columns_, 'PART_NO', 'NUMBER', 'N');
    Database_SYS.Set_Table_Column(columns_, 'PART_DESCRPTION', 'VARCHAR2(200)', 'N');
+   Database_SYS.Set_Table_Column(columns_, 'TYPE', 'VARCHAR2(20)', 'N');
    Database_SYS.Set_Table_Column(columns_, 'ROWVERSION', 'DATE', 'N');
    Database_SYS.Set_Table_Column(columns_, 'ROWKEY', 'VARCHAR2(50)', 'N', 'sys_guid()');
    Database_SYS.Create_Or_Replace_Table(table_name_, columns_, '&IFSAPP_DATA', NULL, TRUE);

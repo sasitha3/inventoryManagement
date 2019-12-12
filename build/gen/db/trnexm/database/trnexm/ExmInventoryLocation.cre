@@ -26,6 +26,7 @@ BEGIN
    Database_SYS.Reset_Column_Table(columns_);
    Database_SYS.Set_Table_Column(columns_, 'INVENTORY_ID', 'NUMBER', 'N');
    Database_SYS.Set_Table_Column(columns_, 'LOCATION_NUMBER', 'NUMBER', 'N');
+   Database_SYS.Set_Table_Column(columns_, 'DESCRIPTION', 'VARCHAR2(1000)', 'N');
    Database_SYS.Set_Table_Column(columns_, 'ROWVERSION', 'DATE', 'N');
    Database_SYS.Set_Table_Column(columns_, 'ROWKEY', 'VARCHAR2(50)', 'N', 'sys_guid()');
    Database_SYS.Create_Or_Replace_Table(table_name_, columns_, '&IFSAPP_DATA', NULL, TRUE);

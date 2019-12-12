@@ -219,7 +219,7 @@
     <value>777, 430</value>
   </data>
   <data name="$this.Text" xml:space="preserve">
-    <value>tbwInventoryPartDetails</value>
+    <value>Inventory Part Details</value>
   </data>
   <data name="&gt;&gt;commandManager.Name" xml:space="preserve">
     <value>commandManager</value>

@@ -10,6 +10,12 @@
          <Column ID="ExmPart.EXM_PART.PART_DESCRPTION">
             <Text><![CDATA[Part Descrption]]></Text>
          </Column>
+         <Column ID="ExmPart.EXM_PART.TYPE">
+            <Text><![CDATA[Type]]></Text>
+         </Column>
+         <Column ID="ExmPart.EXM_PART.TYPE_DB">
+            <Text><![CDATA[Type]]></Text>
+         </Column>
       </View>
    </LogicalUnit>
 </LogicalUnits>

@@ -10,6 +10,9 @@
          <Column ID="ExmInventoryLocation.EXM_INVENTORY_LOCATION.LOCATION_NUMBER">
             <Text><![CDATA[Location Number]]></Text>
          </Column>
+         <Column ID="ExmInventoryLocation.EXM_INVENTORY_LOCATION.DESCRIPTION">
+            <Text><![CDATA[Description]]></Text>
+         </Column>
       </View>
    </LogicalUnit>
 </LogicalUnits>

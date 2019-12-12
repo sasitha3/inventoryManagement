@@ -29,10 +29,6 @@ COLUMN Part_No IS
    Datatype   = 'NUMBER'
    Prompt     = 'Part No'
    Ref        = 'ExmPart';
-COLUMN Key IS
-   Flags      = 'KMI-L'
-   Datatype   = 'NUMBER'
-   Prompt     = 'Key';
 COLUMN Quantity IS
    Flags      = 'AMIUL'
    Datatype   = 'NUMBER'
@@ -49,7 +45,6 @@ SELECT
        location_number                location_number,
        inventory_id                   inventory_id,
        part_no                        part_no,
-       key                            key,
        quantity                       quantity,
        rowkey                         objkey,
        to_char(rowversion,'YYYYMMDDHH24MISS') objversion,

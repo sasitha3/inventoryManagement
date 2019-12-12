@@ -24,6 +24,10 @@ COLUMN Location_Number IS
    Flags      = 'KMI-L'
    Datatype   = 'NUMBER'
    Prompt     = 'Location Number';
+COLUMN Description IS
+   Flags      = 'AMIUL'
+   Datatype   = 'STRING(1000)'
+   Prompt     = 'Description';
 
 -------------------- PUBLIC VIEW DEFINITIONS --------------------------------
 
@@ -35,6 +39,7 @@ VIEW Exm_Inventory_Location IS
 SELECT
        inventory_id                   inventory_id,
        location_number                location_number,
+       description                    description,
        rowkey                         objkey,
        to_char(rowversion,'YYYYMMDDHH24MISS') objversion,
        rowid                          objid

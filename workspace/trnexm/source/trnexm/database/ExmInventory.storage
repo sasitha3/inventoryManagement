@@ -16,4 +16,4 @@ layer Core;
 
 
 -------------------- OTHER DEFINITIONS --------------------------------------
-
+SEQUENCE Prod_Inventory_ID_SEQ IS INCREMENT BY 1 START WITH 10000 NOCACHE;

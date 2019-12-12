@@ -16,9 +16,13 @@ layer Base;
 -------------------- COMMON COLUMN DEFINITIONS ------------------------------
 
 COLUMN Inventory_Id IS
-   Flags      = 'KMI-L'
+   Flags      = 'K-I-L'
    Datatype   = 'NUMBER'
    Prompt     = 'Inventory Id';
+COLUMN Area_Name IS
+   Flags      = 'AMIUL'
+   Datatype   = 'STRING(100)'
+   Prompt     = 'Area Name';
 
 -------------------- PUBLIC VIEW DEFINITIONS --------------------------------
 
@@ -29,6 +33,7 @@ VIEW Exm_Inventory IS
    Prompt     = 'Exm Inventory'
 SELECT
        inventory_id                   inventory_id,
+       area_name                      area_name,
        rowkey                         objkey,
        to_char(rowversion,'YYYYMMDDHH24MISS') objversion,
        rowid                          objid

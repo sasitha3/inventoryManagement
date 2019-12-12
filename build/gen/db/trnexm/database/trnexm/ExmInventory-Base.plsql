@@ -17,10 +17,18 @@ layer Base;
 --TYPE Primary_Key_Rec IS RECORD
 --  (inventory_id                   EXM_INVENTORY_TAB.inventory_id%TYPE);
 
+TYPE Public_Rec IS RECORD
+  (inventory_id                   EXM_INVENTORY_TAB.inventory_id%TYPE,
+   "rowid"                        rowid,
+   rowversion                     EXM_INVENTORY_TAB.rowversion%TYPE,
+   rowkey                         EXM_INVENTORY_TAB.rowkey%TYPE,
+   area_name                      EXM_INVENTORY_TAB.area_name%TYPE);
+
 -------------------- PRIVATE DECLARATIONS -----------------------------------
 
 TYPE Indicator_Rec IS RECORD
-  (inventory_id                   BOOLEAN := FALSE);
+  (inventory_id                   BOOLEAN := FALSE,
+   area_name                      BOOLEAN := FALSE);
 
 -------------------- BASE METHODS -------------------------------------------
 
@@ -343,6 +351,9 @@ BEGIN
       WHEN ('INVENTORY_ID') THEN
          newrec_.inventory_id := Client_SYS.Attr_Value_To_Number(value_);
          indrec_.inventory_id := TRUE;
+      WHEN ('AREA_NAME') THEN
+         newrec_.area_name := value_;
+         indrec_.area_name := TRUE;
       ELSE
          Client_SYS.Add_To_Attr(name_, value_, msg_);
       END CASE;
@@ -366,6 +377,9 @@ BEGIN
    IF (rec_.inventory_id IS NOT NULL) THEN
       Client_SYS.Add_To_Attr('INVENTORY_ID', rec_.inventory_id, attr_);
    END IF;
+   IF (rec_.area_name IS NOT NULL) THEN
+      Client_SYS.Add_To_Attr('AREA_NAME', rec_.area_name, attr_);
+   END IF;
    RETURN attr_;
 END Pack___;
 
@@ -379,6 +393,9 @@ BEGIN
    Client_SYS.Clear_Attr(attr_);
    IF (indrec_.inventory_id) THEN
       Client_SYS.Add_To_Attr('INVENTORY_ID', rec_.inventory_id, attr_);
+   END IF;
+   IF (indrec_.area_name) THEN
+      Client_SYS.Add_To_Attr('AREA_NAME', rec_.area_name, attr_);
    END IF;
    RETURN attr_;
 END Pack___;
@@ -395,6 +412,7 @@ IS
 BEGIN
    Client_SYS.Clear_Attr(attr_);
    Client_SYS.Add_To_Attr('INVENTORY_ID', rec_.inventory_id, attr_);
+   Client_SYS.Add_To_Attr('AREA_NAME', rec_.area_name, attr_);
    Client_SYS.Add_To_Attr('ROWKEY', rec_.rowkey, attr_);
    RETURN attr_;
 END Pack_Table___;
@@ -419,6 +437,7 @@ IS
    indrec_ Indicator_Rec;
 BEGIN
    indrec_.inventory_id := rec_.inventory_id IS NOT NULL;
+   indrec_.area_name := rec_.area_name IS NOT NULL;
    RETURN indrec_;
 END Get_Indicator_Rec___;
 
@@ -432,6 +451,7 @@ IS
    indrec_ Indicator_Rec;
 BEGIN
    indrec_.inventory_id := Validate_SYS.Is_Changed(oldrec_.inventory_id, newrec_.inventory_id);
+   indrec_.area_name := Validate_SYS.Is_Changed(oldrec_.area_name, newrec_.area_name);
    RETURN indrec_;
 END Get_Indicator_Rec___;
 
@@ -445,7 +465,7 @@ PROCEDURE Check_Common___ (
    attr_   IN OUT VARCHAR2 )
 IS
 BEGIN
-   Error_SYS.Check_Not_Null(lu_name_, 'INVENTORY_ID', newrec_.inventory_id);
+   Error_SYS.Check_Not_Null(lu_name_, 'AREA_NAME', newrec_.area_name);
 END Check_Common___;
 
 
@@ -814,6 +834,55 @@ BEGIN
    RETURN Check_Exist___(inventory_id_);
 END Exists;
 
+
+-- Get_Area_Name
+--   Fetches the AreaName attribute for a record.
+@UncheckedAccess
+FUNCTION Get_Area_Name (
+   inventory_id_ IN NUMBER ) RETURN VARCHAR2
+IS
+   temp_ exm_inventory_tab.area_name%TYPE;
+BEGIN
+   IF (inventory_id_ IS NULL) THEN
+      RETURN NULL;
+   END IF;
+   SELECT area_name
+      INTO  temp_
+      FROM  exm_inventory_tab
+      WHERE inventory_id = inventory_id_;
+   RETURN temp_;
+EXCEPTION
+   WHEN no_data_found THEN
+      RETURN NULL;
+   WHEN too_many_rows THEN
+      Raise_Too_Many_Rows___(inventory_id_, 'Get_Area_Name');
+END Get_Area_Name;
+
+
+-- Get
+--   Fetches a record containing the public attributes.
+@UncheckedAccess
+FUNCTION Get (
+   inventory_id_ IN NUMBER ) RETURN Public_Rec
+IS
+   temp_ Public_Rec;
+BEGIN
+   IF (inventory_id_ IS NULL) THEN
+      RETURN NULL;
+   END IF;
+   SELECT inventory_id,
+          rowid, rowversion, rowkey,
+          area_name
+      INTO  temp_
+      FROM  exm_inventory_tab
+      WHERE inventory_id = inventory_id_;
+   RETURN temp_;
+EXCEPTION
+   WHEN no_data_found THEN
+      RETURN NULL;
+   WHEN too_many_rows THEN
+      Raise_Too_Many_Rows___(inventory_id_, 'Get');
+END Get;
 
 
 -- Get_Objkey

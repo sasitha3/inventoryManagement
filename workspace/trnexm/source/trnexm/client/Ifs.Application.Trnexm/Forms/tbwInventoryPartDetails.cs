@@ -32,6 +32,7 @@ namespace Ifs.Application.Trnexm
 
     /// <summary>
     /// </summary>
+    [FndWindowRegistration("EXM_INVENORY_PRODUCT", "ExmInventoryProduct", "", FndWindowRegistrationFlags.HomePage, false, "")]        
     public partial class tbwInventoryPartDetails : cTableWindow
     {
         #region Member Variables

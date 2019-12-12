@@ -28,7 +28,8 @@ TYPE Public_Rec IS RECORD
    "rowid"                        rowid,
    rowversion                     EXM_PART_TAB.rowversion%TYPE,
    rowkey                         EXM_PART_TAB.rowkey%TYPE,
-   part_descrption                EXM_PART_TAB.part_descrption%TYPE);
+   part_descrption                EXM_PART_TAB.part_descrption%TYPE,
+   type                           EXM_PART_TAB.type%TYPE);
 
 
 -----------------------------------------------------------------------------
@@ -46,6 +47,12 @@ TYPE Public_Rec IS RECORD
 --
 -- Get_Part_Descrption
 --   Fetches the PartDescrption attribute for a record.
+--
+-- Get_Type
+--   Fetches the Type attribute for a record.
+--
+-- Get_Type_Db
+--   Fetches the DB value of Type attribute for a record.
 --
 -- Get
 --   Fetches a record containing the public attributes.
@@ -105,6 +112,14 @@ FUNCTION Exists (
 --@PoReadOnly(Get_Part_Descrption)
 FUNCTION Get_Part_Descrption (
    part_no_ IN NUMBER ) RETURN VARCHAR2;
+
+--@PoReadOnly(Get_Type)
+FUNCTION Get_Type (
+   part_no_ IN NUMBER ) RETURN VARCHAR2;
+
+--@PoReadOnly(Get_Type_Db)
+FUNCTION Get_Type_Db (
+   part_no_ IN NUMBER ) RETURN exm_part_tab.type%TYPE;
 
 --@PoReadOnly(Get)
 FUNCTION Get (

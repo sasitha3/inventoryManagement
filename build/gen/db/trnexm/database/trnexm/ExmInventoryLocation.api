@@ -23,6 +23,14 @@ lu_type_ CONSTANT VARCHAR2(25) := 'Entity';
 -------------------- PUBLIC DECLARATIONS ------------------------------------
 -----------------------------------------------------------------------------
 
+TYPE Public_Rec IS RECORD
+  (inventory_id                   EXM_INVENTORY_LOCATION_TAB.inventory_id%TYPE,
+   location_number                EXM_INVENTORY_LOCATION_TAB.location_number%TYPE,
+   "rowid"                        rowid,
+   rowversion                     EXM_INVENTORY_LOCATION_TAB.rowversion%TYPE,
+   rowkey                         EXM_INVENTORY_LOCATION_TAB.rowkey%TYPE,
+   description                    EXM_INVENTORY_LOCATION_TAB.description%TYPE);
+
 
 -----------------------------------------------------------------------------
 -------------------- BASE METHODS -------------------------------------------
@@ -36,6 +44,12 @@ lu_type_ CONSTANT VARCHAR2(25) := 'Entity';
 --
 -- Exists
 --   Same check as Exist, but returns a BOOLEAN value instead of exception.
+--
+-- Get_Description
+--   Fetches the Description attribute for a record.
+--
+-- Get
+--   Fetches a record containing the public attributes.
 --
 -- Get_Objkey
 --   Fetches the objkey attribute for a record.
@@ -90,6 +104,16 @@ PROCEDURE Exist (
 FUNCTION Exists (
    inventory_id_ IN NUMBER,
    location_number_ IN NUMBER ) RETURN BOOLEAN;
+
+--@PoReadOnly(Get_Description)
+FUNCTION Get_Description (
+   inventory_id_ IN NUMBER,
+   location_number_ IN NUMBER ) RETURN VARCHAR2;
+
+--@PoReadOnly(Get)
+FUNCTION Get (
+   inventory_id_ IN NUMBER,
+   location_number_ IN NUMBER ) RETURN Public_Rec;
 
 --@PoReadOnly(Get_Objkey)
 FUNCTION Get_Objkey (

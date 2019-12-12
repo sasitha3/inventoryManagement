@@ -18,6 +18,7 @@ layer Base;
 TABLE exm_part_tab IS (
    part_no                        NUMBER         NOT NULL,
    part_descrption                VARCHAR2(200)  NOT NULL,
+   type                           VARCHAR2(20)   NOT NULL,
    rowversion                     DATE           NOT NULL,
    rowkey                         VARCHAR2(50)   DEFAULT sys_guid() NOT NULL);
 

@@ -68,11 +68,23 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Forms\dlgReceiveItem.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\dlgReceiveItem.Designer.cs">
+      <DependentUpon>dlgReceiveItem.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\frm.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Forms\frm.Designer.cs">
       <DependentUpon>frm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\tbwInventoryLocation.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\tbwInventoryLocation.Designer.cs">
+      <DependentUpon>tbwInventoryLocation.cs</DependentUpon>
     </Compile>
     <Compile Include="Forms\tbwInventoryPartDetails.cs">
       <SubType>Form</SubType>
@@ -80,9 +92,33 @@
     <Compile Include="Forms\tbwInventoryPartDetails.Designer.cs">
       <DependentUpon>tbwInventoryPartDetails.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\tbwMainInventories.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\tbwMainInventories.Designer.cs">
+      <DependentUpon>tbwMainInventories.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\tbwParts.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\tbwParts.Designer.cs">
+      <DependentUpon>tbwParts.cs</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="Forms\dlgReceiveItem.resx">
+      <DependentUpon>dlgReceiveItem.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\tbwInventoryLocation.resx">
+      <DependentUpon>tbwInventoryLocation.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\tbwInventoryPartDetails.resx">
       <DependentUpon>tbwInventoryPartDetails.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\tbwMainInventories.resx">
+      <DependentUpon>tbwMainInventories.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\tbwParts.resx">
+      <DependentUpon>tbwParts.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>

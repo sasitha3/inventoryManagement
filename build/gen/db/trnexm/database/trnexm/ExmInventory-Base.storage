@@ -17,6 +17,7 @@ layer Base;
 
 TABLE exm_inventory_tab IS (
    inventory_id                   NUMBER         NOT NULL,
+   area_name                      VARCHAR2(100)  NOT NULL,
    rowversion                     DATE           NOT NULL,
    rowkey                         VARCHAR2(50)   DEFAULT sys_guid() NOT NULL);
 

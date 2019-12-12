@@ -19,7 +19,6 @@ TABLE exm_inventory_product_tab IS (
    location_number                NUMBER         NOT NULL,
    inventory_id                   NUMBER         NOT NULL,
    part_no                        NUMBER         NOT NULL,
-   key                            NUMBER         NOT NULL,
    quantity                       NUMBER         NOT NULL,
    rowversion                     DATE           NOT NULL,
    rowkey                         VARCHAR2(50)   DEFAULT sys_guid() NOT NULL);
@@ -28,8 +27,7 @@ TABLE exm_inventory_product_tab IS (
 PRIMARY KEY exm_inventory_product_pk IS exm_inventory_product_tab (
    location_number,
    inventory_id,
-   part_no,
-   key);
+   part_no);
 
 
 UNIQUE CONSTRAINT exm_inventory_product_rk IS exm_inventory_product_tab (

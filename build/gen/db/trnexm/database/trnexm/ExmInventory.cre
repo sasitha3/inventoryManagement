@@ -25,6 +25,7 @@ DECLARE
 BEGIN
    Database_SYS.Reset_Column_Table(columns_);
    Database_SYS.Set_Table_Column(columns_, 'INVENTORY_ID', 'NUMBER', 'N');
+   Database_SYS.Set_Table_Column(columns_, 'AREA_NAME', 'VARCHAR2(100)', 'N');
    Database_SYS.Set_Table_Column(columns_, 'ROWVERSION', 'DATE', 'N');
    Database_SYS.Set_Table_Column(columns_, 'ROWKEY', 'VARCHAR2(50)', 'N', 'sys_guid()');
    Database_SYS.Create_Or_Replace_Table(table_name_, columns_, '&IFSAPP_DATA', NULL, TRUE);
@@ -56,6 +57,18 @@ BEGIN
    Database_SYS.Reset_Column_Table(columns_);
    Database_SYS.Set_Table_Column(columns_, 'ROWKEY');
    Database_SYS.Create_Constraint(table_name_, index_name_, columns_, 'U', '&IFSAPP_INDEX', NULL, TRUE, TRUE);
+END;
+/
+
+
+-----------------------------------------------------------------------------
+-------------------- OTHER DEFINITIONS --------------------------------------
+-----------------------------------------------------------------------------
+
+DECLARE
+   sequence_name_ VARCHAR2(30) := 'PROD_INVENTORY_ID_SEQ';
+BEGIN
+   Database_SYS.Create_Sequence(sequence_name_, 'INCREMENT BY 1 START WITH 10000 NOCACHE', TRUE);
 END;
 /
 

@@ -17,14 +17,12 @@ layer Base;
 --TYPE Primary_Key_Rec IS RECORD
 --  (location_number                EXM_INVENTORY_PRODUCT_TAB.location_number%TYPE,
 --   inventory_id                   EXM_INVENTORY_PRODUCT_TAB.inventory_id%TYPE,
---   part_no                        EXM_INVENTORY_PRODUCT_TAB.part_no%TYPE,
---   key                            EXM_INVENTORY_PRODUCT_TAB.key%TYPE);
+--   part_no                        EXM_INVENTORY_PRODUCT_TAB.part_no%TYPE);
 
 TYPE Public_Rec IS RECORD
   (location_number                EXM_INVENTORY_PRODUCT_TAB.location_number%TYPE,
    inventory_id                   EXM_INVENTORY_PRODUCT_TAB.inventory_id%TYPE,
    part_no                        EXM_INVENTORY_PRODUCT_TAB.part_no%TYPE,
-   key                            EXM_INVENTORY_PRODUCT_TAB.key%TYPE,
    "rowid"                        rowid,
    rowversion                     EXM_INVENTORY_PRODUCT_TAB.rowversion%TYPE,
    rowkey                         EXM_INVENTORY_PRODUCT_TAB.rowkey%TYPE,
@@ -36,7 +34,6 @@ TYPE Indicator_Rec IS RECORD
   (location_number                BOOLEAN := FALSE,
    inventory_id                   BOOLEAN := FALSE,
    part_no                        BOOLEAN := FALSE,
-   key                            BOOLEAN := FALSE,
    quantity                       BOOLEAN := FALSE);
 
 -------------------- BASE METHODS -------------------------------------------
@@ -47,7 +44,6 @@ PROCEDURE Raise_Too_Many_Rows___ (
    location_number_ IN NUMBER,
    inventory_id_ IN NUMBER,
    part_no_ IN NUMBER,
-   key_ IN NUMBER,
    methodname_ IN VARCHAR2 )
 IS
 BEGIN
@@ -60,8 +56,7 @@ END Raise_Too_Many_Rows___;
 PROCEDURE Raise_Record_Not_Exist___ (
    location_number_ IN NUMBER,
    inventory_id_ IN NUMBER,
-   part_no_ IN NUMBER,
-   key_ IN NUMBER )
+   part_no_ IN NUMBER )
 IS
 BEGIN
    Error_SYS.Record_Not_Exist(Exm_Inventory_Product_API.lu_name_);
@@ -103,8 +98,7 @@ END Raise_Record_Modified___;
 PROCEDURE Raise_Record_Locked___ (
    location_number_ IN NUMBER,
    inventory_id_ IN NUMBER,
-   part_no_ IN NUMBER,
-   key_ IN NUMBER )
+   part_no_ IN NUMBER )
 IS
 BEGIN
    Error_SYS.Record_Locked(Exm_Inventory_Product_API.lu_name_);
@@ -116,8 +110,7 @@ END Raise_Record_Locked___;
 PROCEDURE Raise_Record_Removed___ (
    location_number_ IN NUMBER,
    inventory_id_ IN NUMBER,
-   part_no_ IN NUMBER,
-   key_ IN NUMBER )
+   part_no_ IN NUMBER )
 IS
 BEGIN
    Error_SYS.Record_Removed(Exm_Inventory_Product_API.lu_name_);
@@ -146,7 +139,7 @@ EXCEPTION
    WHEN row_locked THEN
       Error_SYS.Record_Locked(lu_name_);
    WHEN too_many_rows THEN
-      Raise_Too_Many_Rows___(NULL, NULL, NULL, NULL, 'Lock_By_Id___');
+      Raise_Too_Many_Rows___(NULL, NULL, NULL, 'Lock_By_Id___');
    WHEN no_data_found THEN
       BEGIN
          SELECT 1
@@ -158,7 +151,7 @@ EXCEPTION
          WHEN no_data_found THEN
             Error_SYS.Record_Removed(lu_name_);
          WHEN too_many_rows THEN
-            Raise_Too_Many_Rows___(NULL, NULL, NULL, NULL, 'Lock_By_Id___');
+            Raise_Too_Many_Rows___(NULL, NULL, NULL, 'Lock_By_Id___');
       END;
 END Lock_By_Id___;
 
@@ -169,8 +162,7 @@ END Lock_By_Id___;
 FUNCTION Lock_By_Keys___ (
    location_number_ IN NUMBER,
    inventory_id_ IN NUMBER,
-   part_no_ IN NUMBER,
-   key_ IN NUMBER) RETURN exm_inventory_product_tab%ROWTYPE
+   part_no_ IN NUMBER) RETURN exm_inventory_product_tab%ROWTYPE
 IS
    row_locked  EXCEPTION;
    PRAGMA      EXCEPTION_INIT(row_locked, -0054);
@@ -183,14 +175,13 @@ BEGIN
          WHERE location_number = location_number_
          AND   inventory_id = inventory_id_
          AND   part_no = part_no_
-         AND   key = key_
          FOR UPDATE;
       RETURN rec_;
    EXCEPTION
       WHEN no_data_found THEN
-         Raise_Record_Removed___(location_number_, inventory_id_, part_no_, key_);
+         Raise_Record_Removed___(location_number_, inventory_id_, part_no_);
       WHEN too_many_rows THEN
-         Raise_Too_Many_Rows___(location_number_, inventory_id_, part_no_, key_, 'Lock_By_Keys___');
+         Raise_Too_Many_Rows___(location_number_, inventory_id_, part_no_, 'Lock_By_Keys___');
    END;
 END Lock_By_Keys___;
 
@@ -201,8 +192,7 @@ END Lock_By_Keys___;
 FUNCTION Lock_By_Keys_Nowait___ (
    location_number_ IN NUMBER,
    inventory_id_ IN NUMBER,
-   part_no_ IN NUMBER,
-   key_ IN NUMBER) RETURN exm_inventory_product_tab%ROWTYPE
+   part_no_ IN NUMBER) RETURN exm_inventory_product_tab%ROWTYPE
 IS
    row_locked  EXCEPTION;
    PRAGMA      EXCEPTION_INIT(row_locked, -0054);
@@ -216,14 +206,13 @@ BEGIN
          WHERE location_number = location_number_
          AND   inventory_id = inventory_id_
          AND   part_no = part_no_
-         AND   key = key_
          FOR UPDATE NOWAIT;
       RETURN rec_;
    EXCEPTION
       WHEN row_locked THEN
          Error_SYS.Record_Locked(lu_name_);
       WHEN too_many_rows THEN
-         Raise_Too_Many_Rows___(location_number_, inventory_id_, part_no_, key_, 'Lock_By_Keys___');
+         Raise_Too_Many_Rows___(location_number_, inventory_id_, part_no_, 'Lock_By_Keys___');
       WHEN no_data_found THEN
          BEGIN
             SELECT 1
@@ -231,14 +220,13 @@ BEGIN
                FROM  exm_inventory_product_tab
                WHERE location_number = location_number_
                AND   inventory_id = inventory_id_
-               AND   part_no = part_no_
-               AND   key = key_;
+               AND   part_no = part_no_;
             Raise_Record_Modified___(rec_);
          EXCEPTION
             WHEN no_data_found THEN
-               Raise_Record_Removed___(location_number_, inventory_id_, part_no_, key_);
+               Raise_Record_Removed___(location_number_, inventory_id_, part_no_);
             WHEN too_many_rows THEN
-               Raise_Too_Many_Rows___(location_number_, inventory_id_, part_no_, key_, 'Lock_By_Keys___');
+               Raise_Too_Many_Rows___(location_number_, inventory_id_, part_no_, 'Lock_By_Keys___');
          END;
    END;
 END Lock_By_Keys_Nowait___;
@@ -260,7 +248,7 @@ EXCEPTION
    WHEN no_data_found THEN
       Error_SYS.Record_Removed(lu_name_);
    WHEN too_many_rows THEN
-      Raise_Too_Many_Rows___(NULL, NULL, NULL, NULL, 'Get_Object_By_Id___');
+      Raise_Too_Many_Rows___(NULL, NULL, NULL, 'Get_Object_By_Id___');
 END Get_Object_By_Id___;
 
 
@@ -270,8 +258,7 @@ END Get_Object_By_Id___;
 FUNCTION Get_Object_By_Keys___ (
    location_number_ IN NUMBER,
    inventory_id_ IN NUMBER,
-   part_no_ IN NUMBER,
-   key_ IN NUMBER ) RETURN exm_inventory_product_tab%ROWTYPE
+   part_no_ IN NUMBER ) RETURN exm_inventory_product_tab%ROWTYPE
 IS
    lu_rec_ exm_inventory_product_tab%ROWTYPE;
 BEGIN
@@ -280,14 +267,13 @@ BEGIN
       FROM  exm_inventory_product_tab
       WHERE location_number = location_number_
       AND   inventory_id = inventory_id_
-      AND   part_no = part_no_
-      AND   key = key_;
+      AND   part_no = part_no_;
    RETURN lu_rec_;
 EXCEPTION
    WHEN no_data_found THEN
       RETURN lu_rec_;
    WHEN too_many_rows THEN
-      Raise_Too_Many_Rows___(location_number_, inventory_id_, part_no_, key_, 'Get_Object_By_Keys___');
+      Raise_Too_Many_Rows___(location_number_, inventory_id_, part_no_, 'Get_Object_By_Keys___');
 END Get_Object_By_Keys___;
 
 
@@ -297,8 +283,7 @@ END Get_Object_By_Keys___;
 FUNCTION Check_Exist___ (
    location_number_ IN NUMBER,
    inventory_id_ IN NUMBER,
-   part_no_ IN NUMBER,
-   key_ IN NUMBER ) RETURN BOOLEAN
+   part_no_ IN NUMBER ) RETURN BOOLEAN
 IS
    dummy_ NUMBER;
 BEGIN
@@ -307,14 +292,13 @@ BEGIN
       FROM  exm_inventory_product_tab
       WHERE location_number = location_number_
       AND   inventory_id = inventory_id_
-      AND   part_no = part_no_
-      AND   key = key_;
+      AND   part_no = part_no_;
    RETURN TRUE;
 EXCEPTION
    WHEN no_data_found THEN
       RETURN FALSE;
    WHEN too_many_rows THEN
-      Raise_Too_Many_Rows___(location_number_, inventory_id_, part_no_, key_, 'Check_Exist___');
+      Raise_Too_Many_Rows___(location_number_, inventory_id_, part_no_, 'Check_Exist___');
 END Check_Exist___;
 
 
@@ -333,7 +317,7 @@ EXCEPTION
    WHEN no_data_found THEN
       objversion_ := NULL;
    WHEN too_many_rows THEN
-      Raise_Too_Many_Rows___(NULL, NULL, NULL, NULL, 'Get_Version_By_Id___');
+      Raise_Too_Many_Rows___(NULL, NULL, NULL, 'Get_Version_By_Id___');
 END Get_Version_By_Id___;
 
 
@@ -344,8 +328,7 @@ PROCEDURE Get_Id_Version_By_Keys___ (
    objversion_ IN OUT VARCHAR2,
    location_number_ IN NUMBER,
    inventory_id_ IN NUMBER,
-   part_no_ IN NUMBER,
-   key_ IN NUMBER )
+   part_no_ IN NUMBER )
 IS
 BEGIN
    SELECT rowid, to_char(rowversion,'YYYYMMDDHH24MISS')
@@ -353,14 +336,13 @@ BEGIN
       FROM  exm_inventory_product_tab
       WHERE location_number = location_number_
       AND   inventory_id = inventory_id_
-      AND   part_no = part_no_
-      AND   key = key_;
+      AND   part_no = part_no_;
 EXCEPTION
    WHEN no_data_found THEN
       objid_      := NULL;
       objversion_ := NULL;
    WHEN too_many_rows THEN
-      Raise_Too_Many_Rows___(location_number_, inventory_id_, part_no_, key_, 'Get_Id_Version_By_Keys___');
+      Raise_Too_Many_Rows___(location_number_, inventory_id_, part_no_, 'Get_Id_Version_By_Keys___');
 END Get_Id_Version_By_Keys___;
 
 
@@ -372,8 +354,8 @@ FUNCTION Get_Key_By_Rowkey (
 IS
    rec_ exm_inventory_product_tab%ROWTYPE;
 BEGIN
-   SELECT location_number, inventory_id, part_no, key
-      INTO  rec_.location_number, rec_.inventory_id, rec_.part_no, rec_.key
+   SELECT location_number, inventory_id, part_no
+      INTO  rec_.location_number, rec_.inventory_id, rec_.part_no
       FROM  exm_inventory_product_tab
       WHERE rowkey = rowkey_;
    RETURN rec_;
@@ -381,7 +363,7 @@ EXCEPTION
    WHEN no_data_found THEN
       RETURN rec_;
    WHEN too_many_rows THEN
-      Raise_Too_Many_Rows___(rec_.location_number, rec_.inventory_id, rec_.part_no, rec_.key, 'Get_Key_By_Rowkey');
+      Raise_Too_Many_Rows___(rec_.location_number, rec_.inventory_id, rec_.part_no, 'Get_Key_By_Rowkey');
 END Get_Key_By_Rowkey;
 
 
@@ -411,9 +393,6 @@ BEGIN
       WHEN ('PART_NO') THEN
          newrec_.part_no := Client_SYS.Attr_Value_To_Number(value_);
          indrec_.part_no := TRUE;
-      WHEN ('KEY') THEN
-         newrec_.key := Client_SYS.Attr_Value_To_Number(value_);
-         indrec_.key := TRUE;
       WHEN ('QUANTITY') THEN
          newrec_.quantity := Client_SYS.Attr_Value_To_Number(value_);
          indrec_.quantity := TRUE;
@@ -446,9 +425,6 @@ BEGIN
    IF (rec_.part_no IS NOT NULL) THEN
       Client_SYS.Add_To_Attr('PART_NO', rec_.part_no, attr_);
    END IF;
-   IF (rec_.key IS NOT NULL) THEN
-      Client_SYS.Add_To_Attr('KEY', rec_.key, attr_);
-   END IF;
    IF (rec_.quantity IS NOT NULL) THEN
       Client_SYS.Add_To_Attr('QUANTITY', rec_.quantity, attr_);
    END IF;
@@ -472,9 +448,6 @@ BEGIN
    IF (indrec_.part_no) THEN
       Client_SYS.Add_To_Attr('PART_NO', rec_.part_no, attr_);
    END IF;
-   IF (indrec_.key) THEN
-      Client_SYS.Add_To_Attr('KEY', rec_.key, attr_);
-   END IF;
    IF (indrec_.quantity) THEN
       Client_SYS.Add_To_Attr('QUANTITY', rec_.quantity, attr_);
    END IF;
@@ -495,7 +468,6 @@ BEGIN
    Client_SYS.Add_To_Attr('LOCATION_NUMBER', rec_.location_number, attr_);
    Client_SYS.Add_To_Attr('INVENTORY_ID', rec_.inventory_id, attr_);
    Client_SYS.Add_To_Attr('PART_NO', rec_.part_no, attr_);
-   Client_SYS.Add_To_Attr('KEY', rec_.key, attr_);
    Client_SYS.Add_To_Attr('QUANTITY', rec_.quantity, attr_);
    Client_SYS.Add_To_Attr('ROWKEY', rec_.rowkey, attr_);
    RETURN attr_;
@@ -523,7 +495,6 @@ BEGIN
    indrec_.location_number := rec_.location_number IS NOT NULL;
    indrec_.inventory_id := rec_.inventory_id IS NOT NULL;
    indrec_.part_no := rec_.part_no IS NOT NULL;
-   indrec_.key := rec_.key IS NOT NULL;
    indrec_.quantity := rec_.quantity IS NOT NULL;
    RETURN indrec_;
 END Get_Indicator_Rec___;
@@ -540,7 +511,6 @@ BEGIN
    indrec_.location_number := Validate_SYS.Is_Changed(oldrec_.location_number, newrec_.location_number);
    indrec_.inventory_id := Validate_SYS.Is_Changed(oldrec_.inventory_id, newrec_.inventory_id);
    indrec_.part_no := Validate_SYS.Is_Changed(oldrec_.part_no, newrec_.part_no);
-   indrec_.key := Validate_SYS.Is_Changed(oldrec_.key, newrec_.key);
    indrec_.quantity := Validate_SYS.Is_Changed(oldrec_.quantity, newrec_.quantity);
    RETURN indrec_;
 END Get_Indicator_Rec___;
@@ -569,7 +539,6 @@ BEGIN
    Error_SYS.Check_Not_Null(lu_name_, 'LOCATION_NUMBER', newrec_.location_number);
    Error_SYS.Check_Not_Null(lu_name_, 'INVENTORY_ID', newrec_.inventory_id);
    Error_SYS.Check_Not_Null(lu_name_, 'PART_NO', newrec_.part_no);
-   Error_SYS.Check_Not_Null(lu_name_, 'KEY', newrec_.key);
    Error_SYS.Check_Not_Null(lu_name_, 'QUANTITY', newrec_.quantity);
 END Check_Common___;
 
@@ -670,7 +639,6 @@ BEGIN
    Validate_SYS.Item_Update(lu_name_, 'LOCATION_NUMBER', indrec_.location_number);
    Validate_SYS.Item_Update(lu_name_, 'INVENTORY_ID', indrec_.inventory_id);
    Validate_SYS.Item_Update(lu_name_, 'PART_NO', indrec_.part_no);
-   Validate_SYS.Item_Update(lu_name_, 'KEY', indrec_.key);
    Check_Common___(oldrec_, newrec_, indrec_, attr_);
 END Check_Update___;
 
@@ -692,8 +660,7 @@ BEGIN
          SET ROW = newrec_
          WHERE location_number = newrec_.location_number
          AND   inventory_id = newrec_.inventory_id
-         AND   part_no = newrec_.part_no
-         AND   key = newrec_.key;
+         AND   part_no = newrec_.part_no;
    ELSE
       UPDATE exm_inventory_product_tab
          SET ROW = newrec_
@@ -727,9 +694,9 @@ IS
    oldrec_     exm_inventory_product_tab%ROWTYPE;
 BEGIN
    IF (lock_mode_wait_) THEN
-      oldrec_ := Lock_By_Keys___(newrec_.location_number, newrec_.inventory_id, newrec_.part_no, newrec_.key);
+      oldrec_ := Lock_By_Keys___(newrec_.location_number, newrec_.inventory_id, newrec_.part_no);
    ELSE
-      oldrec_ := Lock_By_Keys_Nowait___(newrec_.location_number, newrec_.inventory_id, newrec_.part_no, newrec_.key);
+      oldrec_ := Lock_By_Keys_Nowait___(newrec_.location_number, newrec_.inventory_id, newrec_.part_no);
    END IF;
    indrec_ := Get_Indicator_Rec___(oldrec_, newrec_);
    Check_Update___(oldrec_, newrec_, indrec_, attr_);
@@ -744,7 +711,7 @@ PROCEDURE Check_Delete___ (
 IS
    key_ VARCHAR2(2000);
 BEGIN
-   key_ := remrec_.location_number||'^'||remrec_.inventory_id||'^'||remrec_.part_no||'^'||remrec_.key||'^';
+   key_ := remrec_.location_number||'^'||remrec_.inventory_id||'^'||remrec_.part_no||'^';
    Reference_SYS.Check_Restricted_Delete(lu_name_, key_);
 END Check_Delete___;
 
@@ -757,7 +724,7 @@ PROCEDURE Delete___ (
 IS
    key_ VARCHAR2(2000);
 BEGIN
-   key_ := remrec_.location_number||'^'||remrec_.inventory_id||'^'||remrec_.part_no||'^'||remrec_.key||'^';
+   key_ := remrec_.location_number||'^'||remrec_.inventory_id||'^'||remrec_.part_no||'^';
    Reference_SYS.Do_Cascade_Delete(lu_name_, key_);
    IF (objid_ IS NOT NULL) THEN
       DELETE
@@ -768,8 +735,7 @@ BEGIN
          FROM  exm_inventory_product_tab
          WHERE location_number = remrec_.location_number
          AND   inventory_id = remrec_.inventory_id
-         AND   part_no = remrec_.part_no
-         AND   key = remrec_.key;
+         AND   part_no = remrec_.part_no;
    END IF;
 END Delete___;
 
@@ -794,9 +760,9 @@ IS
    oldrec_     exm_inventory_product_tab%ROWTYPE;
 BEGIN
    IF (lock_mode_wait_) THEN
-      oldrec_ := Lock_By_Keys___(remrec_.location_number, remrec_.inventory_id, remrec_.part_no, remrec_.key);
+      oldrec_ := Lock_By_Keys___(remrec_.location_number, remrec_.inventory_id, remrec_.part_no);
    ELSE
-      oldrec_ := Lock_By_Keys_Nowait___(remrec_.location_number, remrec_.inventory_id, remrec_.part_no, remrec_.key);
+      oldrec_ := Lock_By_Keys_Nowait___(remrec_.location_number, remrec_.inventory_id, remrec_.part_no);
    END IF;
    Check_Delete___(oldrec_);
    Delete___(NULL, oldrec_);
@@ -931,12 +897,11 @@ END Remove__;
 PROCEDURE Exist (
    location_number_ IN NUMBER,
    inventory_id_ IN NUMBER,
-   part_no_ IN NUMBER,
-   key_ IN NUMBER )
+   part_no_ IN NUMBER )
 IS
 BEGIN
-   IF (NOT Check_Exist___(location_number_, inventory_id_, part_no_, key_)) THEN
-      Raise_Record_Not_Exist___(location_number_, inventory_id_, part_no_, key_);
+   IF (NOT Check_Exist___(location_number_, inventory_id_, part_no_)) THEN
+      Raise_Record_Not_Exist___(location_number_, inventory_id_, part_no_);
    END IF;
 END Exist;
 
@@ -947,11 +912,10 @@ END Exist;
 FUNCTION Exists (
    location_number_ IN NUMBER,
    inventory_id_ IN NUMBER,
-   part_no_ IN NUMBER,
-   key_ IN NUMBER ) RETURN BOOLEAN
+   part_no_ IN NUMBER ) RETURN BOOLEAN
 IS
 BEGIN
-   RETURN Check_Exist___(location_number_, inventory_id_, part_no_, key_);
+   RETURN Check_Exist___(location_number_, inventory_id_, part_no_);
 END Exists;
 
 
@@ -961,12 +925,11 @@ END Exists;
 FUNCTION Get_Quantity (
    location_number_ IN NUMBER,
    inventory_id_ IN NUMBER,
-   part_no_ IN NUMBER,
-   key_ IN NUMBER ) RETURN NUMBER
+   part_no_ IN NUMBER ) RETURN NUMBER
 IS
    temp_ exm_inventory_product_tab.quantity%TYPE;
 BEGIN
-   IF (location_number_ IS NULL OR inventory_id_ IS NULL OR part_no_ IS NULL OR key_ IS NULL) THEN
+   IF (location_number_ IS NULL OR inventory_id_ IS NULL OR part_no_ IS NULL) THEN
       RETURN NULL;
    END IF;
    SELECT quantity
@@ -974,14 +937,13 @@ BEGIN
       FROM  exm_inventory_product_tab
       WHERE location_number = location_number_
       AND   inventory_id = inventory_id_
-      AND   part_no = part_no_
-      AND   key = key_;
+      AND   part_no = part_no_;
    RETURN temp_;
 EXCEPTION
    WHEN no_data_found THEN
       RETURN NULL;
    WHEN too_many_rows THEN
-      Raise_Too_Many_Rows___(location_number_, inventory_id_, part_no_, key_, 'Get_Quantity');
+      Raise_Too_Many_Rows___(location_number_, inventory_id_, part_no_, 'Get_Quantity');
 END Get_Quantity;
 
 
@@ -991,29 +953,27 @@ END Get_Quantity;
 FUNCTION Get (
    location_number_ IN NUMBER,
    inventory_id_ IN NUMBER,
-   part_no_ IN NUMBER,
-   key_ IN NUMBER ) RETURN Public_Rec
+   part_no_ IN NUMBER ) RETURN Public_Rec
 IS
    temp_ Public_Rec;
 BEGIN
-   IF (location_number_ IS NULL OR inventory_id_ IS NULL OR part_no_ IS NULL OR key_ IS NULL) THEN
+   IF (location_number_ IS NULL OR inventory_id_ IS NULL OR part_no_ IS NULL) THEN
       RETURN NULL;
    END IF;
-   SELECT location_number, inventory_id, part_no, key,
+   SELECT location_number, inventory_id, part_no,
           rowid, rowversion, rowkey,
           quantity
       INTO  temp_
       FROM  exm_inventory_product_tab
       WHERE location_number = location_number_
       AND   inventory_id = inventory_id_
-      AND   part_no = part_no_
-      AND   key = key_;
+      AND   part_no = part_no_;
    RETURN temp_;
 EXCEPTION
    WHEN no_data_found THEN
       RETURN NULL;
    WHEN too_many_rows THEN
-      Raise_Too_Many_Rows___(location_number_, inventory_id_, part_no_, key_, 'Get');
+      Raise_Too_Many_Rows___(location_number_, inventory_id_, part_no_, 'Get');
 END Get;
 
 
@@ -1023,12 +983,11 @@ END Get;
 FUNCTION Get_Objkey (
    location_number_ IN NUMBER,
    inventory_id_ IN NUMBER,
-   part_no_ IN NUMBER,
-   key_ IN NUMBER ) RETURN VARCHAR2
+   part_no_ IN NUMBER ) RETURN VARCHAR2
 IS
    rowkey_ exm_inventory_product_tab.rowkey%TYPE;
 BEGIN
-   IF (location_number_ IS NULL OR inventory_id_ IS NULL OR part_no_ IS NULL OR key_ IS NULL) THEN
+   IF (location_number_ IS NULL OR inventory_id_ IS NULL OR part_no_ IS NULL) THEN
       RETURN NULL;
    END IF;
    SELECT rowkey
@@ -1036,14 +995,13 @@ BEGIN
       FROM  exm_inventory_product_tab
       WHERE location_number = location_number_
       AND   inventory_id = inventory_id_
-      AND   part_no = part_no_
-      AND   key = key_;
+      AND   part_no = part_no_;
    RETURN rowkey_;
 EXCEPTION
    WHEN no_data_found THEN
       RETURN NULL;
    WHEN too_many_rows THEN
-      Raise_Too_Many_Rows___(location_number_, inventory_id_, part_no_, key_, 'Get_Objkey');
+      Raise_Too_Many_Rows___(location_number_, inventory_id_, part_no_, 'Get_Objkey');
 END Get_Objkey;
 
 -------------------- FOUNDATION1 METHODS ------------------------------------

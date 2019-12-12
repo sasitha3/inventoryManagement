@@ -13,9 +13,6 @@
          <Column ID="ExmInventoryProduct.EXM_INVENTORY_PRODUCT.PART_NO">
             <Text><![CDATA[Part No]]></Text>
          </Column>
-         <Column ID="ExmInventoryProduct.EXM_INVENTORY_PRODUCT.KEY">
-            <Text><![CDATA[Key]]></Text>
-         </Column>
          <Column ID="ExmInventoryProduct.EXM_INVENTORY_PRODUCT.QUANTITY">
             <Text><![CDATA[Quantity]]></Text>
          </Column>

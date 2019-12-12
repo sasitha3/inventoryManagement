@@ -21,6 +21,7 @@ PROMPT Creating EXM_INVENTORY view
 CREATE OR REPLACE VIEW EXM_INVENTORY AS
 SELECT
        inventory_id                   inventory_id,
+       area_name                      area_name,
        rowkey                         objkey,
        to_char(rowversion,'YYYYMMDDHH24MISS') objversion,
        rowid                          objid
@@ -31,7 +32,9 @@ COMMENT ON TABLE EXM_INVENTORY
    IS 'LU=ExmInventory^PROMPT=Exm Inventory^MODULE=TRNEXM^';
 
 COMMENT ON COLUMN EXM_INVENTORY.inventory_id
-   IS 'FLAGS=KMI-L^DATATYPE=NUMBER^PROMPT=Inventory Id^';
+   IS 'FLAGS=K-I-L^DATATYPE=NUMBER^PROMPT=Inventory Id^';
+COMMENT ON COLUMN EXM_INVENTORY.area_name
+   IS 'FLAGS=AMIUL^DATATYPE=STRING(100)^PROMPT=Area Name^';
 
 
 -----------------------------------------------------------------------------
@@ -47,7 +50,8 @@ CREATE OR REPLACE PACKAGE BODY Exm_Inventory_API IS
 -----------------------------------------------------------------------------
 
 TYPE Indicator_Rec IS RECORD
-  (inventory_id                   BOOLEAN := FALSE);
+  (inventory_id                   BOOLEAN := FALSE,
+   area_name                      BOOLEAN := FALSE);
 
 
 -----------------------------------------------------------------------------
@@ -253,6 +257,68 @@ IS
 BEGIN
    RETURN Base(inventory_id_);
 END Exists;
+
+
+--@IgnoreMissingSysinit
+FUNCTION Get_Area_Name (
+   inventory_id_ IN NUMBER ) RETURN VARCHAR2
+IS
+   
+   FUNCTION Base (
+      inventory_id_ IN NUMBER ) RETURN VARCHAR2
+   IS
+      temp_ exm_inventory_tab.area_name%TYPE;
+   BEGIN
+      IF (inventory_id_ IS NULL) THEN
+         RETURN NULL;
+      END IF;
+      SELECT area_name
+         INTO  temp_
+         FROM  exm_inventory_tab
+         WHERE inventory_id = inventory_id_;
+      RETURN temp_;
+   EXCEPTION
+      WHEN no_data_found THEN
+         RETURN NULL;
+      WHEN too_many_rows THEN
+         Raise_Too_Many_Rows___(inventory_id_, 'Get_Area_Name');
+   END Base;
+
+BEGIN
+   RETURN Base(inventory_id_);
+END Get_Area_Name;
+
+
+--@IgnoreMissingSysinit
+FUNCTION Get (
+   inventory_id_ IN NUMBER ) RETURN Public_Rec
+IS
+   
+   FUNCTION Base (
+      inventory_id_ IN NUMBER ) RETURN Public_Rec
+   IS
+      temp_ Public_Rec;
+   BEGIN
+      IF (inventory_id_ IS NULL) THEN
+         RETURN NULL;
+      END IF;
+      SELECT inventory_id,
+             rowid, rowversion, rowkey,
+             area_name
+         INTO  temp_
+         FROM  exm_inventory_tab
+         WHERE inventory_id = inventory_id_;
+      RETURN temp_;
+   EXCEPTION
+      WHEN no_data_found THEN
+         RETURN NULL;
+      WHEN too_many_rows THEN
+         Raise_Too_Many_Rows___(inventory_id_, 'Get');
+   END Base;
+
+BEGIN
+   RETURN Base(inventory_id_);
+END Get;
 
 
 --@IgnoreMissingSysinit
@@ -814,6 +880,9 @@ IS
          WHEN ('INVENTORY_ID') THEN
             newrec_.inventory_id := Client_SYS.Attr_Value_To_Number(value_);
             indrec_.inventory_id := TRUE;
+         WHEN ('AREA_NAME') THEN
+            newrec_.area_name := value_;
+            indrec_.area_name := TRUE;
          ELSE
             Client_SYS.Add_To_Attr(name_, value_, msg_);
          END CASE;
@@ -842,6 +911,9 @@ IS
       IF (rec_.inventory_id IS NOT NULL) THEN
          Client_SYS.Add_To_Attr('INVENTORY_ID', rec_.inventory_id, attr_);
       END IF;
+      IF (rec_.area_name IS NOT NULL) THEN
+         Client_SYS.Add_To_Attr('AREA_NAME', rec_.area_name, attr_);
+      END IF;
       RETURN attr_;
    END Base;
 
@@ -865,6 +937,9 @@ IS
       IF (indrec_.inventory_id) THEN
          Client_SYS.Add_To_Attr('INVENTORY_ID', rec_.inventory_id, attr_);
       END IF;
+      IF (indrec_.area_name) THEN
+         Client_SYS.Add_To_Attr('AREA_NAME', rec_.area_name, attr_);
+      END IF;
       RETURN attr_;
    END Base;
 
@@ -884,6 +959,7 @@ IS
    BEGIN
       Client_SYS.Clear_Attr(attr_);
       Client_SYS.Add_To_Attr('INVENTORY_ID', rec_.inventory_id, attr_);
+      Client_SYS.Add_To_Attr('AREA_NAME', rec_.area_name, attr_);
       Client_SYS.Add_To_Attr('ROWKEY', rec_.rowkey, attr_);
       RETURN attr_;
    END Base;
@@ -920,6 +996,7 @@ IS
       indrec_ Indicator_Rec;
    BEGIN
       indrec_.inventory_id := rec_.inventory_id IS NOT NULL;
+      indrec_.area_name := rec_.area_name IS NOT NULL;
       RETURN indrec_;
    END Base;
 
@@ -940,6 +1017,7 @@ IS
       indrec_ Indicator_Rec;
    BEGIN
       indrec_.inventory_id := Validate_SYS.Is_Changed(oldrec_.inventory_id, newrec_.inventory_id);
+      indrec_.area_name := Validate_SYS.Is_Changed(oldrec_.area_name, newrec_.area_name);
       RETURN indrec_;
    END Base;
 
@@ -962,7 +1040,7 @@ IS
       attr_   IN OUT NOCOPY VARCHAR2 )
    IS
    BEGIN
-      Error_SYS.Check_Not_Null(lu_name_, 'INVENTORY_ID', newrec_.inventory_id);
+      Error_SYS.Check_Not_Null(lu_name_, 'AREA_NAME', newrec_.area_name);
    END Base;
 
 BEGIN
@@ -1005,46 +1083,6 @@ IS
 BEGIN
    Base(newrec_, indrec_, attr_);
 END Check_Insert___;
-
-
-PROCEDURE Insert___ (
-   objid_      OUT    VARCHAR2,
-   objversion_ OUT    VARCHAR2,
-   newrec_     IN OUT NOCOPY exm_inventory_tab%ROWTYPE,
-   attr_       IN OUT NOCOPY VARCHAR2 )
-IS
-   
-   PROCEDURE Base (
-      objid_      OUT    VARCHAR2,
-      objversion_ OUT    VARCHAR2,
-      newrec_     IN OUT NOCOPY exm_inventory_tab%ROWTYPE,
-      attr_       IN OUT NOCOPY VARCHAR2 )
-   IS
-   BEGIN
-      newrec_.rowversion := sysdate;
-      newrec_.rowkey := sys_guid();
-      Client_SYS.Add_To_Attr('OBJKEY', newrec_.rowkey, attr_);
-      INSERT
-         INTO exm_inventory_tab
-         VALUES newrec_
-         RETURNING rowid INTO objid_;
-      objversion_ := to_char(newrec_.rowversion,'YYYYMMDDHH24MISS');
-   EXCEPTION
-      WHEN dup_val_on_index THEN
-         DECLARE
-            constraint_ VARCHAR2(4000) := Utility_SYS.Between_Str(Utility_SYS.Between_Str(sqlerrm, '(', ')'), '.', ')', 'FALSE');
-         BEGIN
-            IF (constraint_ = 'EXM_INVENTORY_RK') THEN
-               Error_SYS.Rowkey_Exist(lu_name_, newrec_.rowkey);
-            ELSE
-               Raise_Record_Exist___(newrec_);
-            END IF;
-         END;
-   END Base;
-
-BEGIN
-   Base(objid_, objversion_, newrec_, attr_);
-END Insert___;
 
 
 PROCEDURE Prepare_New___ (
@@ -1275,6 +1313,65 @@ IS
 BEGIN
    Base(remrec_, lock_mode_wait_);
 END Remove___;
+
+-----------------------------------------------------------------------------
+-------------------- LU SPECIFIC IMPLEMENTATION METHODS ---------------------
+-----------------------------------------------------------------------------
+
+PROCEDURE Insert___ (
+   objid_      OUT    VARCHAR2,
+   objversion_ OUT    VARCHAR2,
+   newrec_     IN OUT NOCOPY exm_inventory_tab%ROWTYPE,
+   attr_       IN OUT NOCOPY VARCHAR2 )
+IS
+   
+   PROCEDURE Base (
+      objid_      OUT    VARCHAR2,
+      objversion_ OUT    VARCHAR2,
+      newrec_     IN OUT NOCOPY exm_inventory_tab%ROWTYPE,
+      attr_       IN OUT NOCOPY VARCHAR2 )
+   IS
+   BEGIN
+      newrec_.rowversion := sysdate;
+      newrec_.rowkey := sys_guid();
+      Client_SYS.Add_To_Attr('OBJKEY', newrec_.rowkey, attr_);
+      INSERT
+         INTO exm_inventory_tab
+         VALUES newrec_
+         RETURNING rowid INTO objid_;
+      objversion_ := to_char(newrec_.rowversion,'YYYYMMDDHH24MISS');
+   EXCEPTION
+      WHEN dup_val_on_index THEN
+         DECLARE
+            constraint_ VARCHAR2(4000) := Utility_SYS.Between_Str(Utility_SYS.Between_Str(sqlerrm, '(', ')'), '.', ')', 'FALSE');
+         BEGIN
+            IF (constraint_ = 'EXM_INVENTORY_RK') THEN
+               Error_SYS.Rowkey_Exist(lu_name_, newrec_.rowkey);
+            ELSE
+               Raise_Record_Exist___(newrec_);
+            END IF;
+         END;
+   END Base;
+
+   PROCEDURE Core (
+      objid_      OUT    VARCHAR2,
+      objversion_ OUT    VARCHAR2,
+      newrec_     IN OUT NOCOPY exm_inventory_tab%ROWTYPE,
+      attr_       IN OUT NOCOPY VARCHAR2 )
+   IS
+      inventory_id_ NUMBER;
+   BEGIN
+      --Add pre-processing code here
+      inventory_id_ := PROD_INVENTORY_ID_SEQ.NEXTVAL;
+      newrec_.inventory_id := inventory_id_;
+      Base(objid_, objversion_, newrec_, attr_);
+      Client_SYS.Add_To_Attr('INVENTORY_ID', inventory_id_, attr_);
+      --Add post-processing code here
+   END Core;
+
+BEGIN
+   Core(objid_, objversion_, newrec_, attr_);
+END Insert___;
 
 -----------------------------------------------------------------------------
 -------------------- FOUNDATION1 METHODS ------------------------------------

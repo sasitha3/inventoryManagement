@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LogicalUnits version="1.0" module="TRNEXM" type="LU" layer="Core">
+   <LogicalUnit name="PartType">
+      <Text><![CDATA[Part Type]]></Text>
+      <IidElement ID="MANUFACTURED">
+         <Position>1</Position>
+         <Text><![CDATA[Manufactured]]></Text>
+      </IidElement>
+      <IidElement ID="PURCHASED">
+         <Position>2</Position>
+         <Text><![CDATA[Purchased]]></Text>
+      </IidElement>
+   </LogicalUnit>
+</LogicalUnits>

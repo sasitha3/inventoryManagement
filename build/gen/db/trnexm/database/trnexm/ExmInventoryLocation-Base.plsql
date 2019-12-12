@@ -18,11 +18,20 @@ layer Base;
 --  (inventory_id                   EXM_INVENTORY_LOCATION_TAB.inventory_id%TYPE,
 --   location_number                EXM_INVENTORY_LOCATION_TAB.location_number%TYPE);
 
+TYPE Public_Rec IS RECORD
+  (inventory_id                   EXM_INVENTORY_LOCATION_TAB.inventory_id%TYPE,
+   location_number                EXM_INVENTORY_LOCATION_TAB.location_number%TYPE,
+   "rowid"                        rowid,
+   rowversion                     EXM_INVENTORY_LOCATION_TAB.rowversion%TYPE,
+   rowkey                         EXM_INVENTORY_LOCATION_TAB.rowkey%TYPE,
+   description                    EXM_INVENTORY_LOCATION_TAB.description%TYPE);
+
 -------------------- PRIVATE DECLARATIONS -----------------------------------
 
 TYPE Indicator_Rec IS RECORD
   (inventory_id                   BOOLEAN := FALSE,
-   location_number                BOOLEAN := FALSE);
+   location_number                BOOLEAN := FALSE,
+   description                    BOOLEAN := FALSE);
 
 -------------------- BASE METHODS -------------------------------------------
 
@@ -363,6 +372,9 @@ BEGIN
       WHEN ('LOCATION_NUMBER') THEN
          newrec_.location_number := Client_SYS.Attr_Value_To_Number(value_);
          indrec_.location_number := TRUE;
+      WHEN ('DESCRIPTION') THEN
+         newrec_.description := value_;
+         indrec_.description := TRUE;
       ELSE
          Client_SYS.Add_To_Attr(name_, value_, msg_);
       END CASE;
@@ -389,6 +401,9 @@ BEGIN
    IF (rec_.location_number IS NOT NULL) THEN
       Client_SYS.Add_To_Attr('LOCATION_NUMBER', rec_.location_number, attr_);
    END IF;
+   IF (rec_.description IS NOT NULL) THEN
+      Client_SYS.Add_To_Attr('DESCRIPTION', rec_.description, attr_);
+   END IF;
    RETURN attr_;
 END Pack___;
 
@@ -406,6 +421,9 @@ BEGIN
    IF (indrec_.location_number) THEN
       Client_SYS.Add_To_Attr('LOCATION_NUMBER', rec_.location_number, attr_);
    END IF;
+   IF (indrec_.description) THEN
+      Client_SYS.Add_To_Attr('DESCRIPTION', rec_.description, attr_);
+   END IF;
    RETURN attr_;
 END Pack___;
 
@@ -422,6 +440,7 @@ BEGIN
    Client_SYS.Clear_Attr(attr_);
    Client_SYS.Add_To_Attr('INVENTORY_ID', rec_.inventory_id, attr_);
    Client_SYS.Add_To_Attr('LOCATION_NUMBER', rec_.location_number, attr_);
+   Client_SYS.Add_To_Attr('DESCRIPTION', rec_.description, attr_);
    Client_SYS.Add_To_Attr('ROWKEY', rec_.rowkey, attr_);
    RETURN attr_;
 END Pack_Table___;
@@ -447,6 +466,7 @@ IS
 BEGIN
    indrec_.inventory_id := rec_.inventory_id IS NOT NULL;
    indrec_.location_number := rec_.location_number IS NOT NULL;
+   indrec_.description := rec_.description IS NOT NULL;
    RETURN indrec_;
 END Get_Indicator_Rec___;
 
@@ -461,6 +481,7 @@ IS
 BEGIN
    indrec_.inventory_id := Validate_SYS.Is_Changed(oldrec_.inventory_id, newrec_.inventory_id);
    indrec_.location_number := Validate_SYS.Is_Changed(oldrec_.location_number, newrec_.location_number);
+   indrec_.description := Validate_SYS.Is_Changed(oldrec_.description, newrec_.description);
    RETURN indrec_;
 END Get_Indicator_Rec___;
 
@@ -481,6 +502,7 @@ BEGIN
    END IF;
    Error_SYS.Check_Not_Null(lu_name_, 'INVENTORY_ID', newrec_.inventory_id);
    Error_SYS.Check_Not_Null(lu_name_, 'LOCATION_NUMBER', newrec_.location_number);
+   Error_SYS.Check_Not_Null(lu_name_, 'DESCRIPTION', newrec_.description);
 END Check_Common___;
 
 
@@ -854,6 +876,59 @@ BEGIN
    RETURN Check_Exist___(inventory_id_, location_number_);
 END Exists;
 
+
+-- Get_Description
+--   Fetches the Description attribute for a record.
+@UncheckedAccess
+FUNCTION Get_Description (
+   inventory_id_ IN NUMBER,
+   location_number_ IN NUMBER ) RETURN VARCHAR2
+IS
+   temp_ exm_inventory_location_tab.description%TYPE;
+BEGIN
+   IF (inventory_id_ IS NULL OR location_number_ IS NULL) THEN
+      RETURN NULL;
+   END IF;
+   SELECT description
+      INTO  temp_
+      FROM  exm_inventory_location_tab
+      WHERE inventory_id = inventory_id_
+      AND   location_number = location_number_;
+   RETURN temp_;
+EXCEPTION
+   WHEN no_data_found THEN
+      RETURN NULL;
+   WHEN too_many_rows THEN
+      Raise_Too_Many_Rows___(inventory_id_, location_number_, 'Get_Description');
+END Get_Description;
+
+
+-- Get
+--   Fetches a record containing the public attributes.
+@UncheckedAccess
+FUNCTION Get (
+   inventory_id_ IN NUMBER,
+   location_number_ IN NUMBER ) RETURN Public_Rec
+IS
+   temp_ Public_Rec;
+BEGIN
+   IF (inventory_id_ IS NULL OR location_number_ IS NULL) THEN
+      RETURN NULL;
+   END IF;
+   SELECT inventory_id, location_number,
+          rowid, rowversion, rowkey,
+          description
+      INTO  temp_
+      FROM  exm_inventory_location_tab
+      WHERE inventory_id = inventory_id_
+      AND   location_number = location_number_;
+   RETURN temp_;
+EXCEPTION
+   WHEN no_data_found THEN
+      RETURN NULL;
+   WHEN too_many_rows THEN
+      Raise_Too_Many_Rows___(inventory_id_, location_number_, 'Get');
+END Get;
 
 
 -- Get_Objkey

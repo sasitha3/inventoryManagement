@@ -23,6 +23,15 @@ COLUMN Part_Descrption IS
    Flags      = 'AMIUL'
    Datatype   = 'STRING(200)'
    Prompt     = 'Part Descrption';
+COLUMN Type IS
+   Flags      = 'AMIUL'
+   Datatype   = 'STRING(200)'
+   Enumeration= 'PartyType'
+   Prompt     = 'Type';
+COLUMN Type_Db IS
+   Flags      = 'A----'
+   Datatype   = 'STRING(20)'
+   Prompt     = 'Type';
 
 -------------------- PUBLIC VIEW DEFINITIONS --------------------------------
 
@@ -34,6 +43,8 @@ VIEW Exm_Part IS
 SELECT
        part_no                        part_no,
        part_descrption                part_descrption,
+       Party_Type_API.Decode(type) type,
+       type                           type_db,
        rowkey                         objkey,
        to_char(rowversion,'YYYYMMDDHH24MISS') objversion,
        rowid                          objid
