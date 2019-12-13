@@ -87,6 +87,8 @@ namespace Ifs.Application.Trnexm
             // commandOk
             // 
             resources.ApplyResources(this.commandOk, "commandOk");
+            this.commandOk.Enabled = false;
+            this.commandOk.EventCategory = Ifs.Fnd.Windows.Forms.CommandEventCategory.Focus;
             this.commandOk.Name = "commandOk";
             this.commandOk.Execute += new Ifs.Fnd.Windows.Forms.FndCommandExecuteHandler(this.commandOk_Execute);
             this.commandOk.Inquire += new Ifs.Fnd.Windows.Forms.FndCommandInquireHandler(this.commandOk_Inquire);
@@ -149,6 +151,7 @@ namespace Ifs.Application.Trnexm
             // 
             // dfnInventoryId
             // 
+            this.dfnInventoryId.DataType = PPJ.Runtime.Windows.DataType.Number;
             resources.ApplyResources(this.dfnInventoryId, "dfnInventoryId");
             this.dfnInventoryId.Name = "dfnInventoryId";
             this.dfnInventoryId.NamedProperties.Put("FieldFlags", "260");
@@ -156,6 +159,7 @@ namespace Ifs.Application.Trnexm
             // 
             // dfnInventoryLocationId
             // 
+            this.dfnInventoryLocationId.DataType = PPJ.Runtime.Windows.DataType.Number;
             resources.ApplyResources(this.dfnInventoryLocationId, "dfnInventoryLocationId");
             this.dfnInventoryLocationId.Name = "dfnInventoryLocationId";
             this.dfnInventoryLocationId.NamedProperties.Put("FieldFlags", "260");
@@ -163,6 +167,7 @@ namespace Ifs.Application.Trnexm
             // 
             // dfnPartId
             // 
+            this.dfnPartId.DataType = PPJ.Runtime.Windows.DataType.Number;
             resources.ApplyResources(this.dfnPartId, "dfnPartId");
             this.dfnPartId.Name = "dfnPartId";
             this.dfnPartId.NamedProperties.Put("FieldFlags", "260");
@@ -171,12 +176,14 @@ namespace Ifs.Application.Trnexm
             // 
             // dfnQtyAvailable
             // 
+            this.dfnQtyAvailable.DataType = PPJ.Runtime.Windows.DataType.Number;
             resources.ApplyResources(this.dfnQtyAvailable, "dfnQtyAvailable");
             this.dfnQtyAvailable.Name = "dfnQtyAvailable";
             this.dfnQtyAvailable.NamedProperties.Put("FieldFlags", "260");
             // 
             // dfnAddQty
             // 
+            this.dfnAddQty.DataType = PPJ.Runtime.Windows.DataType.Number;
             resources.ApplyResources(this.dfnAddQty, "dfnAddQty");
             this.dfnAddQty.Name = "dfnAddQty";
             this.dfnAddQty.NamedProperties.Put("FieldFlags", "260");

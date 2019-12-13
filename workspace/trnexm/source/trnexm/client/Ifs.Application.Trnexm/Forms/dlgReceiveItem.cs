@@ -142,6 +142,15 @@ namespace Ifs.Application.Trnexm
             // Dialog class have AcceptButton set to run this logic if the user ends the dialog using the Return button.
             // PPJ dialog close trough Sal.EndDialog so we set DialogResult to prevent the dialog from closing premature.
             DialogResult = DialogResult.None;
+            SalBoolean bOK = false;
+            SalString stmt = "";
+
+            stmt = @"&AO.Exm_Inventory_Product_API.Add_prudct(
+                                                                    :i_hWndFrame.dlgReceiveItem.dfnInventoryLocationId   IN,
+                                                                    :i_hWndFrame.dlgReceiveItem.dfnInventoryId           IN,
+                                                                    :i_hWndFrame.dlgReceiveItem.dfnPartId                IN,
+                                                                    :i_hWndFrame.dlgReceiveItem.dfnAddQty                IN)";
+            bOK = DbPLSQLTransaction(cSessionManager.c_hSql, stmt);
 
             Sal.EndDialog(this, Sys.IDOK);
         }
