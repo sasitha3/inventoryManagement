@@ -8,4 +8,4 @@ C:\Users\sapdlk\Documents\NetBeansProjects\TrnExmProject\workspace\exmcln\source
 C:\Users\sapdlk\Documents\NetBeansProjects\TrnExmProject\workspace\exmcln\source\exmcln\client\Ifs.Application.Exmcln\obj\Debug\Ifs.Application.Exmcln.tbwItemDetails.resources
 C:\Users\sapdlk\Documents\NetBeansProjects\TrnExmProject\workspace\exmcln\source\exmcln\client\Ifs.Application.Exmcln\obj\Debug\Ifs.Application.Exmcln.tbwServices.resources
 C:\Users\sapdlk\Documents\NetBeansProjects\TrnExmProject\workspace\exmcln\source\exmcln\client\Ifs.Application.Exmcln\obj\Debug\Ifs.Application.Exmcln.csprojResolveAssemblyReference.cache
-C:\Users\sapdlk\Documents\NetBeansProjects\TrnExmProject\workspace\exmcln\source\exmcln\client\Ifs.Application.Exmcln\obj\Debug\Ifs.Application.Exmcln.tbwItemDetailServices.resources
+C:\Users\sapdlk\Documents\NetBeansProjects\TrnExmProject\workspace\exmcln\source\exmcln\client\Ifs.Application.Exmcln\obj\Debug\Ifs.Application.Exmcln.tbwServiceItemDetails.resources

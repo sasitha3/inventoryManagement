@@ -1,6 +1,6 @@
 -----------------------------------------------------------------------------
 --
---  Logical unit: CusOrderDetails
+--  Logical unit: ServiceItemDetails
 --  Component:    EXMCLN
 --
 --  Template:     3.0
@@ -15,22 +15,21 @@ layer Base;
 
 -------------------- TABLE DEFINITIONS --------------------------------------
 
-TABLE cus_order_details_tab IS (
+TABLE service_item_details_tab IS (
    order_no                       NUMBER         NOT NULL,
-   order_date                     DATE           NOT NULL,
-   customer_name                  VARCHAR2(100)  NOT NULL,
-   del_address                    VARCHAR2(2000) NOT NULL,
-   internal_cus                   VARCHAR2(20)   NOT NULL,
+   item_no                        NUMBER         NOT NULL,
+   quantity                       NUMBER         NOT NULL,
+   price                          NUMBER         NOT NULL,
    rowversion                     DATE           NOT NULL,
-   rowkey                         VARCHAR2(50)   DEFAULT sys_guid() NOT NULL,
-   rowstate                       VARCHAR2(20)   NOT NULL);
+   rowkey                         VARCHAR2(50)   DEFAULT sys_guid() NOT NULL);
 
 
-PRIMARY KEY cus_order_details_pk IS cus_order_details_tab (
-   order_no);
+PRIMARY KEY service_item_details_pk IS service_item_details_tab (
+   order_no,
+   item_no);
 
 
-UNIQUE CONSTRAINT cus_order_details_rk IS cus_order_details_tab (
+UNIQUE CONSTRAINT service_item_details_rk IS service_item_details_tab (
    rowkey);
 
 -------------------- OTHER DEFINITIONS --------------------------------------

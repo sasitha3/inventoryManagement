@@ -1,7 +1,7 @@
 -----------------------------------------------------------------------------
 --
---  Logical unit: ItemDetail
---  Type:         EntityWithState
+--  Logical unit: ServiceItemDetails
+--  Type:         Entity
 --  Component:    EXMCLN
 --
 --  Template:     3.0
@@ -11,38 +11,26 @@
 --        overwritten next time the corresponding model is saved.
 -----------------------------------------------------------------------------
 
------------------------------------------------------------------------------
--------------------- FOUNDATION1 PRE-PROCESSING -----------------------------
------------------------------------------------------------------------------
+PROMPT Creating Service_Item_Details_API specification
 
-PROMPT Creating Item_Detail_API context
-
-BEGIN
-   Installation_SYS.Create_Context('ItemDetail_CTX', 'DOMAIN_SYS', NULL, 'GLOBALLY', TRUE);
-END;
-/
-
-PROMPT Creating Item_Detail_API specification
-
-CREATE OR REPLACE PACKAGE Item_Detail_API IS
+CREATE OR REPLACE PACKAGE Service_Item_Details_API IS
 
 module_  CONSTANT VARCHAR2(25) := 'EXMCLN';
-lu_name_ CONSTANT VARCHAR2(25) := 'ItemDetail';
-lu_type_ CONSTANT VARCHAR2(25) := 'EntityWithState';
+lu_name_ CONSTANT VARCHAR2(25) := 'ServiceItemDetails';
+lu_type_ CONSTANT VARCHAR2(25) := 'Entity';
 
 -----------------------------------------------------------------------------
 -------------------- PUBLIC DECLARATIONS ------------------------------------
 -----------------------------------------------------------------------------
 
 TYPE Public_Rec IS RECORD
-  (order_no                       ITEM_DETAIL_TAB.order_no%TYPE,
-   item_no                        ITEM_DETAIL_TAB.item_no%TYPE,
+  (order_no                       SERVICE_ITEM_DETAILS_TAB.order_no%TYPE,
+   item_no                        SERVICE_ITEM_DETAILS_TAB.item_no%TYPE,
    "rowid"                        rowid,
-   rowversion                     ITEM_DETAIL_TAB.rowversion%TYPE,
-   rowkey                         ITEM_DETAIL_TAB.rowkey%TYPE,
-   rowstate                       ITEM_DETAIL_TAB.rowstate%TYPE,
-   quantity                       ITEM_DETAIL_TAB.quantity%TYPE,
-   price                          ITEM_DETAIL_TAB.price%TYPE);
+   rowversion                     SERVICE_ITEM_DETAILS_TAB.rowversion%TYPE,
+   rowkey                         SERVICE_ITEM_DETAILS_TAB.rowkey%TYPE,
+   quantity                       SERVICE_ITEM_DETAILS_TAB.quantity%TYPE,
+   price                          SERVICE_ITEM_DETAILS_TAB.price%TYPE);
 
 
 -----------------------------------------------------------------------------
@@ -109,7 +97,7 @@ TYPE Public_Rec IS RECORD
 
 --@PoReadOnly(Get_Key_By_Rowkey)
 FUNCTION Get_Key_By_Rowkey (
-   rowkey_ IN VARCHAR2 ) RETURN item_detail_tab%ROWTYPE;
+   rowkey_ IN VARCHAR2 ) RETURN service_item_details_tab%ROWTYPE;
 
 --@PoReadOnly(Exist)
 PROCEDURE Exist (
@@ -168,98 +156,16 @@ PROCEDURE Remove__ (
    action_     IN  VARCHAR2 );
 
 -----------------------------------------------------------------------------
--------------------- FINITE STATE MACHINE -----------------------------------
------------------------------------------------------------------------------
--- Finite_State_Init_
---   Runs the initial start event for a basedOn child entity.
---
--- Finite_State_Decode__
---   Returns the client equivalent for any database representation of
---   a state name = objstate.
---
--- Finite_State_Encode__
---   Returns the database equivalent for any client representation of
---   a state name = state.
---
--- Enumerate_States__
---   Returns a list of all possible finite states in client terminology.
---
--- Enumerate_States_Db__
---   Returns a list of all possible finite states in database terminology.
---
--- Finite_State_Events__
---   Returns a list of allowed events for a given state
---   NOTE! Regardless of conditions if not otherwize encoded
---
--- Enumerate_Events__
---   Returns a list of all possible events.
---
--- Cancel__
---   Executes the Cancel event logic as defined in the state machine.
---
--- Deliver__
---   Executes the Deliver event logic as defined in the state machine.
------------------------------------------------------------------------------
-
-PROCEDURE Finite_State_Init_ (
-   rec_  IN OUT NOCOPY item_detail_tab%ROWTYPE,
-   attr_ IN OUT NOCOPY VARCHAR2 );
-
---@PoReadOnly(Finite_State_Decode__)
-FUNCTION Finite_State_Decode__ (
-   db_state_ IN VARCHAR2 ) RETURN VARCHAR2;
-
---@PoReadOnly(Finite_State_Encode__)
-FUNCTION Finite_State_Encode__ (
-   client_state_ IN VARCHAR2 ) RETURN VARCHAR2;
-
---@PoReadOnly(Enumerate_States__)
-PROCEDURE Enumerate_States__ (
-   client_values_ OUT VARCHAR2 );
-
---@PoReadOnly(Enumerate_States_Db__)
-PROCEDURE Enumerate_States_Db__ (
-   db_values_ OUT VARCHAR2 );
-
---@PoReadOnly(Finite_State_Events__)
-FUNCTION Finite_State_Events__ (
-   db_state_ IN VARCHAR2 ) RETURN VARCHAR2;
-
---@PoReadOnly(Enumerate_Events__)
-PROCEDURE Enumerate_Events__ (
-   db_events_ OUT VARCHAR2 );
-
-PROCEDURE Cancel__ (
-   info_       OUT    VARCHAR2,
-   objid_      IN     VARCHAR2,
-   objversion_ IN OUT NOCOPY VARCHAR2,
-   attr_       IN OUT NOCOPY VARCHAR2,
-   action_     IN     VARCHAR2 );
-
-PROCEDURE Deliver__ (
-   info_       OUT    VARCHAR2,
-   objid_      IN     VARCHAR2,
-   objversion_ IN OUT NOCOPY VARCHAR2,
-   attr_       IN OUT NOCOPY VARCHAR2,
-   action_     IN     VARCHAR2 );
-
------------------------------------------------------------------------------
 -------------------- FOUNDATION1 METHODS ------------------------------------
 -----------------------------------------------------------------------------
--- Language_Refreshed
---   Framework method that updates translations to a new language.
---
 -- Init
 --   Framework method that initializes this package.
 -----------------------------------------------------------------------------
 
---@PoReadOnly(Language_Refreshed)
-PROCEDURE Language_Refreshed;
-
 --@PoReadOnly(Init)
 PROCEDURE Init;
 
-END Item_Detail_API;
+END Service_Item_Details_API;
 /
 SHOW ERROR
 

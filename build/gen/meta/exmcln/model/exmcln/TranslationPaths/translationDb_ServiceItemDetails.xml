@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LogicalUnits version="1.0" module="EXMCLN" type="LU" layer="Core">
+   <LogicalUnit name="ServiceItemDetails">
+      <Text><![CDATA[Service Item Details]]></Text>
+      <View ID="ServiceItemDetails.SERVICE_ITEM_DETAILS">
+         <Text><![CDATA[Service Item Details]]></Text>
+         <Column ID="ServiceItemDetails.SERVICE_ITEM_DETAILS.ORDER_NO">
+            <Text><![CDATA[Order No]]></Text>
+         </Column>
+         <Column ID="ServiceItemDetails.SERVICE_ITEM_DETAILS.ITEM_NO">
+            <Text><![CDATA[Item No]]></Text>
+         </Column>
+         <Column ID="ServiceItemDetails.SERVICE_ITEM_DETAILS.QUANTITY">
+            <Text><![CDATA[Quantity]]></Text>
+         </Column>
+         <Column ID="ServiceItemDetails.SERVICE_ITEM_DETAILS.PRICE">
+            <Text><![CDATA[Price]]></Text>
+         </Column>
+      </View>
+   </LogicalUnit>
+</LogicalUnits>

@@ -1,6 +1,6 @@
 -----------------------------------------------------------------------------
 --
---  Logical unit: ItemDetail
+--  Logical unit: ServiceItemDetails
 --  Component:    EXMCLN
 --
 --  Template:     3.0
@@ -24,7 +24,7 @@ COLUMN Item_No IS
    Flags      = 'KMI-L'
    Datatype   = 'NUMBER'
    Prompt     = 'Item No'
-   Ref        = 'ExmPart';
+   Ref        = 'Service';
 COLUMN Quantity IS
    Flags      = 'AMIUL'
    Datatype   = 'NUMBER'
@@ -33,27 +33,20 @@ COLUMN Price IS
    Flags      = 'AMIUL'
    Datatype   = 'NUMBER'
    Prompt     = 'Price';
-COLUMN State IS
-   Flags      = 'A---L'
-   Datatype   = 'STRING(20)'
-   Prompt     = 'State';
 
 -------------------- PUBLIC VIEW DEFINITIONS --------------------------------
 
 
 -------------------- PRIVATE VIEW DEFINITIONS -------------------------------
 
-VIEW Item_Detail IS
-   Prompt     = 'Item Detail'
+VIEW Service_Item_Details IS
+   Prompt     = 'Service Item Details'
 SELECT
        order_no                       order_no,
        item_no                        item_no,
        quantity                       quantity,
        price                          price,
-       rowstate                       objstate,
-       Item_Detail_API.Finite_State_Events__(rowstate)                     objevents,
-       Item_Detail_API.Finite_State_Decode__(rowstate)                         state,
        rowkey                         objkey,
        to_char(rowversion,'YYYYMMDDHH24MISS') objversion,
        rowid                          objid
-FROM   item_detail_tab;
+FROM   service_item_details_tab;

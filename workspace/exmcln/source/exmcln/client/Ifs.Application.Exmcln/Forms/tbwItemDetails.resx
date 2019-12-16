@@ -149,7 +149,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;__colObjversion.ZOrder" xml:space="preserve">
-    <value>6</value>
+    <value>7</value>
   </data>
   <data name="colnOrderNo.Title" xml:space="preserve">
     <value>Order No</value>
@@ -211,12 +211,27 @@
   <data name="&gt;&gt;colnQuantity.ZOrder" xml:space="preserve">
     <value>5</value>
   </data>
+  <data name="colsState.Title" xml:space="preserve">
+    <value>State</value>
+  </data>
+  <data name="&gt;&gt;colsState.Name" xml:space="preserve">
+    <value>colsState</value>
+  </data>
+  <data name="&gt;&gt;colsState.Type" xml:space="preserve">
+    <value>Ifs.Fnd.ApplicationForms.cColumn, Ifs.Fnd.ApplicationForms, Version=4.52.9.0, Culture=neutral, PublicKeyToken=ff90f512e10aef0d</value>
+  </data>
+  <data name="&gt;&gt;colsState.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;colsState.ZOrder" xml:space="preserve">
+    <value>6</value>
+  </data>
   <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </metadata>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
-    <value>777, 430</value>
+    <value>804, 430</value>
   </data>
   <data name="$this.Text" xml:space="preserve">
     <value>tbwItemDetails</value>

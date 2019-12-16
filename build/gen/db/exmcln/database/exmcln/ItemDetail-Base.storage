@@ -21,7 +21,8 @@ TABLE item_detail_tab IS (
    quantity                       NUMBER         NOT NULL,
    price                          NUMBER         NOT NULL,
    rowversion                     DATE           NOT NULL,
-   rowkey                         VARCHAR2(50)   DEFAULT sys_guid() NOT NULL);
+   rowkey                         VARCHAR2(50)   DEFAULT sys_guid() NOT NULL,
+   rowstate                       VARCHAR2(20)   NOT NULL);
 
 
 PRIMARY KEY item_detail_pk IS item_detail_tab (

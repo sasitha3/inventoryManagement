@@ -1,6 +1,6 @@
 -----------------------------------------------------------------------------
 --
---  Logical unit: ItemDetail
+--  Logical unit: ServiceItemDetails
 --  Component:    EXMCLN
 --
 --  Template:     3.0
@@ -15,18 +15,17 @@ layer Base;
 -------------------- PUBLIC DECLARATIONS ------------------------------------
 
 --TYPE Primary_Key_Rec IS RECORD
---  (order_no                       ITEM_DETAIL_TAB.order_no%TYPE,
---   item_no                        ITEM_DETAIL_TAB.item_no%TYPE);
+--  (order_no                       SERVICE_ITEM_DETAILS_TAB.order_no%TYPE,
+--   item_no                        SERVICE_ITEM_DETAILS_TAB.item_no%TYPE);
 
 TYPE Public_Rec IS RECORD
-  (order_no                       ITEM_DETAIL_TAB.order_no%TYPE,
-   item_no                        ITEM_DETAIL_TAB.item_no%TYPE,
+  (order_no                       SERVICE_ITEM_DETAILS_TAB.order_no%TYPE,
+   item_no                        SERVICE_ITEM_DETAILS_TAB.item_no%TYPE,
    "rowid"                        rowid,
-   rowversion                     ITEM_DETAIL_TAB.rowversion%TYPE,
-   rowkey                         ITEM_DETAIL_TAB.rowkey%TYPE,
-   rowstate                       ITEM_DETAIL_TAB.rowstate%TYPE,
-   quantity                       ITEM_DETAIL_TAB.quantity%TYPE,
-   price                          ITEM_DETAIL_TAB.price%TYPE);
+   rowversion                     SERVICE_ITEM_DETAILS_TAB.rowversion%TYPE,
+   rowkey                         SERVICE_ITEM_DETAILS_TAB.rowkey%TYPE,
+   quantity                       SERVICE_ITEM_DETAILS_TAB.quantity%TYPE,
+   price                          SERVICE_ITEM_DETAILS_TAB.price%TYPE);
 
 -------------------- PRIVATE DECLARATIONS -----------------------------------
 
@@ -46,7 +45,7 @@ PROCEDURE Raise_Too_Many_Rows___ (
    methodname_ IN VARCHAR2 )
 IS
 BEGIN
-   Error_SYS.Too_Many_Rows(Item_Detail_API.lu_name_, NULL, methodname_);
+   Error_SYS.Too_Many_Rows(Service_Item_Details_API.lu_name_, NULL, methodname_);
 END Raise_Too_Many_Rows___;
 
 
@@ -57,17 +56,17 @@ PROCEDURE Raise_Record_Not_Exist___ (
    item_no_ IN NUMBER )
 IS
 BEGIN
-   Error_SYS.Record_Not_Exist(Item_Detail_API.lu_name_);
+   Error_SYS.Record_Not_Exist(Service_Item_Details_API.lu_name_);
 END Raise_Record_Not_Exist___;
 
 
 -- Raise_Record_Exist___
 --    Raises error for: Data with given key value already exist.
 PROCEDURE Raise_Record_Exist___ (
-   rec_ item_detail_tab%ROWTYPE )
+   rec_ service_item_details_tab%ROWTYPE )
 IS
 BEGIN
-   Error_SYS.Record_Exist(Item_Detail_API.lu_name_);
+   Error_SYS.Record_Exist(Service_Item_Details_API.lu_name_);
 END Raise_Record_Exist___;
 
 
@@ -78,16 +77,16 @@ PROCEDURE Raise_Item_Format___ (
    value_ IN VARCHAR2 )
 IS
 BEGIN
-   Error_SYS.Item_Format(Item_Detail_API.lu_name_, name_, value_);
+   Error_SYS.Item_Format(Service_Item_Details_API.lu_name_, name_, value_);
 END Raise_Item_Format___;
 
 -- Raise_Record_Modified___
 --    Raises error for: The database row is newer then the current.
 PROCEDURE Raise_Record_Modified___ (
-   rec_ item_detail_tab%ROWTYPE )
+   rec_ service_item_details_tab%ROWTYPE )
 IS
 BEGIN
-   Error_SYS.Record_Modified(Item_Detail_API.lu_name_);
+   Error_SYS.Record_Modified(Service_Item_Details_API.lu_name_);
 END Raise_Record_Modified___;
 
 
@@ -98,7 +97,7 @@ PROCEDURE Raise_Record_Locked___ (
    item_no_ IN NUMBER )
 IS
 BEGIN
-   Error_SYS.Record_Locked(Item_Detail_API.lu_name_);
+   Error_SYS.Record_Locked(Service_Item_Details_API.lu_name_);
 END Raise_Record_Locked___;
 
 
@@ -109,7 +108,7 @@ PROCEDURE Raise_Record_Removed___ (
    item_no_ IN NUMBER )
 IS
 BEGIN
-   Error_SYS.Record_Removed(Item_Detail_API.lu_name_);
+   Error_SYS.Record_Removed(Service_Item_Details_API.lu_name_);
 END Raise_Record_Removed___;
 
 
@@ -117,16 +116,16 @@ END Raise_Record_Removed___;
 --    Locks a database row based on the objid and objversion.
 FUNCTION Lock_By_Id___ (
    objid_      IN VARCHAR2,
-   objversion_ IN VARCHAR2 ) RETURN item_detail_tab%ROWTYPE
+   objversion_ IN VARCHAR2 ) RETURN service_item_details_tab%ROWTYPE
 IS
    row_locked  EXCEPTION;
    PRAGMA      EXCEPTION_INIT(row_locked, -0054);
-   rec_        item_detail_tab%ROWTYPE;
+   rec_        service_item_details_tab%ROWTYPE;
    dummy_      NUMBER;
 BEGIN
    SELECT *
       INTO  rec_
-      FROM  item_detail_tab
+      FROM  service_item_details_tab
       WHERE rowid = objid_
       AND    to_char(rowversion,'YYYYMMDDHH24MISS') = objversion_
       FOR UPDATE NOWAIT;
@@ -140,7 +139,7 @@ EXCEPTION
       BEGIN
          SELECT 1
             INTO  dummy_
-            FROM  item_detail_tab
+            FROM  service_item_details_tab
             WHERE rowid = objid_;
          Raise_Record_Modified___(rec_);
       EXCEPTION
@@ -157,16 +156,16 @@ END Lock_By_Id___;
 --    Waits until record released if locked by another session.
 FUNCTION Lock_By_Keys___ (
    order_no_ IN NUMBER,
-   item_no_ IN NUMBER) RETURN item_detail_tab%ROWTYPE
+   item_no_ IN NUMBER) RETURN service_item_details_tab%ROWTYPE
 IS
    row_locked  EXCEPTION;
    PRAGMA      EXCEPTION_INIT(row_locked, -0054);
-   rec_        item_detail_tab%ROWTYPE;
+   rec_        service_item_details_tab%ROWTYPE;
 BEGIN
    BEGIN
       SELECT *
          INTO  rec_
-         FROM  item_detail_tab
+         FROM  service_item_details_tab
          WHERE order_no = order_no_
          AND   item_no = item_no_
          FOR UPDATE;
@@ -185,17 +184,17 @@ END Lock_By_Keys___;
 --    Raises exception if row already locked.
 FUNCTION Lock_By_Keys_Nowait___ (
    order_no_ IN NUMBER,
-   item_no_ IN NUMBER) RETURN item_detail_tab%ROWTYPE
+   item_no_ IN NUMBER) RETURN service_item_details_tab%ROWTYPE
 IS
    row_locked  EXCEPTION;
    PRAGMA      EXCEPTION_INIT(row_locked, -0054);
-   rec_        item_detail_tab%ROWTYPE;
+   rec_        service_item_details_tab%ROWTYPE;
    dummy_      NUMBER;
 BEGIN
    BEGIN
       SELECT *
          INTO  rec_
-         FROM  item_detail_tab
+         FROM  service_item_details_tab
          WHERE order_no = order_no_
          AND   item_no = item_no_
          FOR UPDATE NOWAIT;
@@ -209,7 +208,7 @@ BEGIN
          BEGIN
             SELECT 1
                INTO  dummy_
-               FROM  item_detail_tab
+               FROM  service_item_details_tab
                WHERE order_no = order_no_
                AND   item_no = item_no_;
             Raise_Record_Modified___(rec_);
@@ -226,13 +225,13 @@ END Lock_By_Keys_Nowait___;
 -- Get_Object_By_Id___
 --    Fetched a database row based on given the objid.
 FUNCTION Get_Object_By_Id___ (
-   objid_ IN VARCHAR2 ) RETURN item_detail_tab%ROWTYPE
+   objid_ IN VARCHAR2 ) RETURN service_item_details_tab%ROWTYPE
 IS
-   lu_rec_ item_detail_tab%ROWTYPE;
+   lu_rec_ service_item_details_tab%ROWTYPE;
 BEGIN
    SELECT *
       INTO  lu_rec_
-      FROM  item_detail_tab
+      FROM  service_item_details_tab
       WHERE rowid = objid_;
    RETURN lu_rec_;
 EXCEPTION
@@ -248,13 +247,13 @@ END Get_Object_By_Id___;
 @UncheckedAccess
 FUNCTION Get_Object_By_Keys___ (
    order_no_ IN NUMBER,
-   item_no_ IN NUMBER ) RETURN item_detail_tab%ROWTYPE
+   item_no_ IN NUMBER ) RETURN service_item_details_tab%ROWTYPE
 IS
-   lu_rec_ item_detail_tab%ROWTYPE;
+   lu_rec_ service_item_details_tab%ROWTYPE;
 BEGIN
    SELECT *
       INTO  lu_rec_
-      FROM  item_detail_tab
+      FROM  service_item_details_tab
       WHERE order_no = order_no_
       AND   item_no = item_no_;
    RETURN lu_rec_;
@@ -277,7 +276,7 @@ IS
 BEGIN
    SELECT 1
       INTO  dummy_
-      FROM  item_detail_tab
+      FROM  service_item_details_tab
       WHERE order_no = order_no_
       AND   item_no = item_no_;
    RETURN TRUE;
@@ -298,7 +297,7 @@ IS
 BEGIN
    SELECT to_char(rowversion,'YYYYMMDDHH24MISS')
       INTO  objversion_
-      FROM  item_detail_tab
+      FROM  service_item_details_tab
       WHERE rowid = objid_;
 EXCEPTION
    WHEN no_data_found THEN
@@ -319,7 +318,7 @@ IS
 BEGIN
    SELECT rowid, to_char(rowversion,'YYYYMMDDHH24MISS')
       INTO  objid_, objversion_
-      FROM  item_detail_tab
+      FROM  service_item_details_tab
       WHERE order_no = order_no_
       AND   item_no = item_no_;
 EXCEPTION
@@ -335,13 +334,13 @@ END Get_Id_Version_By_Keys___;
 --   Returns a table record with only keys (other attributes are NULL) based on a rowkey.
 @UncheckedAccess
 FUNCTION Get_Key_By_Rowkey (
-   rowkey_ IN VARCHAR2 ) RETURN item_detail_tab%ROWTYPE
+   rowkey_ IN VARCHAR2 ) RETURN service_item_details_tab%ROWTYPE
 IS
-   rec_ item_detail_tab%ROWTYPE;
+   rec_ service_item_details_tab%ROWTYPE;
 BEGIN
    SELECT order_no, item_no
       INTO  rec_.order_no, rec_.item_no
-      FROM  item_detail_tab
+      FROM  service_item_details_tab
       WHERE rowkey = rowkey_;
    RETURN rec_;
 EXCEPTION
@@ -355,7 +354,7 @@ END Get_Key_By_Rowkey;
 -- Unpack___
 --   Reads an attribute string and unpacks its contents into a record.
 PROCEDURE Unpack___ (
-   newrec_   IN OUT item_detail_tab%ROWTYPE,
+   newrec_   IN OUT service_item_details_tab%ROWTYPE,
    indrec_   IN OUT Indicator_Rec,
    attr_     IN OUT VARCHAR2 )
 IS
@@ -396,7 +395,7 @@ END Unpack___;
 --   Reads a record and packs its contents into an attribute string.
 --   This is intended to be the reverse of Unpack___
 FUNCTION Pack___ (
-   rec_ IN item_detail_tab%ROWTYPE ) RETURN VARCHAR2
+   rec_ IN service_item_details_tab%ROWTYPE ) RETURN VARCHAR2
 IS
    attr_ VARCHAR2(32000);
 BEGIN
@@ -418,7 +417,7 @@ END Pack___;
 
 
 FUNCTION Pack___ (
-   rec_ IN item_detail_tab%ROWTYPE,
+   rec_ IN service_item_details_tab%ROWTYPE,
    indrec_ IN Indicator_Rec ) RETURN VARCHAR2
 IS
    attr_ VARCHAR2(32000);
@@ -445,7 +444,7 @@ END Pack___;
 --   Reads a record and packs its contents into an attribute string.
 --   Similar to Pack___ but just uses table column names and DB values
 FUNCTION Pack_Table___ (
-   rec_ IN item_detail_tab%ROWTYPE ) RETURN VARCHAR2
+   rec_ IN service_item_details_tab%ROWTYPE ) RETURN VARCHAR2
 IS
    attr_ VARCHAR2(32000);
 BEGIN
@@ -455,7 +454,6 @@ BEGIN
    Client_SYS.Add_To_Attr('QUANTITY', rec_.quantity, attr_);
    Client_SYS.Add_To_Attr('PRICE', rec_.price, attr_);
    Client_SYS.Add_To_Attr('ROWKEY', rec_.rowkey, attr_);
-   Client_SYS.Add_To_Attr('ROWSTATE', rec_.rowstate, attr_);
    RETURN attr_;
 END Pack_Table___;
 
@@ -474,7 +472,7 @@ END Reset_Indicator_Rec___;
 -- Get_Indicator_Rec___
 --   Returns an Indicator_Rec that reflects the content of a table record.
 FUNCTION Get_Indicator_Rec___ (
-   rec_ IN item_detail_tab%ROWTYPE ) RETURN Indicator_Rec
+   rec_ IN service_item_details_tab%ROWTYPE ) RETURN Indicator_Rec
 IS
    indrec_ Indicator_Rec;
 BEGIN
@@ -489,8 +487,8 @@ END Get_Indicator_Rec___;
 -- Get_Indicator_Rec___
 --   Returns an Indicator_Rec that reflects the difference between two table records.
 FUNCTION Get_Indicator_Rec___ (
-   oldrec_ IN item_detail_tab%ROWTYPE,
-   newrec_ IN item_detail_tab%ROWTYPE ) RETURN Indicator_Rec
+   oldrec_ IN service_item_details_tab%ROWTYPE,
+   newrec_ IN service_item_details_tab%ROWTYPE ) RETURN Indicator_Rec
 IS
    indrec_ Indicator_Rec;
 BEGIN
@@ -505,8 +503,8 @@ END Get_Indicator_Rec___;
 -- Check_Common___
 --   Perform validations on a record, that should be done for both insert and delete.
 PROCEDURE Check_Common___ (
-   oldrec_ IN     item_detail_tab%ROWTYPE,
-   newrec_ IN OUT item_detail_tab%ROWTYPE,
+   oldrec_ IN     service_item_details_tab%ROWTYPE,
+   newrec_ IN OUT service_item_details_tab%ROWTYPE,
    indrec_ IN OUT Indicator_Rec,
    attr_   IN OUT VARCHAR2 )
 IS
@@ -519,7 +517,7 @@ BEGIN
    IF (newrec_.item_no IS NOT NULL)
    AND (indrec_.item_no)
    AND (Validate_SYS.Is_Changed(oldrec_.item_no, newrec_.item_no)) THEN
-      Exm_Part_API.Exist(newrec_.item_no);
+      Service_API.Exist(newrec_.item_no);
    END IF;
    Error_SYS.Check_Not_Null(lu_name_, 'ORDER_NO', newrec_.order_no);
    Error_SYS.Check_Not_Null(lu_name_, 'ITEM_NO', newrec_.item_no);
@@ -541,11 +539,11 @@ END Prepare_Insert___;
 -- Check_Insert___
 --   Perform validations on a new record before it is insert.
 PROCEDURE Check_Insert___ (
-   newrec_ IN OUT item_detail_tab%ROWTYPE,
+   newrec_ IN OUT service_item_details_tab%ROWTYPE,
    indrec_ IN OUT Indicator_Rec,
    attr_   IN OUT VARCHAR2 )
 IS
-   oldrec_ item_detail_tab%ROWTYPE;
+   oldrec_ service_item_details_tab%ROWTYPE;
 BEGIN
    Check_Common___(oldrec_, newrec_, indrec_, attr_);
 END Check_Insert___;
@@ -556,27 +554,24 @@ END Check_Insert___;
 PROCEDURE Insert___ (
    objid_      OUT    VARCHAR2,
    objversion_ OUT    VARCHAR2,
-   newrec_     IN OUT item_detail_tab%ROWTYPE,
+   newrec_     IN OUT service_item_details_tab%ROWTYPE,
    attr_       IN OUT VARCHAR2 )
 IS
 BEGIN
    newrec_.rowversion := sysdate;
    newrec_.rowkey := sys_guid();
    Client_SYS.Add_To_Attr('OBJKEY', newrec_.rowkey, attr_);
-   newrec_.rowstate := '<UNDEFINED>';
    INSERT
-      INTO item_detail_tab
+      INTO service_item_details_tab
       VALUES newrec_
       RETURNING rowid INTO objid_;
-   newrec_.rowstate := NULL;
-   Finite_State_Init___(newrec_, attr_);
    objversion_ := to_char(newrec_.rowversion,'YYYYMMDDHH24MISS');
 EXCEPTION
    WHEN dup_val_on_index THEN
       DECLARE
          constraint_ VARCHAR2(4000) := Utility_SYS.Between_Str(Utility_SYS.Between_Str(sqlerrm, '(', ')'), '.', ')', 'FALSE');
       BEGIN
-         IF (constraint_ = 'ITEM_DETAIL_RK') THEN
+         IF (constraint_ = 'SERVICE_ITEM_DETAILS_RK') THEN
             Error_SYS.Rowkey_Exist(lu_name_, newrec_.rowkey);
          ELSE
             Raise_Record_Exist___(newrec_);
@@ -588,7 +583,7 @@ END Insert___;
 -- Prepare_New___
 --    Set default values for a table record.
 PROCEDURE Prepare_New___ (
-   newrec_ IN OUT item_detail_tab%ROWTYPE )
+   newrec_ IN OUT service_item_details_tab%ROWTYPE )
 IS
    attr_    VARCHAR2(32000);
    indrec_  Indicator_Rec;
@@ -601,13 +596,13 @@ END Prepare_New___;
 -- New___
 --    Checks and creates a new record.
 PROCEDURE New___ (
-   newrec_ IN OUT item_detail_tab%ROWTYPE )
+   newrec_ IN OUT service_item_details_tab%ROWTYPE )
 IS
    objid_         VARCHAR2(20);
    objversion_    VARCHAR2(100);
    attr_          VARCHAR2(32000);
    indrec_        Indicator_Rec;
-   emptyrec_      item_detail_tab%ROWTYPE;
+   emptyrec_      service_item_details_tab%ROWTYPE;
 BEGIN
    indrec_ := Get_Indicator_Rec___(emptyrec_, newrec_);
    Check_Insert___(newrec_, indrec_, attr_);
@@ -618,8 +613,8 @@ END New___;
 -- Check_Update___
 --   Perform validations on a new record before it is updated.
 PROCEDURE Check_Update___ (
-   oldrec_ IN     item_detail_tab%ROWTYPE,
-   newrec_ IN OUT item_detail_tab%ROWTYPE,
+   oldrec_ IN     service_item_details_tab%ROWTYPE,
+   newrec_ IN OUT service_item_details_tab%ROWTYPE,
    indrec_ IN OUT Indicator_Rec,
    attr_   IN OUT VARCHAR2 )
 IS
@@ -634,8 +629,8 @@ END Check_Update___;
 --   Update a record in database with new data.
 PROCEDURE Update___ (
    objid_      IN     VARCHAR2,
-   oldrec_     IN     item_detail_tab%ROWTYPE,
-   newrec_     IN OUT item_detail_tab%ROWTYPE,
+   oldrec_     IN     service_item_details_tab%ROWTYPE,
+   newrec_     IN OUT service_item_details_tab%ROWTYPE,
    attr_       IN OUT VARCHAR2,
    objversion_ IN OUT VARCHAR2,
    by_keys_    IN     BOOLEAN DEFAULT FALSE )
@@ -643,12 +638,12 @@ IS
 BEGIN
    newrec_.rowversion := sysdate;
    IF by_keys_ THEN
-      UPDATE item_detail_tab
+      UPDATE service_item_details_tab
          SET ROW = newrec_
          WHERE order_no = newrec_.order_no
          AND   item_no = newrec_.item_no;
    ELSE
-      UPDATE item_detail_tab
+      UPDATE service_item_details_tab
          SET ROW = newrec_
          WHERE rowid = objid_;
    END IF;
@@ -658,8 +653,8 @@ EXCEPTION
       DECLARE
          constraint_ VARCHAR2(4000) := Utility_SYS.Between_Str(Utility_SYS.Between_Str(sqlerrm, '(', ')'), '.', ')', 'FALSE');
       BEGIN
-         IF (constraint_ = 'ITEM_DETAIL_RK') THEN
-            Error_SYS.Rowkey_Exist(Item_Detail_API.lu_name_, newrec_.rowkey);
+         IF (constraint_ = 'SERVICE_ITEM_DETAILS_RK') THEN
+            Error_SYS.Rowkey_Exist(Service_Item_Details_API.lu_name_, newrec_.rowkey);
          ELSE
             Raise_Record_Exist___(newrec_);
          END IF;
@@ -670,14 +665,14 @@ END Update___;
 -- Modify___
 --    Modifies an existing instance of the logical unit.
 PROCEDURE Modify___ (
-   newrec_         IN OUT item_detail_tab%ROWTYPE,
+   newrec_         IN OUT service_item_details_tab%ROWTYPE,
    lock_mode_wait_ IN     BOOLEAN DEFAULT TRUE )
 IS
    objid_      VARCHAR2(20);
    objversion_ VARCHAR2(100);
    attr_       VARCHAR2(32000);
    indrec_     Indicator_rec;
-   oldrec_     item_detail_tab%ROWTYPE;
+   oldrec_     service_item_details_tab%ROWTYPE;
 BEGIN
    IF (lock_mode_wait_) THEN
       oldrec_ := Lock_By_Keys___(newrec_.order_no, newrec_.item_no);
@@ -693,7 +688,7 @@ END Modify___;
 -- Check_Delete___
 --   Perform validations on a new record before it is deleted.
 PROCEDURE Check_Delete___ (
-   remrec_ IN item_detail_tab%ROWTYPE )
+   remrec_ IN service_item_details_tab%ROWTYPE )
 IS
    key_ VARCHAR2(2000);
 BEGIN
@@ -706,7 +701,7 @@ END Check_Delete___;
 --   Delete a record from the database.
 PROCEDURE Delete___ (
    objid_  IN VARCHAR2,
-   remrec_ IN item_detail_tab%ROWTYPE )
+   remrec_ IN service_item_details_tab%ROWTYPE )
 IS
    key_ VARCHAR2(2000);
 BEGIN
@@ -714,11 +709,11 @@ BEGIN
    Reference_SYS.Do_Cascade_Delete(lu_name_, key_);
    IF (objid_ IS NOT NULL) THEN
       DELETE
-         FROM  item_detail_tab
+         FROM  service_item_details_tab
          WHERE rowid = objid_;
    ELSE
       DELETE
-         FROM  item_detail_tab
+         FROM  service_item_details_tab
          WHERE order_no = remrec_.order_no
          AND   item_no = remrec_.item_no;
    END IF;
@@ -729,7 +724,7 @@ END Delete___;
 --   Delete a record from the database.
 @Deprecated
 PROCEDURE Delete___ (
-   remrec_ IN item_detail_tab%ROWTYPE )
+   remrec_ IN service_item_details_tab%ROWTYPE )
 IS
 BEGIN
    Delete___(NULL, remrec_);
@@ -739,10 +734,10 @@ END Delete___;
 -- Remove___
 --    Removes an existing instance of the logical unit.
 PROCEDURE Remove___ (
-   remrec_         IN OUT item_detail_tab%ROWTYPE,
+   remrec_         IN OUT service_item_details_tab%ROWTYPE,
    lock_mode_wait_ IN     BOOLEAN DEFAULT TRUE )
 IS
-   oldrec_     item_detail_tab%ROWTYPE;
+   oldrec_     service_item_details_tab%ROWTYPE;
 BEGIN
    IF (lock_mode_wait_) THEN
       oldrec_ := Lock_By_Keys___(remrec_.order_no, remrec_.item_no);
@@ -762,7 +757,7 @@ PROCEDURE Lock__ (
    objid_      IN  VARCHAR2,
    objversion_ IN  VARCHAR2 )
 IS
-   dummy_ item_detail_tab%ROWTYPE;
+   dummy_ service_item_details_tab%ROWTYPE;
 BEGIN
    dummy_ := Lock_By_Id___(objid_, objversion_);
    info_ := Client_SYS.Get_All_Info;
@@ -790,7 +785,7 @@ PROCEDURE New__ (
    attr_       IN OUT VARCHAR2,
    action_     IN     VARCHAR2 )
 IS
-   newrec_   item_detail_tab%ROWTYPE;
+   newrec_   service_item_details_tab%ROWTYPE;
    indrec_   Indicator_Rec;
 BEGIN
    IF (action_ = 'PREPARE') THEN
@@ -824,8 +819,8 @@ PROCEDURE Modify__ (
    attr_       IN OUT VARCHAR2,
    action_     IN     VARCHAR2 )
 IS
-   oldrec_   item_detail_tab%ROWTYPE;
-   newrec_   item_detail_tab%ROWTYPE;
+   oldrec_   service_item_details_tab%ROWTYPE;
+   newrec_   service_item_details_tab%ROWTYPE;
    indrec_   Indicator_Rec;
 BEGIN
    IF (action_ = 'CHECK') THEN
@@ -861,7 +856,7 @@ PROCEDURE Remove__ (
    objversion_ IN  VARCHAR2,
    action_     IN  VARCHAR2 )
 IS
-   remrec_ item_detail_tab%ROWTYPE;
+   remrec_ service_item_details_tab%ROWTYPE;
 BEGIN
    IF (action_ = 'CHECK') THEN
       remrec_ := Get_Object_By_Id___(objid_);
@@ -909,14 +904,14 @@ FUNCTION Get_Quantity (
    order_no_ IN NUMBER,
    item_no_ IN NUMBER ) RETURN NUMBER
 IS
-   temp_ item_detail_tab.quantity%TYPE;
+   temp_ service_item_details_tab.quantity%TYPE;
 BEGIN
    IF (order_no_ IS NULL OR item_no_ IS NULL) THEN
       RETURN NULL;
    END IF;
    SELECT quantity
       INTO  temp_
-      FROM  item_detail_tab
+      FROM  service_item_details_tab
       WHERE order_no = order_no_
       AND   item_no = item_no_;
    RETURN temp_;
@@ -935,14 +930,14 @@ FUNCTION Get_Price (
    order_no_ IN NUMBER,
    item_no_ IN NUMBER ) RETURN NUMBER
 IS
-   temp_ item_detail_tab.price%TYPE;
+   temp_ service_item_details_tab.price%TYPE;
 BEGIN
    IF (order_no_ IS NULL OR item_no_ IS NULL) THEN
       RETURN NULL;
    END IF;
    SELECT price
       INTO  temp_
-      FROM  item_detail_tab
+      FROM  service_item_details_tab
       WHERE order_no = order_no_
       AND   item_no = item_no_;
    RETURN temp_;
@@ -967,11 +962,11 @@ BEGIN
       RETURN NULL;
    END IF;
    SELECT order_no, item_no,
-          rowid, rowversion, rowkey, rowstate,
+          rowid, rowversion, rowkey,
           quantity, 
           price
       INTO  temp_
-      FROM  item_detail_tab
+      FROM  service_item_details_tab
       WHERE order_no = order_no_
       AND   item_no = item_no_;
    RETURN temp_;
@@ -990,14 +985,14 @@ FUNCTION Get_Objkey (
    order_no_ IN NUMBER,
    item_no_ IN NUMBER ) RETURN VARCHAR2
 IS
-   rowkey_ item_detail_tab.rowkey%TYPE;
+   rowkey_ service_item_details_tab.rowkey%TYPE;
 BEGIN
    IF (order_no_ IS NULL OR item_no_ IS NULL) THEN
       RETURN NULL;
    END IF;
    SELECT rowkey
       INTO  rowkey_
-      FROM  item_detail_tab
+      FROM  service_item_details_tab
       WHERE order_no = order_no_
       AND   item_no = item_no_;
    RETURN rowkey_;
@@ -1008,251 +1003,7 @@ EXCEPTION
       Raise_Too_Many_Rows___(order_no_, item_no_, 'Get_Objkey');
 END Get_Objkey;
 
--------------------- FINITE STATE MACHINE -----------------------------------
-
--- Get_Db_Values___
---   Returns the the list of DB (stored in database) values.
-FUNCTION Get_Db_Values___ RETURN VARCHAR2 DETERMINISTIC
-IS
-BEGIN
-   RETURN('Required^Cancelled^Delivered^');
-END Get_Db_Values___;
-
-
--- Get_Client_Values___
---   Returns the the list of client (in PROG language) values.
-FUNCTION Get_Client_Values___ RETURN VARCHAR2 DETERMINISTIC
-IS
-BEGIN
-   RETURN('Required^Cancelled^Delivered^');
-END Get_Client_Values___;
-
-
--- Finite_State_Set___
---    Updates the state column in the database for given record.
-PROCEDURE Finite_State_Set___ (
-   rec_   IN OUT item_detail_tab%ROWTYPE,
-   state_ IN     VARCHAR2 )
-IS
-BEGIN
-   rec_.rowversion := sysdate;
-   UPDATE item_detail_tab
-      SET rowstate = state_,
-          rowversion = rec_.rowversion
-      WHERE order_no = rec_.order_no
-      AND   item_no = rec_.item_no;
-   rec_.rowstate := state_;
-END Finite_State_Set___;
-
-
--- Finite_State_Machine___
---    Execute the state machine logic given a specific event.
-PROCEDURE Finite_State_Machine___ (
-   rec_   IN OUT item_detail_tab%ROWTYPE,
-   event_ IN     VARCHAR2,
-   attr_  IN OUT VARCHAR2 )
-IS
-   state_ item_detail_tab.rowstate%TYPE;
-BEGIN
-   state_ := rec_.rowstate;
-   IF (state_ IS NULL) THEN
-      IF (event_ IS NULL) THEN
-         Finite_State_Set___(rec_, 'Required');
-      ELSE
-         Error_SYS.State_Event_Not_Handled(lu_name_, event_, Finite_State_Decode__(state_));
-      END IF;
-   ELSIF (state_ = 'Cancelled') THEN
-      Error_SYS.State_Event_Not_Handled(lu_name_, event_, Finite_State_Decode__(state_));
-   ELSIF (state_ = 'Delivered') THEN
-      Error_SYS.State_Event_Not_Handled(lu_name_, event_, Finite_State_Decode__(state_));
-   ELSIF (state_ = 'Required') THEN
-      IF (event_ = 'Cancel') THEN
-         Finite_State_Set___(rec_, 'Cancelled');
-      ELSIF (event_ = 'Deliver') THEN
-         Finite_State_Set___(rec_, 'Delivered');
-      ELSE
-         Error_SYS.State_Event_Not_Handled(lu_name_, event_, Finite_State_Decode__(state_));
-      END IF;
-   ELSE
-      Error_SYS.State_Not_Exist(lu_name_, Finite_State_Decode__(state_));
-   END IF;
-END Finite_State_Machine___;
-
-
--- Finite_State_Add_To_Attr___
---    Add current state and lists of allowed events to an attribute string.
-PROCEDURE Finite_State_Add_To_Attr___ (
-   rec_  IN     item_detail_tab%ROWTYPE,
-   attr_ IN OUT VARCHAR2 )
-IS
-   state_ item_detail_tab.rowstate%TYPE;
-BEGIN
-   state_ := rec_.rowstate;
-   Client_SYS.Add_To_Attr('__OBJSTATE', state_, attr_);
-   Client_SYS.Add_To_Attr('__OBJEVENTS', Finite_State_Events__(state_), attr_);
-   Client_SYS.Add_To_Attr('STATE', Finite_State_Decode__(state_), attr_);
-END Finite_State_Add_To_Attr___;
-
-
--- Finite_State_Init___
---    Runs the initial start event for the state machine.
-PROCEDURE Finite_State_Init___ (
-   rec_  IN OUT item_detail_tab%ROWTYPE,
-   attr_ IN OUT VARCHAR2 )
-IS
-BEGIN
-   Finite_State_Machine___(rec_, NULL, attr_);
-   Finite_State_Add_To_Attr___(rec_, attr_);
-END Finite_State_Init___;
-
-
--- Finite_State_Init_
---    Runs the initial start event for a basedOn child entity.
-@ServerOnlyAccess
-PROCEDURE Finite_State_Init_ (
-   rec_  IN OUT item_detail_tab%ROWTYPE,
-   attr_ IN OUT VARCHAR2 )
-IS
-BEGIN
-   Finite_State_Init___(rec_, attr_);
-END Finite_State_Init_;
-
-
--- Finite_State_Decode__
---   Returns the client equivalent for any database representation of
---   a state name = objstate.
-@UncheckedAccess
-FUNCTION Finite_State_Decode__ (
-   db_state_ IN VARCHAR2 ) RETURN VARCHAR2
-IS
-BEGIN
-   RETURN(Domain_SYS.Decode_(Domain_SYS.Get_Translated_Values(lu_name_), Get_Db_Values___, db_state_));
-END Finite_State_Decode__;
-
-
--- Finite_State_Encode__
---   Returns the database equivalent for any client representation of
---   a state name = state.
-@UncheckedAccess
-FUNCTION Finite_State_Encode__ (
-   client_state_ IN VARCHAR2 ) RETURN VARCHAR2
-IS
-BEGIN
-   RETURN(Domain_SYS.Encode_(Domain_SYS.Get_Translated_Values(lu_name_), Get_Db_Values___, client_state_));
-END Finite_State_Encode__;
-
-
--- Enumerate_States__
---   Returns a list of all possible finite states in client terminology.
-@UncheckedAccess
-PROCEDURE Enumerate_States__ (
-   client_values_ OUT VARCHAR2 )
-IS
-BEGIN
-   client_values_ := Domain_SYS.Enumerate_(Domain_SYS.Get_Translated_Values(lu_name_));
-END Enumerate_States__;
-
-
--- Enumerate_States_Db__
---   Returns a list of all possible finite states in database terminology.
-@UncheckedAccess
-PROCEDURE Enumerate_States_Db__ (
-   db_values_ OUT VARCHAR2 )
-IS
-BEGIN
-   db_values_ := Domain_SYS.Enumerate_(Get_Db_Values___);
-END Enumerate_States_Db__;
-
-
--- Finite_State_Events__
---   Returns a list of allowed events for a given state
---   NOTE! Regardless of conditions if not otherwize encoded
-@UncheckedAccess
-FUNCTION Finite_State_Events__ (
-   db_state_ IN VARCHAR2 ) RETURN VARCHAR2
-IS
-BEGIN
-   IF (db_state_ IS NULL) THEN
-      RETURN NULL;
-   ELSIF (db_state_ = 'Cancelled') THEN
-      RETURN NULL;
-   ELSIF (db_state_ = 'Delivered') THEN
-      RETURN NULL;
-   ELSIF (db_state_ = 'Required') THEN
-      RETURN 'Cancel^Deliver^';
-   ELSE
-      RETURN NULL;
-   END IF;
-END Finite_State_Events__;
-
-
--- Enumerate_Events__
---   Returns a list of all possible events.
-@UncheckedAccess
-PROCEDURE Enumerate_Events__ (
-   db_events_ OUT VARCHAR2 )
-IS
-BEGIN
-   db_events_ := 'Cancel^Deliver^';
-END Enumerate_Events__;
-
-
--- Cancel__
---   Executes the Cancel event logic as defined in the state machine.
-PROCEDURE Cancel__ (
-   info_       OUT    VARCHAR2,
-   objid_      IN     VARCHAR2,
-   objversion_ IN OUT VARCHAR2,
-   attr_       IN OUT VARCHAR2,
-   action_     IN     VARCHAR2 )
-IS
-   rec_ item_detail_tab%ROWTYPE;
-BEGIN
-   IF (action_ = 'CHECK') THEN
-      NULL;
-   ELSIF (action_ = 'DO') THEN
-      rec_ := Lock_By_Id___(objid_, objversion_);
-      Finite_State_Machine___(rec_, 'Cancel', attr_);
-      objversion_ := to_char(rec_.rowversion,'YYYYMMDDHH24MISS');
-      Finite_State_Add_To_Attr___(rec_, attr_);
-   END IF;
-   info_ := Client_SYS.Get_All_Info;
-END Cancel__;
-
-
--- Deliver__
---   Executes the Deliver event logic as defined in the state machine.
-PROCEDURE Deliver__ (
-   info_       OUT    VARCHAR2,
-   objid_      IN     VARCHAR2,
-   objversion_ IN OUT VARCHAR2,
-   attr_       IN OUT VARCHAR2,
-   action_     IN     VARCHAR2 )
-IS
-   rec_ item_detail_tab%ROWTYPE;
-BEGIN
-   IF (action_ = 'CHECK') THEN
-      NULL;
-   ELSIF (action_ = 'DO') THEN
-      rec_ := Lock_By_Id___(objid_, objversion_);
-      Finite_State_Machine___(rec_, 'Deliver', attr_);
-      objversion_ := to_char(rec_.rowversion,'YYYYMMDDHH24MISS');
-      Finite_State_Add_To_Attr___(rec_, attr_);
-   END IF;
-   info_ := Client_SYS.Get_All_Info;
-END Deliver__;
-
 -------------------- FOUNDATION1 METHODS ------------------------------------
-
-
--- Language_Refreshed
---   Framework method that updates translations to a new language.
-@UncheckedAccess
-PROCEDURE Language_Refreshed
-IS
-BEGIN
-   Domain_SYS.Language_Refreshed(lu_name_, Get_Client_Values___, Get_Db_Values___, 'STATE');
-END Language_Refreshed;
 
 
 -- Init
@@ -1261,6 +1012,6 @@ END Language_Refreshed;
 PROCEDURE Init
 IS
 BEGIN
-   Domain_SYS.Load_State(lu_name_, Get_Client_Values___, Get_Db_Values___);
+   NULL;
 END Init;
 

@@ -1,7 +1,7 @@
 -----------------------------------------------------------------------------
 --
 --  Logical unit: CusOrderDetails
---  Type:         Entity
+--  Type:         EntityWithState
 --  Component:    EXMCLN
 --
 --  Template:     3.0
@@ -26,6 +26,9 @@ SELECT
        del_address                    del_address,
        Fnd_Boolean_API.Decode(internal_cus) internal_cus,
        internal_cus                   internal_cus_db,
+       rowstate                       objstate,
+       Cus_Order_Details_API.Finite_State_Events__(rowstate)                     objevents,
+       Cus_Order_Details_API.Finite_State_Decode__(rowstate)                         state,
        rowkey                         objkey,
        to_char(rowversion,'YYYYMMDDHH24MISS') objversion,
        rowid                          objid
@@ -47,6 +50,8 @@ COMMENT ON COLUMN CUS_ORDER_DETAILS.internal_cus
    IS 'FLAGS=AMIUL^DATATYPE=STRING(200)^ENUMERATION=FndBoolean^PROMPT=Internal Cus^';
 COMMENT ON COLUMN CUS_ORDER_DETAILS.internal_cus_db
    IS 'FLAGS=A----^DATATYPE=STRING(20)^PROMPT=Internal Cus^';
+COMMENT ON COLUMN CUS_ORDER_DETAILS.state
+   IS 'FLAGS=A---L^DATATYPE=STRING(20)^PROMPT=State^';
 
 
 -----------------------------------------------------------------------------
@@ -206,6 +211,27 @@ PROCEDURE Delete___ (
 PROCEDURE Remove___ (
    remrec_         IN OUT NOCOPY cus_order_details_tab%ROWTYPE,
    lock_mode_wait_ IN     BOOLEAN DEFAULT TRUE );
+
+FUNCTION Get_Db_Values___ RETURN VARCHAR2 DETERMINISTIC;
+
+FUNCTION Get_Client_Values___ RETURN VARCHAR2 DETERMINISTIC;
+
+PROCEDURE Finite_State_Set___ (
+   rec_   IN OUT NOCOPY cus_order_details_tab%ROWTYPE,
+   state_ IN     VARCHAR2 );
+
+PROCEDURE Finite_State_Machine___ (
+   rec_   IN OUT NOCOPY cus_order_details_tab%ROWTYPE,
+   event_ IN     VARCHAR2,
+   attr_  IN OUT NOCOPY VARCHAR2 );
+
+PROCEDURE Finite_State_Add_To_Attr___ (
+   rec_  IN     cus_order_details_tab%ROWTYPE,
+   attr_ IN OUT NOCOPY VARCHAR2 );
+
+PROCEDURE Finite_State_Init___ (
+   rec_  IN OUT NOCOPY cus_order_details_tab%ROWTYPE,
+   attr_ IN OUT NOCOPY VARCHAR2 );
 
 -----------------------------------------------------------------------------
 -------------------- BASE METHODS -------------------------------------------
@@ -438,7 +464,7 @@ IS
          RETURN NULL;
       END IF;
       SELECT order_no,
-             rowid, rowversion, rowkey,
+             rowid, rowversion, rowkey, rowstate,
              order_date, 
              customer_name, 
              del_address, 
@@ -1137,6 +1163,7 @@ IS
       Client_SYS.Add_To_Attr('DEL_ADDRESS', rec_.del_address, attr_);
       Client_SYS.Add_To_Attr('INTERNAL_CUS', rec_.internal_cus, attr_);
       Client_SYS.Add_To_Attr('ROWKEY', rec_.rowkey, attr_);
+      Client_SYS.Add_To_Attr('ROWSTATE', rec_.rowstate, attr_);
       RETURN attr_;
    END Base;
 
@@ -1506,6 +1533,384 @@ BEGIN
 END Remove___;
 
 -----------------------------------------------------------------------------
+-------------------- FINITE STATE MACHINE -----------------------------------
+-----------------------------------------------------------------------------
+
+PROCEDURE Finite_State_Init_ (
+   rec_  IN OUT NOCOPY cus_order_details_tab%ROWTYPE,
+   attr_ IN OUT NOCOPY VARCHAR2 )
+IS
+   
+   PROCEDURE Base (
+      rec_  IN OUT NOCOPY cus_order_details_tab%ROWTYPE,
+      attr_ IN OUT NOCOPY VARCHAR2 )
+   IS
+   BEGIN
+      Finite_State_Init___(rec_, attr_);
+   END Base;
+
+BEGIN
+   General_SYS.Init_Method(Cus_Order_Details_API.lu_name_, 'Cus_Order_Details_API', 'Finite_State_Init_', server_only_ => TRUE);
+   Base(rec_, attr_);
+END Finite_State_Init_;
+
+
+--@IgnoreMissingSysinit
+FUNCTION Finite_State_Decode__ (
+   db_state_ IN VARCHAR2 ) RETURN VARCHAR2
+IS
+   
+   FUNCTION Base (
+      db_state_ IN VARCHAR2 ) RETURN VARCHAR2
+   IS
+   BEGIN
+      RETURN(Domain_SYS.Decode_(Domain_SYS.Get_Translated_Values(lu_name_), Get_Db_Values___, db_state_));
+   END Base;
+
+BEGIN
+   RETURN Base(db_state_);
+END Finite_State_Decode__;
+
+
+--@IgnoreMissingSysinit
+FUNCTION Finite_State_Encode__ (
+   client_state_ IN VARCHAR2 ) RETURN VARCHAR2
+IS
+   
+   FUNCTION Base (
+      client_state_ IN VARCHAR2 ) RETURN VARCHAR2
+   IS
+   BEGIN
+      RETURN(Domain_SYS.Encode_(Domain_SYS.Get_Translated_Values(lu_name_), Get_Db_Values___, client_state_));
+   END Base;
+
+BEGIN
+   RETURN Base(client_state_);
+END Finite_State_Encode__;
+
+
+--@IgnoreMissingSysinit
+PROCEDURE Enumerate_States__ (
+   client_values_ OUT VARCHAR2 )
+IS
+   
+   PROCEDURE Base (
+      client_values_ OUT VARCHAR2 )
+   IS
+   BEGIN
+      client_values_ := Domain_SYS.Enumerate_(Domain_SYS.Get_Translated_Values(lu_name_));
+   END Base;
+
+BEGIN
+   Base(client_values_);
+END Enumerate_States__;
+
+
+--@IgnoreMissingSysinit
+PROCEDURE Enumerate_States_Db__ (
+   db_values_ OUT VARCHAR2 )
+IS
+   
+   PROCEDURE Base (
+      db_values_ OUT VARCHAR2 )
+   IS
+   BEGIN
+      db_values_ := Domain_SYS.Enumerate_(Get_Db_Values___);
+   END Base;
+
+BEGIN
+   Base(db_values_);
+END Enumerate_States_Db__;
+
+
+--@IgnoreMissingSysinit
+FUNCTION Finite_State_Events__ (
+   db_state_ IN VARCHAR2 ) RETURN VARCHAR2
+IS
+   
+   FUNCTION Base (
+      db_state_ IN VARCHAR2 ) RETURN VARCHAR2
+   IS
+   BEGIN
+      IF (db_state_ IS NULL) THEN
+         RETURN NULL;
+      ELSIF (db_state_ = 'Cancelled') THEN
+         RETURN NULL;
+      ELSIF (db_state_ = 'Closed') THEN
+         RETURN NULL;
+      ELSIF (db_state_ = 'Planned') THEN
+         RETURN 'Release^Cancel^';
+      ELSIF (db_state_ = 'Released') THEN
+         RETURN 'Close^';
+      ELSE
+         RETURN NULL;
+      END IF;
+   END Base;
+
+BEGIN
+   RETURN Base(db_state_);
+END Finite_State_Events__;
+
+
+--@IgnoreMissingSysinit
+PROCEDURE Enumerate_Events__ (
+   db_events_ OUT VARCHAR2 )
+IS
+   
+   PROCEDURE Base (
+      db_events_ OUT VARCHAR2 )
+   IS
+   BEGIN
+      db_events_ := 'Cancel^Close^Release^';
+   END Base;
+
+BEGIN
+   Base(db_events_);
+END Enumerate_Events__;
+
+
+PROCEDURE Cancel__ (
+   info_       OUT    VARCHAR2,
+   objid_      IN     VARCHAR2,
+   objversion_ IN OUT NOCOPY VARCHAR2,
+   attr_       IN OUT NOCOPY VARCHAR2,
+   action_     IN     VARCHAR2 )
+IS
+   
+   PROCEDURE Base (
+      info_       OUT    VARCHAR2,
+      objid_      IN     VARCHAR2,
+      objversion_ IN OUT NOCOPY VARCHAR2,
+      attr_       IN OUT NOCOPY VARCHAR2,
+      action_     IN     VARCHAR2 )
+   IS
+      rec_ cus_order_details_tab%ROWTYPE;
+   BEGIN
+      IF (action_ = 'CHECK') THEN
+         NULL;
+      ELSIF (action_ = 'DO') THEN
+         rec_ := Lock_By_Id___(objid_, objversion_);
+         Finite_State_Machine___(rec_, 'Cancel', attr_);
+         objversion_ := to_char(rec_.rowversion,'YYYYMMDDHH24MISS');
+         Finite_State_Add_To_Attr___(rec_, attr_);
+      END IF;
+      info_ := Client_SYS.Get_All_Info;
+   END Base;
+
+BEGIN
+   General_SYS.Init_Method(Cus_Order_Details_API.lu_name_, 'Cus_Order_Details_API', 'Cancel__');
+   Base(info_, objid_, objversion_, attr_, action_);
+END Cancel__;
+
+
+PROCEDURE Close__ (
+   info_       OUT    VARCHAR2,
+   objid_      IN     VARCHAR2,
+   objversion_ IN OUT NOCOPY VARCHAR2,
+   attr_       IN OUT NOCOPY VARCHAR2,
+   action_     IN     VARCHAR2 )
+IS
+   
+   PROCEDURE Base (
+      info_       OUT    VARCHAR2,
+      objid_      IN     VARCHAR2,
+      objversion_ IN OUT NOCOPY VARCHAR2,
+      attr_       IN OUT NOCOPY VARCHAR2,
+      action_     IN     VARCHAR2 )
+   IS
+      rec_ cus_order_details_tab%ROWTYPE;
+   BEGIN
+      IF (action_ = 'CHECK') THEN
+         NULL;
+      ELSIF (action_ = 'DO') THEN
+         rec_ := Lock_By_Id___(objid_, objversion_);
+         Finite_State_Machine___(rec_, 'Close', attr_);
+         objversion_ := to_char(rec_.rowversion,'YYYYMMDDHH24MISS');
+         Finite_State_Add_To_Attr___(rec_, attr_);
+      END IF;
+      info_ := Client_SYS.Get_All_Info;
+   END Base;
+
+BEGIN
+   General_SYS.Init_Method(Cus_Order_Details_API.lu_name_, 'Cus_Order_Details_API', 'Close__');
+   Base(info_, objid_, objversion_, attr_, action_);
+END Close__;
+
+
+PROCEDURE Release__ (
+   info_       OUT    VARCHAR2,
+   objid_      IN     VARCHAR2,
+   objversion_ IN OUT NOCOPY VARCHAR2,
+   attr_       IN OUT NOCOPY VARCHAR2,
+   action_     IN     VARCHAR2 )
+IS
+   
+   PROCEDURE Base (
+      info_       OUT    VARCHAR2,
+      objid_      IN     VARCHAR2,
+      objversion_ IN OUT NOCOPY VARCHAR2,
+      attr_       IN OUT NOCOPY VARCHAR2,
+      action_     IN     VARCHAR2 )
+   IS
+      rec_ cus_order_details_tab%ROWTYPE;
+   BEGIN
+      IF (action_ = 'CHECK') THEN
+         NULL;
+      ELSIF (action_ = 'DO') THEN
+         rec_ := Lock_By_Id___(objid_, objversion_);
+         Finite_State_Machine___(rec_, 'Release', attr_);
+         objversion_ := to_char(rec_.rowversion,'YYYYMMDDHH24MISS');
+         Finite_State_Add_To_Attr___(rec_, attr_);
+      END IF;
+      info_ := Client_SYS.Get_All_Info;
+   END Base;
+
+BEGIN
+   General_SYS.Init_Method(Cus_Order_Details_API.lu_name_, 'Cus_Order_Details_API', 'Release__');
+   Base(info_, objid_, objversion_, attr_, action_);
+END Release__;
+
+
+FUNCTION Get_Db_Values___ RETURN VARCHAR2 DETERMINISTIC
+IS
+   
+   FUNCTION Base RETURN VARCHAR2 DETERMINISTIC
+   IS
+   BEGIN
+      RETURN('Planned^Released^Closed^Cancelled^');
+   END Base;
+
+BEGIN
+   RETURN Base;
+END Get_Db_Values___;
+
+
+FUNCTION Get_Client_Values___ RETURN VARCHAR2 DETERMINISTIC
+IS
+   
+   FUNCTION Base RETURN VARCHAR2 DETERMINISTIC
+   IS
+   BEGIN
+      RETURN('Planned^Released^Closed^Cancelled^');
+   END Base;
+
+BEGIN
+   RETURN Base;
+END Get_Client_Values___;
+
+
+PROCEDURE Finite_State_Set___ (
+   rec_   IN OUT NOCOPY cus_order_details_tab%ROWTYPE,
+   state_ IN     VARCHAR2 )
+IS
+   
+   PROCEDURE Base (
+      rec_   IN OUT NOCOPY cus_order_details_tab%ROWTYPE,
+      state_ IN     VARCHAR2 )
+   IS
+   BEGIN
+      rec_.rowversion := sysdate;
+      UPDATE cus_order_details_tab
+         SET rowstate = state_,
+             rowversion = rec_.rowversion
+         WHERE order_no = rec_.order_no;
+      rec_.rowstate := state_;
+   END Base;
+
+BEGIN
+   Base(rec_, state_);
+END Finite_State_Set___;
+
+
+PROCEDURE Finite_State_Machine___ (
+   rec_   IN OUT NOCOPY cus_order_details_tab%ROWTYPE,
+   event_ IN     VARCHAR2,
+   attr_  IN OUT NOCOPY VARCHAR2 )
+IS
+   
+   PROCEDURE Base (
+      rec_   IN OUT NOCOPY cus_order_details_tab%ROWTYPE,
+      event_ IN     VARCHAR2,
+      attr_  IN OUT NOCOPY VARCHAR2 )
+   IS
+      state_ cus_order_details_tab.rowstate%TYPE;
+   BEGIN
+      state_ := rec_.rowstate;
+      IF (state_ IS NULL) THEN
+         IF (event_ IS NULL) THEN
+            Finite_State_Set___(rec_, 'Planned');
+         ELSE
+            Error_SYS.State_Event_Not_Handled(lu_name_, event_, Finite_State_Decode__(state_));
+         END IF;
+      ELSIF (state_ = 'Cancelled') THEN
+         Error_SYS.State_Event_Not_Handled(lu_name_, event_, Finite_State_Decode__(state_));
+      ELSIF (state_ = 'Closed') THEN
+         Error_SYS.State_Event_Not_Handled(lu_name_, event_, Finite_State_Decode__(state_));
+      ELSIF (state_ = 'Planned') THEN
+         IF (event_ = 'Cancel') THEN
+            Finite_State_Set___(rec_, 'Cancelled');
+         ELSIF (event_ = 'Release') THEN
+            Finite_State_Set___(rec_, 'Released');
+         ELSE
+            Error_SYS.State_Event_Not_Handled(lu_name_, event_, Finite_State_Decode__(state_));
+         END IF;
+      ELSIF (state_ = 'Released') THEN
+         IF (event_ = 'Close') THEN
+            Finite_State_Set___(rec_, 'Closed');
+         ELSE
+            Error_SYS.State_Event_Not_Handled(lu_name_, event_, Finite_State_Decode__(state_));
+         END IF;
+      ELSE
+         Error_SYS.State_Not_Exist(lu_name_, Finite_State_Decode__(state_));
+      END IF;
+   END Base;
+
+BEGIN
+   Base(rec_, event_, attr_);
+END Finite_State_Machine___;
+
+
+PROCEDURE Finite_State_Add_To_Attr___ (
+   rec_  IN     cus_order_details_tab%ROWTYPE,
+   attr_ IN OUT NOCOPY VARCHAR2 )
+IS
+   
+   PROCEDURE Base (
+      rec_  IN     cus_order_details_tab%ROWTYPE,
+      attr_ IN OUT NOCOPY VARCHAR2 )
+   IS
+      state_ cus_order_details_tab.rowstate%TYPE;
+   BEGIN
+      state_ := rec_.rowstate;
+      Client_SYS.Add_To_Attr('__OBJSTATE', state_, attr_);
+      Client_SYS.Add_To_Attr('__OBJEVENTS', Finite_State_Events__(state_), attr_);
+      Client_SYS.Add_To_Attr('STATE', Finite_State_Decode__(state_), attr_);
+   END Base;
+
+BEGIN
+   Base(rec_, attr_);
+END Finite_State_Add_To_Attr___;
+
+
+PROCEDURE Finite_State_Init___ (
+   rec_  IN OUT NOCOPY cus_order_details_tab%ROWTYPE,
+   attr_ IN OUT NOCOPY VARCHAR2 )
+IS
+   
+   PROCEDURE Base (
+      rec_  IN OUT NOCOPY cus_order_details_tab%ROWTYPE,
+      attr_ IN OUT NOCOPY VARCHAR2 )
+   IS
+   BEGIN
+      Finite_State_Machine___(rec_, NULL, attr_);
+      Finite_State_Add_To_Attr___(rec_, attr_);
+   END Base;
+
+BEGIN
+   Base(rec_, attr_);
+END Finite_State_Init___;
+
+-----------------------------------------------------------------------------
 -------------------- LU SPECIFIC IMPLEMENTATION METHODS ---------------------
 -----------------------------------------------------------------------------
 
@@ -1526,10 +1931,13 @@ IS
       newrec_.rowversion := sysdate;
       newrec_.rowkey := sys_guid();
       Client_SYS.Add_To_Attr('OBJKEY', newrec_.rowkey, attr_);
+      newrec_.rowstate := '<UNDEFINED>';
       INSERT
          INTO cus_order_details_tab
          VALUES newrec_
          RETURNING rowid INTO objid_;
+      newrec_.rowstate := NULL;
+      Finite_State_Init___(newrec_, attr_);
       objversion_ := to_char(newrec_.rowversion,'YYYYMMDDHH24MISS');
    EXCEPTION
       WHEN dup_val_on_index THEN
@@ -1570,13 +1978,28 @@ END Insert___;
 
 
 --@IgnoreMissingSysinit
+PROCEDURE Language_Refreshed
+IS
+   
+   PROCEDURE Base
+   IS
+   BEGIN
+      Domain_SYS.Language_Refreshed(lu_name_, Get_Client_Values___, Get_Db_Values___, 'STATE');
+   END Base;
+
+BEGIN
+   Base;
+END Language_Refreshed;
+
+
+--@IgnoreMissingSysinit
 PROCEDURE Init
 IS
    
    PROCEDURE Base
    IS
    BEGIN
-      NULL;
+      Domain_SYS.Load_State(lu_name_, Get_Client_Values___, Get_Db_Values___);
    END Base;
 
 BEGIN

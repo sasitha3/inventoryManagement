@@ -22,6 +22,7 @@ TYPE Public_Rec IS RECORD
    "rowid"                        rowid,
    rowversion                     CUS_ORDER_DETAILS_TAB.rowversion%TYPE,
    rowkey                         CUS_ORDER_DETAILS_TAB.rowkey%TYPE,
+   rowstate                       CUS_ORDER_DETAILS_TAB.rowstate%TYPE,
    order_date                     CUS_ORDER_DETAILS_TAB.order_date%TYPE,
    customer_name                  CUS_ORDER_DETAILS_TAB.customer_name%TYPE,
    del_address                    CUS_ORDER_DETAILS_TAB.del_address%TYPE,
@@ -458,6 +459,7 @@ BEGIN
    Client_SYS.Add_To_Attr('DEL_ADDRESS', rec_.del_address, attr_);
    Client_SYS.Add_To_Attr('INTERNAL_CUS', rec_.internal_cus, attr_);
    Client_SYS.Add_To_Attr('ROWKEY', rec_.rowkey, attr_);
+   Client_SYS.Add_To_Attr('ROWSTATE', rec_.rowstate, attr_);
    RETURN attr_;
 END Pack_Table___;
 
@@ -563,10 +565,13 @@ BEGIN
    newrec_.rowversion := sysdate;
    newrec_.rowkey := sys_guid();
    Client_SYS.Add_To_Attr('OBJKEY', newrec_.rowkey, attr_);
+   newrec_.rowstate := '<UNDEFINED>';
    INSERT
       INTO cus_order_details_tab
       VALUES newrec_
       RETURNING rowid INTO objid_;
+   newrec_.rowstate := NULL;
+   Finite_State_Init___(newrec_, attr_);
    objversion_ := to_char(newrec_.rowversion,'YYYYMMDDHH24MISS');
 EXCEPTION
    WHEN dup_val_on_index THEN
@@ -1026,7 +1031,7 @@ BEGIN
       RETURN NULL;
    END IF;
    SELECT order_no,
-          rowid, rowversion, rowkey,
+          rowid, rowversion, rowkey, rowstate,
           order_date, 
           customer_name, 
           del_address, 
@@ -1066,7 +1071,281 @@ EXCEPTION
       Raise_Too_Many_Rows___(order_no_, 'Get_Objkey');
 END Get_Objkey;
 
+-------------------- FINITE STATE MACHINE -----------------------------------
+
+-- Get_Db_Values___
+--   Returns the the list of DB (stored in database) values.
+FUNCTION Get_Db_Values___ RETURN VARCHAR2 DETERMINISTIC
+IS
+BEGIN
+   RETURN('Planned^Released^Closed^Cancelled^');
+END Get_Db_Values___;
+
+
+-- Get_Client_Values___
+--   Returns the the list of client (in PROG language) values.
+FUNCTION Get_Client_Values___ RETURN VARCHAR2 DETERMINISTIC
+IS
+BEGIN
+   RETURN('Planned^Released^Closed^Cancelled^');
+END Get_Client_Values___;
+
+
+-- Finite_State_Set___
+--    Updates the state column in the database for given record.
+PROCEDURE Finite_State_Set___ (
+   rec_   IN OUT cus_order_details_tab%ROWTYPE,
+   state_ IN     VARCHAR2 )
+IS
+BEGIN
+   rec_.rowversion := sysdate;
+   UPDATE cus_order_details_tab
+      SET rowstate = state_,
+          rowversion = rec_.rowversion
+      WHERE order_no = rec_.order_no;
+   rec_.rowstate := state_;
+END Finite_State_Set___;
+
+
+-- Finite_State_Machine___
+--    Execute the state machine logic given a specific event.
+PROCEDURE Finite_State_Machine___ (
+   rec_   IN OUT cus_order_details_tab%ROWTYPE,
+   event_ IN     VARCHAR2,
+   attr_  IN OUT VARCHAR2 )
+IS
+   state_ cus_order_details_tab.rowstate%TYPE;
+BEGIN
+   state_ := rec_.rowstate;
+   IF (state_ IS NULL) THEN
+      IF (event_ IS NULL) THEN
+         Finite_State_Set___(rec_, 'Planned');
+      ELSE
+         Error_SYS.State_Event_Not_Handled(lu_name_, event_, Finite_State_Decode__(state_));
+      END IF;
+   ELSIF (state_ = 'Cancelled') THEN
+      Error_SYS.State_Event_Not_Handled(lu_name_, event_, Finite_State_Decode__(state_));
+   ELSIF (state_ = 'Closed') THEN
+      Error_SYS.State_Event_Not_Handled(lu_name_, event_, Finite_State_Decode__(state_));
+   ELSIF (state_ = 'Planned') THEN
+      IF (event_ = 'Cancel') THEN
+         Finite_State_Set___(rec_, 'Cancelled');
+      ELSIF (event_ = 'Release') THEN
+         Finite_State_Set___(rec_, 'Released');
+      ELSE
+         Error_SYS.State_Event_Not_Handled(lu_name_, event_, Finite_State_Decode__(state_));
+      END IF;
+   ELSIF (state_ = 'Released') THEN
+      IF (event_ = 'Close') THEN
+         Finite_State_Set___(rec_, 'Closed');
+      ELSE
+         Error_SYS.State_Event_Not_Handled(lu_name_, event_, Finite_State_Decode__(state_));
+      END IF;
+   ELSE
+      Error_SYS.State_Not_Exist(lu_name_, Finite_State_Decode__(state_));
+   END IF;
+END Finite_State_Machine___;
+
+
+-- Finite_State_Add_To_Attr___
+--    Add current state and lists of allowed events to an attribute string.
+PROCEDURE Finite_State_Add_To_Attr___ (
+   rec_  IN     cus_order_details_tab%ROWTYPE,
+   attr_ IN OUT VARCHAR2 )
+IS
+   state_ cus_order_details_tab.rowstate%TYPE;
+BEGIN
+   state_ := rec_.rowstate;
+   Client_SYS.Add_To_Attr('__OBJSTATE', state_, attr_);
+   Client_SYS.Add_To_Attr('__OBJEVENTS', Finite_State_Events__(state_), attr_);
+   Client_SYS.Add_To_Attr('STATE', Finite_State_Decode__(state_), attr_);
+END Finite_State_Add_To_Attr___;
+
+
+-- Finite_State_Init___
+--    Runs the initial start event for the state machine.
+PROCEDURE Finite_State_Init___ (
+   rec_  IN OUT cus_order_details_tab%ROWTYPE,
+   attr_ IN OUT VARCHAR2 )
+IS
+BEGIN
+   Finite_State_Machine___(rec_, NULL, attr_);
+   Finite_State_Add_To_Attr___(rec_, attr_);
+END Finite_State_Init___;
+
+
+-- Finite_State_Init_
+--    Runs the initial start event for a basedOn child entity.
+@ServerOnlyAccess
+PROCEDURE Finite_State_Init_ (
+   rec_  IN OUT cus_order_details_tab%ROWTYPE,
+   attr_ IN OUT VARCHAR2 )
+IS
+BEGIN
+   Finite_State_Init___(rec_, attr_);
+END Finite_State_Init_;
+
+
+-- Finite_State_Decode__
+--   Returns the client equivalent for any database representation of
+--   a state name = objstate.
+@UncheckedAccess
+FUNCTION Finite_State_Decode__ (
+   db_state_ IN VARCHAR2 ) RETURN VARCHAR2
+IS
+BEGIN
+   RETURN(Domain_SYS.Decode_(Domain_SYS.Get_Translated_Values(lu_name_), Get_Db_Values___, db_state_));
+END Finite_State_Decode__;
+
+
+-- Finite_State_Encode__
+--   Returns the database equivalent for any client representation of
+--   a state name = state.
+@UncheckedAccess
+FUNCTION Finite_State_Encode__ (
+   client_state_ IN VARCHAR2 ) RETURN VARCHAR2
+IS
+BEGIN
+   RETURN(Domain_SYS.Encode_(Domain_SYS.Get_Translated_Values(lu_name_), Get_Db_Values___, client_state_));
+END Finite_State_Encode__;
+
+
+-- Enumerate_States__
+--   Returns a list of all possible finite states in client terminology.
+@UncheckedAccess
+PROCEDURE Enumerate_States__ (
+   client_values_ OUT VARCHAR2 )
+IS
+BEGIN
+   client_values_ := Domain_SYS.Enumerate_(Domain_SYS.Get_Translated_Values(lu_name_));
+END Enumerate_States__;
+
+
+-- Enumerate_States_Db__
+--   Returns a list of all possible finite states in database terminology.
+@UncheckedAccess
+PROCEDURE Enumerate_States_Db__ (
+   db_values_ OUT VARCHAR2 )
+IS
+BEGIN
+   db_values_ := Domain_SYS.Enumerate_(Get_Db_Values___);
+END Enumerate_States_Db__;
+
+
+-- Finite_State_Events__
+--   Returns a list of allowed events for a given state
+--   NOTE! Regardless of conditions if not otherwize encoded
+@UncheckedAccess
+FUNCTION Finite_State_Events__ (
+   db_state_ IN VARCHAR2 ) RETURN VARCHAR2
+IS
+BEGIN
+   IF (db_state_ IS NULL) THEN
+      RETURN NULL;
+   ELSIF (db_state_ = 'Cancelled') THEN
+      RETURN NULL;
+   ELSIF (db_state_ = 'Closed') THEN
+      RETURN NULL;
+   ELSIF (db_state_ = 'Planned') THEN
+      RETURN 'Release^Cancel^';
+   ELSIF (db_state_ = 'Released') THEN
+      RETURN 'Close^';
+   ELSE
+      RETURN NULL;
+   END IF;
+END Finite_State_Events__;
+
+
+-- Enumerate_Events__
+--   Returns a list of all possible events.
+@UncheckedAccess
+PROCEDURE Enumerate_Events__ (
+   db_events_ OUT VARCHAR2 )
+IS
+BEGIN
+   db_events_ := 'Cancel^Close^Release^';
+END Enumerate_Events__;
+
+
+-- Cancel__
+--   Executes the Cancel event logic as defined in the state machine.
+PROCEDURE Cancel__ (
+   info_       OUT    VARCHAR2,
+   objid_      IN     VARCHAR2,
+   objversion_ IN OUT VARCHAR2,
+   attr_       IN OUT VARCHAR2,
+   action_     IN     VARCHAR2 )
+IS
+   rec_ cus_order_details_tab%ROWTYPE;
+BEGIN
+   IF (action_ = 'CHECK') THEN
+      NULL;
+   ELSIF (action_ = 'DO') THEN
+      rec_ := Lock_By_Id___(objid_, objversion_);
+      Finite_State_Machine___(rec_, 'Cancel', attr_);
+      objversion_ := to_char(rec_.rowversion,'YYYYMMDDHH24MISS');
+      Finite_State_Add_To_Attr___(rec_, attr_);
+   END IF;
+   info_ := Client_SYS.Get_All_Info;
+END Cancel__;
+
+
+-- Close__
+--   Executes the Close event logic as defined in the state machine.
+PROCEDURE Close__ (
+   info_       OUT    VARCHAR2,
+   objid_      IN     VARCHAR2,
+   objversion_ IN OUT VARCHAR2,
+   attr_       IN OUT VARCHAR2,
+   action_     IN     VARCHAR2 )
+IS
+   rec_ cus_order_details_tab%ROWTYPE;
+BEGIN
+   IF (action_ = 'CHECK') THEN
+      NULL;
+   ELSIF (action_ = 'DO') THEN
+      rec_ := Lock_By_Id___(objid_, objversion_);
+      Finite_State_Machine___(rec_, 'Close', attr_);
+      objversion_ := to_char(rec_.rowversion,'YYYYMMDDHH24MISS');
+      Finite_State_Add_To_Attr___(rec_, attr_);
+   END IF;
+   info_ := Client_SYS.Get_All_Info;
+END Close__;
+
+
+-- Release__
+--   Executes the Release event logic as defined in the state machine.
+PROCEDURE Release__ (
+   info_       OUT    VARCHAR2,
+   objid_      IN     VARCHAR2,
+   objversion_ IN OUT VARCHAR2,
+   attr_       IN OUT VARCHAR2,
+   action_     IN     VARCHAR2 )
+IS
+   rec_ cus_order_details_tab%ROWTYPE;
+BEGIN
+   IF (action_ = 'CHECK') THEN
+      NULL;
+   ELSIF (action_ = 'DO') THEN
+      rec_ := Lock_By_Id___(objid_, objversion_);
+      Finite_State_Machine___(rec_, 'Release', attr_);
+      objversion_ := to_char(rec_.rowversion,'YYYYMMDDHH24MISS');
+      Finite_State_Add_To_Attr___(rec_, attr_);
+   END IF;
+   info_ := Client_SYS.Get_All_Info;
+END Release__;
+
 -------------------- FOUNDATION1 METHODS ------------------------------------
+
+
+-- Language_Refreshed
+--   Framework method that updates translations to a new language.
+@UncheckedAccess
+PROCEDURE Language_Refreshed
+IS
+BEGIN
+   Domain_SYS.Language_Refreshed(lu_name_, Get_Client_Values___, Get_Db_Values___, 'STATE');
+END Language_Refreshed;
 
 
 -- Init
@@ -1075,6 +1354,6 @@ END Get_Objkey;
 PROCEDURE Init
 IS
 BEGIN
-   NULL;
+   Domain_SYS.Load_State(lu_name_, Get_Client_Values___, Get_Db_Values___);
 END Init;
 

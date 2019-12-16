@@ -32,8 +32,8 @@ namespace Ifs.Application.Exmcln
 
     /// <summary>
     /// </summary>
-    [FndWindowRegistration("ITEM_DETAIL", "ItemDetail", "", FndWindowRegistrationFlags.HomePage, false, "")]
-    public partial class tbwItemDetailServices : cTableWindow
+    [FndWindowRegistration("SERVICE_ITEM_DETAILS", "ServiceItemDetails", "", FndWindowRegistrationFlags.None, false, "")]
+    public partial class tbwServiceItemDetails : cTableWindow
     {
         #region Member Variables
 
@@ -44,7 +44,7 @@ namespace Ifs.Application.Exmcln
         /// <summary>
         /// Default Constructor.
         /// </summary>
-        public tbwItemDetailServices()
+        public tbwServiceItemDetails()
         {
             // This call is required by the Windows Form Designer.
             InitializeComponent();
@@ -60,9 +60,9 @@ namespace Ifs.Application.Exmcln
         /// <param name="handle"></param>
         /// <returns></returns>
         [DebuggerStepThrough]
-        public new static tbwItemDetailServices FromHandle(SalWindowHandle handle)
+        public new static tbwServiceItemDetails FromHandle(SalWindowHandle handle)
         {
-            return ((tbwItemDetailServices)SalWindow.FromHandle(handle, typeof(tbwItemDetailServices)));
+            return ((tbwServiceItemDetails)SalWindow.FromHandle(handle, typeof(tbwServiceItemDetails)));
         }
 
         #endregion

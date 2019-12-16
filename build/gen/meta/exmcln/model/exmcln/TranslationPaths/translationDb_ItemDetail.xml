@@ -16,6 +16,21 @@
          <Column ID="ItemDetail.ITEM_DETAIL.PRICE">
             <Text><![CDATA[Price]]></Text>
          </Column>
+         <Column ID="ItemDetail.ITEM_DETAIL.STATE">
+            <Text><![CDATA[State]]></Text>
+         </Column>
       </View>
+      <State ID="Required">
+         <Position>1</Position>
+         <Text><![CDATA[Required]]></Text>
+      </State>
+      <State ID="Cancelled">
+         <Position>2</Position>
+         <Text><![CDATA[Cancelled]]></Text>
+      </State>
+      <State ID="Delivered">
+         <Position>3</Position>
+         <Text><![CDATA[Delivered]]></Text>
+      </State>
    </LogicalUnit>
 </LogicalUnits>

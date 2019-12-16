@@ -22,13 +22,13 @@
                </PROPERTIES>
                <LOCATION>
                   <POINT>
-                     <X>300</X>
-                     <Y>235</Y>
+                     <X>380</X>
+                     <Y>191</Y>
                   </POINT>
                </LOCATION>
                <SIZE>
                   <POINT>
-                     <X>128</X>
+                     <X>139</X>
                      <Y>114</Y>
                   </POINT>
                </SIZE>
@@ -50,8 +50,8 @@
                </PROPERTIES>
                <LOCATION>
                   <POINT>
-                     <X>69</X>
-                     <Y>352</Y>
+                     <X>41</X>
+                     <Y>371</Y>
                   </POINT>
                </LOCATION>
                <SIZE>
@@ -78,13 +78,13 @@
                </PROPERTIES>
                <LOCATION>
                   <POINT>
-                     <X>296</X>
+                     <X>278</X>
                      <Y>12</Y>
                   </POINT>
                </LOCATION>
                <SIZE>
                   <POINT>
-                     <X>160</X>
+                     <X>176</X>
                      <Y>133</Y>
                   </POINT>
                </SIZE>
@@ -117,6 +117,34 @@
                   </POINT>
                </SIZE>
             </DIAGRAM_NODE>
+            <DIAGRAM_NODE>
+               <ID>758f6630-1fc2-11ea-3d64-c2ce4f89f6c3</ID>
+               <NODE_TYPE>ENTITY</NODE_TYPE>
+               <MINIMIZED>0</MINIMIZED>
+               <IS_MERGED>0</IS_MERGED>
+               <PROPERTIES>
+                  <PROPERTY>
+                     <NAME>EntityName</NAME>
+                     <VALUE>ServiceItemDetails</VALUE>
+                  </PROPERTY>
+                  <PROPERTY>
+                     <NAME>ShowMethods</NAME>
+                     <VALUE>false</VALUE>
+                  </PROPERTY>
+               </PROPERTIES>
+               <LOCATION>
+                  <POINT>
+                     <X>111</X>
+                     <Y>208</Y>
+                  </POINT>
+               </LOCATION>
+               <SIZE>
+                  <POINT>
+                     <X>173</X>
+                     <Y>114</Y>
+                  </POINT>
+               </SIZE>
+            </DIAGRAM_NODE>
          </NODES>
          <EDGES>
             <DIAGRAM_EDGE>
@@ -144,12 +172,12 @@
                </PROPERTIES>
                <CONTROL_POINTS>
                   <POINT>
-                     <X>427</X>
-                     <Y>316</Y>
+                     <X>511</X>
+                     <Y>304</Y>
                   </POINT>
                   <POINT>
-                     <X>534</X>
-                     <Y>358</Y>
+                     <X>546</X>
+                     <Y>336</Y>
                   </POINT>
                </CONTROL_POINTS>
             </DIAGRAM_EDGE>
@@ -178,18 +206,52 @@
                </PROPERTIES>
                <CONTROL_POINTS>
                   <POINT>
-                     <X>366</X>
-                     <Y>234</Y>
+                     <X>420</X>
+                     <Y>190</Y>
                   </POINT>
                   <POINT>
-                     <X>371</X>
+                     <X>397</X>
                      <Y>144</Y>
                   </POINT>
                </CONTROL_POINTS>
             </DIAGRAM_EDGE>
             <DIAGRAM_EDGE>
                <EDGE_TYPE>ASSOCIATION</EDGE_TYPE>
-               <SOURCE_NODE_ID>23007380-1d76-11ea-3d64-c2ce4f89f6c3</SOURCE_NODE_ID>
+               <SOURCE_NODE_ID>758f6630-1fc2-11ea-3d64-c2ce4f89f6c3</SOURCE_NODE_ID>
+               <TARGET_NODE_ID>21210520-1d76-11ea-3d64-c2ce4f89f6c3</TARGET_NODE_ID>
+               <IS_MERGED>0</IS_MERGED>
+               <PROPERTIES>
+                  <PROPERTY>
+                     <NAME>AssociationName</NAME>
+                     <VALUE>ServiceItemDetailses</VALUE>
+                  </PROPERTY>
+                  <PROPERTY>
+                     <NAME>AssociationTarget</NAME>
+                     <VALUE>CusOrderDetails</VALUE>
+                  </PROPERTY>
+                  <PROPERTY>
+                     <NAME>AssociationParent</NAME>
+                     <VALUE>ServiceItemDetails</VALUE>
+                  </PROPERTY>
+                  <PROPERTY>
+                     <NAME>IsParent</NAME>
+                     <VALUE>true</VALUE>
+                  </PROPERTY>
+               </PROPERTIES>
+               <CONTROL_POINTS>
+                  <POINT>
+                     <X>248</X>
+                     <Y>207</Y>
+                  </POINT>
+                  <POINT>
+                     <X>305</X>
+                     <Y>144</Y>
+                  </POINT>
+               </CONTROL_POINTS>
+            </DIAGRAM_EDGE>
+            <DIAGRAM_EDGE>
+               <EDGE_TYPE>ASSOCIATION</EDGE_TYPE>
+               <SOURCE_NODE_ID>758f6630-1fc2-11ea-3d64-c2ce4f89f6c3</SOURCE_NODE_ID>
                <TARGET_NODE_ID>28dd4e40-1d76-11ea-3d64-c2ce4f89f6c3</TARGET_NODE_ID>
                <IS_MERGED>0</IS_MERGED>
                <PROPERTIES>
@@ -203,7 +265,7 @@
                   </PROPERTY>
                   <PROPERTY>
                      <NAME>AssociationParent</NAME>
-                     <VALUE>ItemDetail</VALUE>
+                     <VALUE>ServiceItemDetails</VALUE>
                   </PROPERTY>
                   <PROPERTY>
                      <NAME>IsParent</NAME>
@@ -212,12 +274,12 @@
                </PROPERTIES>
                <CONTROL_POINTS>
                   <POINT>
-                     <X>299</X>
-                     <Y>318</Y>
+                     <X>160</X>
+                     <Y>321</Y>
                   </POINT>
                   <POINT>
-                     <X>196</X>
-                     <Y>362</Y>
+                     <X>128</X>
+                     <Y>370</Y>
                   </POINT>
                </CONTROL_POINTS>
             </DIAGRAM_EDGE>

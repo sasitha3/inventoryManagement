@@ -40,6 +40,10 @@ COLUMN Internal_Cus_Db IS
    Flags      = 'A----'
    Datatype   = 'STRING(20)'
    Prompt     = 'Internal Cus';
+COLUMN State IS
+   Flags      = 'A---L'
+   Datatype   = 'STRING(20)'
+   Prompt     = 'State';
 
 -------------------- PUBLIC VIEW DEFINITIONS --------------------------------
 
@@ -55,6 +59,9 @@ SELECT
        del_address                    del_address,
        Fnd_Boolean_API.Decode(internal_cus) internal_cus,
        internal_cus                   internal_cus_db,
+       rowstate                       objstate,
+       Cus_Order_Details_API.Finite_State_Events__(rowstate)                     objevents,
+       Cus_Order_Details_API.Finite_State_Decode__(rowstate)                         state,
        rowkey                         objkey,
        to_char(rowversion,'YYYYMMDDHH24MISS') objversion,
        rowid                          objid

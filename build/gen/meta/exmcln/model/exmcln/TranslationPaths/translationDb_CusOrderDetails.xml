@@ -22,6 +22,25 @@
          <Column ID="CusOrderDetails.CUS_ORDER_DETAILS.INTERNAL_CUS_DB">
             <Text><![CDATA[Internal Cus]]></Text>
          </Column>
+         <Column ID="CusOrderDetails.CUS_ORDER_DETAILS.STATE">
+            <Text><![CDATA[State]]></Text>
+         </Column>
       </View>
+      <State ID="Planned">
+         <Position>1</Position>
+         <Text><![CDATA[Planned]]></Text>
+      </State>
+      <State ID="Released">
+         <Position>2</Position>
+         <Text><![CDATA[Released]]></Text>
+      </State>
+      <State ID="Closed">
+         <Position>3</Position>
+         <Text><![CDATA[Closed]]></Text>
+      </State>
+      <State ID="Cancelled">
+         <Position>4</Position>
+         <Text><![CDATA[Cancelled]]></Text>
+      </State>
    </LogicalUnit>
 </LogicalUnits>

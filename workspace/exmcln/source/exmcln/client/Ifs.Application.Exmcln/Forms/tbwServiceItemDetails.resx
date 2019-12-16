@@ -149,7 +149,67 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;__colObjversion.ZOrder" xml:space="preserve">
+    <value>6</value>
+  </data>
+  <data name="colnOrderNo.Title" xml:space="preserve">
+    <value>Order No</value>
+  </data>
+  <data name="&gt;&gt;colnOrderNo.Name" xml:space="preserve">
+    <value>colnOrderNo</value>
+  </data>
+  <data name="&gt;&gt;colnOrderNo.Type" xml:space="preserve">
+    <value>Ifs.Fnd.ApplicationForms.cColumn, Ifs.Fnd.ApplicationForms, Version=4.52.9.0, Culture=neutral, PublicKeyToken=ff90f512e10aef0d</value>
+  </data>
+  <data name="&gt;&gt;colnOrderNo.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;colnOrderNo.ZOrder" xml:space="preserve">
     <value>2</value>
+  </data>
+  <data name="colnItemNo.Title" xml:space="preserve">
+    <value>Item No</value>
+  </data>
+  <data name="&gt;&gt;colnItemNo.Name" xml:space="preserve">
+    <value>colnItemNo</value>
+  </data>
+  <data name="&gt;&gt;colnItemNo.Type" xml:space="preserve">
+    <value>Ifs.Fnd.ApplicationForms.cColumn, Ifs.Fnd.ApplicationForms, Version=4.52.9.0, Culture=neutral, PublicKeyToken=ff90f512e10aef0d</value>
+  </data>
+  <data name="&gt;&gt;colnItemNo.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;colnItemNo.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="colnPrice.Title" xml:space="preserve">
+    <value>Price</value>
+  </data>
+  <data name="&gt;&gt;colnPrice.Name" xml:space="preserve">
+    <value>colnPrice</value>
+  </data>
+  <data name="&gt;&gt;colnPrice.Type" xml:space="preserve">
+    <value>Ifs.Fnd.ApplicationForms.cColumn, Ifs.Fnd.ApplicationForms, Version=4.52.9.0, Culture=neutral, PublicKeyToken=ff90f512e10aef0d</value>
+  </data>
+  <data name="&gt;&gt;colnPrice.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;colnPrice.ZOrder" xml:space="preserve">
+    <value>4</value>
+  </data>
+  <data name="colnQuantity.Title" xml:space="preserve">
+    <value>Quantity</value>
+  </data>
+  <data name="&gt;&gt;colnQuantity.Name" xml:space="preserve">
+    <value>colnQuantity</value>
+  </data>
+  <data name="&gt;&gt;colnQuantity.Type" xml:space="preserve">
+    <value>Ifs.Fnd.ApplicationForms.cColumn, Ifs.Fnd.ApplicationForms, Version=4.52.9.0, Culture=neutral, PublicKeyToken=ff90f512e10aef0d</value>
+  </data>
+  <data name="&gt;&gt;colnQuantity.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;colnQuantity.ZOrder" xml:space="preserve">
+    <value>5</value>
   </data>
   <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
@@ -159,7 +219,7 @@
     <value>777, 430</value>
   </data>
   <data name="$this.Text" xml:space="preserve">
-    <value>tbwItemDetailServices</value>
+    <value>tbwServiceItemDetails</value>
   </data>
   <data name="&gt;&gt;commandManager.Name" xml:space="preserve">
     <value>commandManager</value>
@@ -168,7 +228,7 @@
     <value>Ifs.Fnd.Windows.Forms.FndCommandManager, Ifs.Fnd.Windows.Forms.CommonControls, Version=4.52.9.0, Culture=neutral, PublicKeyToken=ff90f512e10aef0d</value>
   </data>
   <data name="&gt;&gt;$this.Name" xml:space="preserve">
-    <value>tbwItemDetailServices</value>
+    <value>tbwServiceItemDetails</value>
   </data>
   <data name="&gt;&gt;$this.Type" xml:space="preserve">
     <value>Ifs.Fnd.ApplicationForms.cTableWindow, Ifs.Fnd.ApplicationForms, Version=4.52.9.0, Culture=neutral, PublicKeyToken=ff90f512e10aef0d</value>

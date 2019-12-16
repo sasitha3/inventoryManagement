@@ -29,7 +29,7 @@ using PPJ.Runtime.Windows;
 namespace Ifs.Application.Exmcln
 {
 
-    public partial class tbwItemDetails
+    public partial class tbwServiceItemDetails
     {
 
         /// <summary>
@@ -45,12 +45,11 @@ namespace Ifs.Application.Exmcln
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(tbwItemDetails));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(tbwServiceItemDetails));
             this.colnOrderNo = new Ifs.Fnd.ApplicationForms.cColumn();
             this.colnItemNo = new Ifs.Fnd.ApplicationForms.cColumn();
             this.colnPrice = new Ifs.Fnd.ApplicationForms.cColumn();
             this.colnQuantity = new Ifs.Fnd.ApplicationForms.cColumn();
-            this.colsState = new Ifs.Fnd.ApplicationForms.cColumn();
             this.SuspendLayout();
             // 
             // __colObjid
@@ -81,7 +80,7 @@ namespace Ifs.Application.Exmcln
             this.colnItemNo.NamedProperties.Put("EnumerateMethod", "");
             this.colnItemNo.NamedProperties.Put("FieldFlags", "163");
             this.colnItemNo.NamedProperties.Put("Format", "");
-            this.colnItemNo.NamedProperties.Put("LovReference", "EXM_PART");
+            this.colnItemNo.NamedProperties.Put("LovReference", "SERVICE");
             this.colnItemNo.NamedProperties.Put("SqlColumn", "ITEM_NO");
             this.colnItemNo.Position = 4;
             this.colnItemNo.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
@@ -113,18 +112,7 @@ namespace Ifs.Application.Exmcln
             this.colnQuantity.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             resources.ApplyResources(this.colnQuantity, "colnQuantity");
             // 
-            // colsState
-            // 
-            this.colsState.MaxLength = 20;
-            this.colsState.Name = "colsState";
-            this.colsState.NamedProperties.Put("EnumerateMethod", "");
-            this.colsState.NamedProperties.Put("FieldFlags", "288");
-            this.colsState.NamedProperties.Put("LovReference", "");
-            this.colsState.NamedProperties.Put("SqlColumn", "STATE");
-            this.colsState.Position = 7;
-            resources.ApplyResources(this.colsState, "colsState");
-            // 
-            // tbwItemDetails
+            // tbwServiceItemDetails
             // 
             this.AutoScaleBaseDpi = new System.Drawing.Size(120, 120);
             resources.ApplyResources(this, "$this");
@@ -132,14 +120,12 @@ namespace Ifs.Application.Exmcln
             this.Controls.Add(this.colnItemNo);
             this.Controls.Add(this.colnPrice);
             this.Controls.Add(this.colnQuantity);
-            this.Controls.Add(this.colsState);
-            this.Name = "tbwItemDetails";
-            this.NamedProperties.Put("LogicalUnit", "ItemDetail");
+            this.Name = "tbwServiceItemDetails";
+            this.NamedProperties.Put("LogicalUnit", "ServiceItemDetails");
             this.NamedProperties.Put("Module", "EXMCLN");
-            this.NamedProperties.Put("PackageName", "ITEM_DETAIL_API");
-            this.NamedProperties.Put("ViewName", "ITEM_DETAIL");
+            this.NamedProperties.Put("PackageName", "SERVICE_ITEM_DETAILS_API");
+            this.NamedProperties.Put("ViewName", "SERVICE_ITEM_DETAILS");
             this.Controls.SetChildIndex(this.@__colObjversion, 0);
-            this.Controls.SetChildIndex(this.colsState, 0);
             this.Controls.SetChildIndex(this.colnQuantity, 0);
             this.Controls.SetChildIndex(this.colnPrice, 0);
             this.Controls.SetChildIndex(this.colnItemNo, 0);
@@ -170,6 +156,5 @@ namespace Ifs.Application.Exmcln
         protected cColumn colnItemNo;
         protected cColumn colnPrice;
         protected cColumn colnQuantity;
-        protected cColumn colsState;
     }
 }

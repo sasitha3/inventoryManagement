@@ -86,11 +86,11 @@
     <Compile Include="Forms\tbwItemDetails.Designer.cs">
       <DependentUpon>tbwItemDetails.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\tbwItemDetailServices.cs">
+    <Compile Include="Forms\tbwServiceItemDetails.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\tbwItemDetailServices.Designer.cs">
-      <DependentUpon>tbwItemDetailServices.cs</DependentUpon>
+    <Compile Include="Forms\tbwServiceItemDetails.Designer.cs">
+      <DependentUpon>tbwServiceItemDetails.cs</DependentUpon>
     </Compile>
     <Compile Include="Forms\tbwServices.cs">
       <SubType>Form</SubType>
@@ -105,8 +105,8 @@
     <EmbeddedResource Include="Forms\tbwItemDetails.resx">
       <DependentUpon>tbwItemDetails.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\tbwItemDetailServices.resx">
-      <DependentUpon>tbwItemDetailServices.cs</DependentUpon>
+    <EmbeddedResource Include="Forms\tbwServiceItemDetails.resx">
+      <DependentUpon>tbwServiceItemDetails.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\tbwServices.resx">
       <DependentUpon>tbwServices.cs</DependentUpon>

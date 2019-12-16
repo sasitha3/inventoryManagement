@@ -56,6 +56,8 @@ namespace Ifs.Application.Exmcln
             this.labelDelAddress = new Ifs.Fnd.ApplicationForms.cBackgroundText();
             this.cmbInternalCus = new Ifs.Fnd.ApplicationForms.cComboBox();
             this.labelInternalCus = new Ifs.Fnd.ApplicationForms.cBackgroundText();
+            this.dfsState = new Ifs.Fnd.ApplicationForms.cDataField();
+            this.labelState = new Ifs.Fnd.ApplicationForms.cBackgroundText();
             this.SuspendLayout();
             // 
             // _cTabManager
@@ -141,10 +143,26 @@ namespace Ifs.Application.Exmcln
             resources.ApplyResources(this.labelInternalCus, "labelInternalCus");
             this.labelInternalCus.Name = "labelInternalCus";
             // 
+            // dfsState
+            // 
+            resources.ApplyResources(this.dfsState, "dfsState");
+            this.dfsState.Name = "dfsState";
+            this.dfsState.NamedProperties.Put("EnumerateMethod", "");
+            this.dfsState.NamedProperties.Put("FieldFlags", "288");
+            this.dfsState.NamedProperties.Put("LovReference", "");
+            this.dfsState.NamedProperties.Put("SqlColumn", "STATE");
+            // 
+            // labelState
+            // 
+            resources.ApplyResources(this.labelState, "labelState");
+            this.labelState.Name = "labelState";
+            // 
             // frmCusOrderDetails
             // 
             this.AutoScaleBaseDpi = new System.Drawing.Size(120, 120);
             resources.ApplyResources(this, "$this");
+            this.Controls.Add(this.dfsState);
+            this.Controls.Add(this.labelState);
             this.Controls.Add(this.cmbInternalCus);
             this.Controls.Add(this.labelInternalCus);
             this.Controls.Add(this.dfsDelAddress);
@@ -172,6 +190,8 @@ namespace Ifs.Application.Exmcln
             this.Controls.SetChildIndex(this.dfsDelAddress, 0);
             this.Controls.SetChildIndex(this.labelInternalCus, 0);
             this.Controls.SetChildIndex(this.cmbInternalCus, 0);
+            this.Controls.SetChildIndex(this.labelState, 0);
+            this.Controls.SetChildIndex(this.dfsState, 0);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -204,5 +224,7 @@ namespace Ifs.Application.Exmcln
         protected cBackgroundText labelDelAddress;
         protected cComboBox cmbInternalCus;
         protected cBackgroundText labelInternalCus;
+        protected cDataField dfsState;
+        protected cBackgroundText labelState;
     }
 }

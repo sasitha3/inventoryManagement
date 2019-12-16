@@ -135,7 +135,7 @@
     <value>777, 430</value>
   </data>
   <data name="picTab.TabSetup" xml:space="preserve">
-    <value>{Name=Service;Label=Services;Form=tbwItemDetailServices}{Name=Perts;Label=Parts;Form=tbwItemDetails}</value>
+    <value>{Name=Parts;Label=Parts;Form=tbwItemDetails}{Name=NoParts;Label=No Parts;Form=tbwServiceItemDetails}</value>
   </data>
   <data name="&gt;&gt;picTab.Name" xml:space="preserve">
     <value>picTab</value>
@@ -147,7 +147,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;picTab.ZOrder" xml:space="preserve">
-    <value>10</value>
+    <value>12</value>
   </data>
   <metadata name="commandManager.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>17, 17</value>
@@ -175,7 +175,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;dfnOrderNo.ZOrder" xml:space="preserve">
-    <value>8</value>
+    <value>10</value>
   </data>
   <data name="labelOrderNo.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -202,7 +202,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;labelOrderNo.ZOrder" xml:space="preserve">
-    <value>9</value>
+    <value>11</value>
   </data>
   <data name="dfdOrderDate.Location" type="System.Drawing.Point, System.Drawing">
     <value>12, 71</value>
@@ -223,7 +223,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;dfdOrderDate.ZOrder" xml:space="preserve">
-    <value>6</value>
+    <value>8</value>
   </data>
   <data name="labelOrderDate.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -250,7 +250,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;labelOrderDate.ZOrder" xml:space="preserve">
-    <value>7</value>
+    <value>9</value>
   </data>
   <data name="dfsCustomerName.Location" type="System.Drawing.Point, System.Drawing">
     <value>178, 26</value>
@@ -271,7 +271,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;dfsCustomerName.ZOrder" xml:space="preserve">
-    <value>4</value>
+    <value>6</value>
   </data>
   <data name="labelCustomerName.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -298,7 +298,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;labelCustomerName.ZOrder" xml:space="preserve">
-    <value>5</value>
+    <value>7</value>
   </data>
   <data name="dfsDelAddress.Location" type="System.Drawing.Point, System.Drawing">
     <value>178, 71</value>
@@ -322,7 +322,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;dfsDelAddress.ZOrder" xml:space="preserve">
-    <value>2</value>
+    <value>4</value>
   </data>
   <data name="labelDelAddress.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -349,7 +349,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;labelDelAddress.ZOrder" xml:space="preserve">
-    <value>3</value>
+    <value>5</value>
   </data>
   <data name="cmbInternalCus.Location" type="System.Drawing.Point, System.Drawing">
     <value>388, 26</value>
@@ -358,7 +358,7 @@
     <value>200</value>
   </data>
   <data name="cmbInternalCus.Size" type="System.Drawing.Size, System.Drawing">
-    <value>145, 25</value>
+    <value>153, 25</value>
   </data>
   <data name="cmbInternalCus.TabIndex" type="System.Int32, mscorlib">
     <value>10</value>
@@ -373,7 +373,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;cmbInternalCus.ZOrder" xml:space="preserve">
-    <value>0</value>
+    <value>2</value>
   </data>
   <data name="labelInternalCus.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -400,6 +400,57 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;labelInternalCus.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="dfsState.Location" type="System.Drawing.Point, System.Drawing">
+    <value>388, 71</value>
+  </data>
+  <data name="dfsState.MaxLength" type="System.Int32, mscorlib">
+    <value>20</value>
+  </data>
+  <data name="dfsState.Size" type="System.Drawing.Size, System.Drawing">
+    <value>153, 21</value>
+  </data>
+  <data name="dfsState.TabIndex" type="System.Int32, mscorlib">
+    <value>12</value>
+  </data>
+  <data name="&gt;&gt;dfsState.Name" xml:space="preserve">
+    <value>dfsState</value>
+  </data>
+  <data name="&gt;&gt;dfsState.Type" xml:space="preserve">
+    <value>Ifs.Fnd.ApplicationForms.cDataField, Ifs.Fnd.ApplicationForms, Version=4.52.9.0, Culture=neutral, PublicKeyToken=ff90f512e10aef0d</value>
+  </data>
+  <data name="&gt;&gt;dfsState.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;dfsState.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="labelState.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="labelState.Location" type="System.Drawing.Point, System.Drawing">
+    <value>385, 51</value>
+  </data>
+  <data name="labelState.Size" type="System.Drawing.Size, System.Drawing">
+    <value>45, 17</value>
+  </data>
+  <data name="labelState.TabIndex" type="System.Int32, mscorlib">
+    <value>11</value>
+  </data>
+  <data name="labelState.Text" xml:space="preserve">
+    <value>State:</value>
+  </data>
+  <data name="&gt;&gt;labelState.Name" xml:space="preserve">
+    <value>labelState</value>
+  </data>
+  <data name="&gt;&gt;labelState.Type" xml:space="preserve">
+    <value>Ifs.Fnd.ApplicationForms.cBackgroundText, Ifs.Fnd.ApplicationForms, Version=4.52.9.0, Culture=neutral, PublicKeyToken=ff90f512e10aef0d</value>
+  </data>
+  <data name="&gt;&gt;labelState.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;labelState.ZOrder" xml:space="preserve">
     <value>1</value>
   </data>
   <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
@@ -412,7 +463,7 @@
     <value>777, 430</value>
   </data>
   <data name="$this.Text" xml:space="preserve">
-    <value>frmCusOrderDetails</value>
+    <value>Customer Order Details</value>
   </data>
   <data name="&gt;&gt;commandManager.Name" xml:space="preserve">
     <value>commandManager</value>

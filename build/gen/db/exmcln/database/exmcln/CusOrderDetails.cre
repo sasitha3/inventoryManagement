@@ -1,7 +1,7 @@
 -----------------------------------------------------------------------------
 --
 --  Logical unit: CusOrderDetails
---  Type:         Entity
+--  Type:         EntityWithState
 --  Component:    EXMCLN
 --
 --  Template:     3.0
@@ -31,6 +31,7 @@ BEGIN
    Database_SYS.Set_Table_Column(columns_, 'INTERNAL_CUS', 'VARCHAR2(20)', 'N');
    Database_SYS.Set_Table_Column(columns_, 'ROWVERSION', 'DATE', 'N');
    Database_SYS.Set_Table_Column(columns_, 'ROWKEY', 'VARCHAR2(50)', 'N', 'sys_guid()');
+   Database_SYS.Set_Table_Column(columns_, 'ROWSTATE', 'VARCHAR2(20)', 'N');
    Database_SYS.Create_Or_Replace_Table(table_name_, columns_, '&IFSAPP_DATA', NULL, TRUE);
 END;
 /
