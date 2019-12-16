@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LogicalUnits version="1.0" module="EXMCLN" type="LU" layer="Core">
+   <LogicalUnit name="Service">
+      <Text><![CDATA[Service]]></Text>
+      <View ID="Service.SERVICE">
+         <Text><![CDATA[Service]]></Text>
+         <Column ID="Service.SERVICE.SERVICE_NO">
+            <Text><![CDATA[Service No]]></Text>
+         </Column>
+         <Column ID="Service.SERVICE.DESCRIPTION">
+            <Text><![CDATA[Description]]></Text>
+         </Column>
+      </View>
+   </LogicalUnit>
+</LogicalUnits>

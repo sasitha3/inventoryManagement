@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FndNavigator xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" Legacy="false" Source="exmcln\client\navigator-functional.xml">
+  <FndNavigatorEntries>
+    <FndNavigatorEntry>
+      <Key>CUSTOM_ORDE_MANAGENT</Key>
+      <Name>Customer Order Management</Name>
+      <Url />
+      <Type>Folder</Type>
+      <ParentKey>NAVIGATOR_Root</ParentKey>
+      <Ordinal>200</Ordinal>
+    </FndNavigatorEntry>
+    <FndNavigatorEntry>
+      <Key>CUSTOM_ORDE_MANAGENT.CUSTOM_ORDE_DETAIL</Key>
+      <Name>Customer Order Details</Name>
+      <Url>ifsapf:frmCusOrderDetails</Url>
+      <Type>FormWindow</Type>
+      <ParentKey>CUSTOM_ORDE_MANAGENT</ParentKey>
+      <Ordinal>200</Ordinal>
+    </FndNavigatorEntry>
+    <FndNavigatorEntry>
+      <Key>CUSTOM_ORDE_MANAGENT.ITEM_DETALS</Key>
+      <Name>Item Details</Name>
+      <Url>ifsapf:tbwItemDetails</Url>
+      <Type>TableWindow</Type>
+      <ParentKey>CUSTOM_ORDE_MANAGENT</ParentKey>
+      <Ordinal>50</Ordinal>
+    </FndNavigatorEntry>
+    <FndNavigatorEntry>
+      <Key>CUSTOM_ORDE_MANAGENT.SERVES</Key>
+      <Name>Services</Name>
+      <Url>ifsapf:tbwServices</Url>
+      <Type>TableWindow</Type>
+      <ParentKey>CUSTOM_ORDE_MANAGENT</ParentKey>
+      <Ordinal>100</Ordinal>
+    </FndNavigatorEntry>
+  </FndNavigatorEntries>
+  <FndShortcutItems />
+</FndNavigator>

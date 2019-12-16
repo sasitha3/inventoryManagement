@@ -1,0 +1,36 @@
+-----------------------------------------------------------------------------
+--
+--  Logical unit: CusOrderDetails
+--  Component:    EXMCLN
+--
+--  Template:     3.0
+--  Built by:     IFS Developer Studio 10.82.6479.20191204
+--
+--  NOTE! Do not edit!! This file is completely generated and will be
+--        overwritten next time the corresponding model is saved.
+-----------------------------------------------------------------------------
+
+
+layer Base;
+
+-------------------- TABLE DEFINITIONS --------------------------------------
+
+TABLE cus_order_details_tab IS (
+   order_no                       NUMBER         NOT NULL,
+   order_date                     DATE           NOT NULL,
+   customer_name                  VARCHAR2(100)  NOT NULL,
+   del_address                    VARCHAR2(2000) NOT NULL,
+   internal_cus                   VARCHAR2(20)   NOT NULL,
+   rowversion                     DATE           NOT NULL,
+   rowkey                         VARCHAR2(50)   DEFAULT sys_guid() NOT NULL);
+
+
+PRIMARY KEY cus_order_details_pk IS cus_order_details_tab (
+   order_no);
+
+
+UNIQUE CONSTRAINT cus_order_details_rk IS cus_order_details_tab (
+   rowkey);
+
+-------------------- OTHER DEFINITIONS --------------------------------------
+

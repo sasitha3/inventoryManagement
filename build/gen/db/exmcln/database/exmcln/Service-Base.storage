@@ -1,0 +1,33 @@
+-----------------------------------------------------------------------------
+--
+--  Logical unit: Service
+--  Component:    EXMCLN
+--
+--  Template:     3.0
+--  Built by:     IFS Developer Studio 10.82.6479.20191204
+--
+--  NOTE! Do not edit!! This file is completely generated and will be
+--        overwritten next time the corresponding model is saved.
+-----------------------------------------------------------------------------
+
+
+layer Base;
+
+-------------------- TABLE DEFINITIONS --------------------------------------
+
+TABLE service_tab IS (
+   service_no                     NUMBER         NOT NULL,
+   description                    VARCHAR2(1000) NOT NULL,
+   rowversion                     DATE           NOT NULL,
+   rowkey                         VARCHAR2(50)   DEFAULT sys_guid() NOT NULL);
+
+
+PRIMARY KEY service_pk IS service_tab (
+   service_no);
+
+
+UNIQUE CONSTRAINT service_rk IS service_tab (
+   rowkey);
+
+-------------------- OTHER DEFINITIONS --------------------------------------
+

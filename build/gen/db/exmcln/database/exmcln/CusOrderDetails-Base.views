@@ -1,0 +1,61 @@
+-----------------------------------------------------------------------------
+--
+--  Logical unit: CusOrderDetails
+--  Component:    EXMCLN
+--
+--  Template:     3.0
+--  Built by:     IFS Developer Studio 10.82.6479.20191204
+--
+--  NOTE! Do not edit!! This file is completely generated and will be
+--        overwritten next time the corresponding model is saved.
+-----------------------------------------------------------------------------
+
+
+layer Base;
+
+-------------------- COMMON COLUMN DEFINITIONS ------------------------------
+
+COLUMN Order_No IS
+   Flags      = 'K---L'
+   Datatype   = 'NUMBER'
+   Prompt     = 'Order No';
+COLUMN Order_Date IS
+   Flags      = 'AMIUL'
+   Datatype   = 'DATE/DATE'
+   Prompt     = 'Order Date';
+COLUMN Customer_Name IS
+   Flags      = 'AMIUL'
+   Datatype   = 'STRING(100)'
+   Prompt     = 'Customer Name';
+COLUMN Del_Address IS
+   Flags      = 'AMIUL'
+   Datatype   = 'STRING(2000)'
+   Prompt     = 'Del Address';
+COLUMN Internal_Cus IS
+   Flags      = 'AMIUL'
+   Datatype   = 'STRING(200)'
+   Enumeration= 'FndBoolean'
+   Prompt     = 'Internal Cus';
+COLUMN Internal_Cus_Db IS
+   Flags      = 'A----'
+   Datatype   = 'STRING(20)'
+   Prompt     = 'Internal Cus';
+
+-------------------- PUBLIC VIEW DEFINITIONS --------------------------------
+
+
+-------------------- PRIVATE VIEW DEFINITIONS -------------------------------
+
+VIEW Cus_Order_Details IS
+   Prompt     = 'Cus Order Details'
+SELECT
+       order_no                       order_no,
+       order_date                     order_date,
+       customer_name                  customer_name,
+       del_address                    del_address,
+       Fnd_Boolean_API.Decode(internal_cus) internal_cus,
+       internal_cus                   internal_cus_db,
+       rowkey                         objkey,
+       to_char(rowversion,'YYYYMMDDHH24MISS') objversion,
+       rowid                          objid
+FROM   cus_order_details_tab;
