@@ -6,6 +6,8 @@
 --  IFS Developer Studio Template Version 3.0
 --
 --  Date    Sign    History
+--  191212  Sapdlk  Created add product method
+--  191216  Sapdlk  Created deduct product method
 --  ------  ------  ---------------------------------------------------------
 -----------------------------------------------------------------------------
 
@@ -32,7 +34,7 @@ PROCEDURE Add_prudct (
    location_number_ IN EXM_INVENTORY_PRODUCT_TAB.location_number%TYPE,
    inventory_id_ IN EXM_INVENTORY_PRODUCT_TAB.inventory_id%TYPE,
    part_no_ IN EXM_INVENTORY_PRODUCT_TAB.part_no%TYPE,
-   quantity_ IN trn_inventory_product_tab.quantity%TYPE)
+   quantity_ IN EXM_INVENTORY_PRODUCT_TAB.quantity%TYPE)
 IS
    
    rec_           EXM_INVENTORY_PRODUCT_TAB%ROWTYPE;
@@ -59,4 +61,28 @@ BEGIN
          New__(info_, objid_, objversion_, attr_, 'DO');
          
    END IF;
+   
 END Add_prudct;
+
+PROCEDURE Deduct_prudct (
+   location_number_ IN EXM_INVENTORY_PRODUCT_TAB.location_number%TYPE,
+   inventory_id_ IN EXM_INVENTORY_PRODUCT_TAB.inventory_id%TYPE,
+   part_no_ IN EXM_INVENTORY_PRODUCT_TAB.part_no%TYPE,
+   quantity_ IN EXM_INVENTORY_PRODUCT_TAB.quantity%TYPE)
+IS
+   
+   rec_           EXM_INVENTORY_PRODUCT_TAB%ROWTYPE;
+   objid_         VARCHAR2(1000);
+   objversion_    VARCHAR2(1000);
+   attr_          VARCHAR2(2000);
+   info_          VARCHAR2(32000);
+BEGIN
+   --General_Sys.Init_Method(lu_name_, '&PKG', 'Move_prudct');
+      Get_Id_Version_By_Keys___(objid_, objversion_, location_number_, inventory_id_, part_no_);
+      rec_ := Lock_By_Keys___(location_number_, inventory_id_, part_no_);
+
+      Client_Sys.Add_To_Attr('QUANTITY', rec_.quantity - quantity_, attr_);
+      
+      Modify__(info_, objid_, objversion_, attr_, 'DO'); 
+   
+END Deduct_prudct;

@@ -127,7 +127,7 @@
                <LOCATION>
                   <POINT>
                      <X>95</X>
-                     <Y>88</Y>
+                     <Y>86</Y>
                   </POINT>
                </LOCATION>
                <SIZE>
@@ -157,7 +157,7 @@
                <CONTROL_POINTS>
                   <POINT>
                      <X>104</X>
-                     <Y>88</Y>
+                     <Y>86</Y>
                   </POINT>
                   <POINT>
                      <X>246</X>
@@ -177,7 +177,7 @@
                   </PROPERTY>
                   <PROPERTY>
                      <NAME>DisplayText</NAME>
-                     <VALUE>Deliver</VALUE>
+                     <VALUE>Deliver/QtyDeduction</VALUE>
                   </PROPERTY>
                </PROPERTIES>
                <CONTROL_POINTS>
@@ -192,8 +192,8 @@
                </CONTROL_POINTS>
                <LABEL_LOCATION>
                   <POINT>
-                     <X>-26</X>
-                     <Y>-16</Y>
+                     <X>-55</X>
+                     <Y>-29</Y>
                   </POINT>
                </LABEL_LOCATION>
             </DIAGRAM_EDGE>
@@ -330,6 +330,7 @@
             </TRANSITION>
             <TRANSITION>
                <EVENT>Deliver</EVENT>
+               <DO_ACTION>QtyDeduction</DO_ACTION>
                <TO_STATE>Delivered</TO_STATE>
             </TRANSITION>
          </TRANSITIONS>

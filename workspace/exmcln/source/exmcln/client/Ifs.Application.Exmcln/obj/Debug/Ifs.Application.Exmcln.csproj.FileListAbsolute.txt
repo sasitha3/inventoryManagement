@@ -1,11 +1,11 @@
 C:\Users\sapdlk\Documents\NetBeansProjects\TrnExmProject\workspace\exmcln\source\exmcln\client\Ifs.Application.Exmcln\bin\Debug\Ifs.Application.Exmcln.dll
 C:\Users\sapdlk\Documents\NetBeansProjects\TrnExmProject\workspace\exmcln\source\exmcln\client\Ifs.Application.Exmcln\bin\Debug\Ifs.Application.Exmcln.pdb
 C:\Users\sapdlk\Documents\NetBeansProjects\TrnExmProject\workspace\exmcln\source\exmcln\client\Ifs.Application.Exmcln\obj\Debug\Ifs.Application.Exmcln.frmCusOrderDetails.resources
+C:\Users\sapdlk\Documents\NetBeansProjects\TrnExmProject\workspace\exmcln\source\exmcln\client\Ifs.Application.Exmcln\obj\Debug\Ifs.Application.Exmcln.tbwItemDetails.resources
+C:\Users\sapdlk\Documents\NetBeansProjects\TrnExmProject\workspace\exmcln\source\exmcln\client\Ifs.Application.Exmcln\obj\Debug\Ifs.Application.Exmcln.tbwServiceItemDetails.resources
+C:\Users\sapdlk\Documents\NetBeansProjects\TrnExmProject\workspace\exmcln\source\exmcln\client\Ifs.Application.Exmcln\obj\Debug\Ifs.Application.Exmcln.tbwServices.resources
 C:\Users\sapdlk\Documents\NetBeansProjects\TrnExmProject\workspace\exmcln\source\exmcln\client\Ifs.Application.Exmcln\obj\Debug\Ifs.Application.Exmcln.Properties.Resources.resources
 C:\Users\sapdlk\Documents\NetBeansProjects\TrnExmProject\workspace\exmcln\source\exmcln\client\Ifs.Application.Exmcln\obj\Debug\Ifs.Application.Exmcln.csproj.GenerateResource.Cache
 C:\Users\sapdlk\Documents\NetBeansProjects\TrnExmProject\workspace\exmcln\source\exmcln\client\Ifs.Application.Exmcln\obj\Debug\Ifs.Application.Exmcln.dll
 C:\Users\sapdlk\Documents\NetBeansProjects\TrnExmProject\workspace\exmcln\source\exmcln\client\Ifs.Application.Exmcln\obj\Debug\Ifs.Application.Exmcln.pdb
-C:\Users\sapdlk\Documents\NetBeansProjects\TrnExmProject\workspace\exmcln\source\exmcln\client\Ifs.Application.Exmcln\obj\Debug\Ifs.Application.Exmcln.tbwItemDetails.resources
-C:\Users\sapdlk\Documents\NetBeansProjects\TrnExmProject\workspace\exmcln\source\exmcln\client\Ifs.Application.Exmcln\obj\Debug\Ifs.Application.Exmcln.tbwServices.resources
 C:\Users\sapdlk\Documents\NetBeansProjects\TrnExmProject\workspace\exmcln\source\exmcln\client\Ifs.Application.Exmcln\obj\Debug\Ifs.Application.Exmcln.csprojResolveAssemblyReference.cache
-C:\Users\sapdlk\Documents\NetBeansProjects\TrnExmProject\workspace\exmcln\source\exmcln\client\Ifs.Application.Exmcln\obj\Debug\Ifs.Application.Exmcln.tbwServiceItemDetails.resources

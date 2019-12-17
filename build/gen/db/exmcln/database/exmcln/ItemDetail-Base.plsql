@@ -1028,6 +1028,13 @@ BEGIN
 END Get_Client_Values___;
 
 
+-- Qty_Deduction___
+--    Execute the QtyDeduction action within the finite state machine.
+PROCEDURE Qty_Deduction___ (
+   rec_  IN OUT item_detail_tab%ROWTYPE,
+   attr_ IN OUT VARCHAR2 );
+
+
 -- Finite_State_Set___
 --    Updates the state column in the database for given record.
 PROCEDURE Finite_State_Set___ (
@@ -1069,6 +1076,7 @@ BEGIN
       IF (event_ = 'Cancel') THEN
          Finite_State_Set___(rec_, 'Cancelled');
       ELSIF (event_ = 'Deliver') THEN
+         Qty_Deduction___(rec_, attr_);
          Finite_State_Set___(rec_, 'Delivered');
       ELSE
          Error_SYS.State_Event_Not_Handled(lu_name_, event_, Finite_State_Decode__(state_));

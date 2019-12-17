@@ -218,6 +218,10 @@ FUNCTION Get_Db_Values___ RETURN VARCHAR2 DETERMINISTIC;
 
 FUNCTION Get_Client_Values___ RETURN VARCHAR2 DETERMINISTIC;
 
+PROCEDURE Qty_Deduction___ (
+   rec_  IN OUT NOCOPY item_detail_tab%ROWTYPE,
+   attr_ IN OUT NOCOPY VARCHAR2 );
+
 PROCEDURE Finite_State_Set___ (
    rec_   IN OUT NOCOPY item_detail_tab%ROWTYPE,
    state_ IN     VARCHAR2 );
@@ -234,6 +238,8 @@ PROCEDURE Finite_State_Add_To_Attr___ (
 PROCEDURE Finite_State_Init___ (
    rec_  IN OUT NOCOPY item_detail_tab%ROWTYPE,
    attr_ IN OUT NOCOPY VARCHAR2 );
+
+FUNCTION Check_Deliveries___(order_number_ IN NUMBER) RETURN BOOLEAN;
 
 -----------------------------------------------------------------------------
 -------------------- BASE METHODS -------------------------------------------
@@ -1795,6 +1801,7 @@ IS
          IF (event_ = 'Cancel') THEN
             Finite_State_Set___(rec_, 'Cancelled');
          ELSIF (event_ = 'Deliver') THEN
+            Qty_Deduction___(rec_, attr_);
             Finite_State_Set___(rec_, 'Delivered');
          ELSE
             Error_SYS.State_Event_Not_Handled(lu_name_, event_, Finite_State_Decode__(state_));
@@ -1848,6 +1855,64 @@ IS
 BEGIN
    Base(rec_, attr_);
 END Finite_State_Init___;
+
+-----------------------------------------------------------------------------
+-------------------- LU SPECIFIC IMPLEMENTATION METHODS ---------------------
+-----------------------------------------------------------------------------
+
+PROCEDURE Qty_Deduction___ (
+   rec_  IN OUT NOCOPY item_detail_tab%ROWTYPE,
+   attr_ IN OUT NOCOPY VARCHAR2 )
+IS
+   
+   PROCEDURE Core (
+      rec_  IN OUT NOCOPY item_detail_tab%ROWTYPE,
+      attr_ IN OUT NOCOPY VARCHAR2 )
+   IS
+      
+   BEGIN
+      IF (Check_Deliveries___(rec_.ORDER_NO)) THEN
+         Cus_Order_Details_API.Change_State(rec_.ORDER_NO);
+      END IF;
+   END Core;
+
+BEGIN
+   Core(rec_, attr_);
+END Qty_Deduction___;
+
+
+FUNCTION Check_Deliveries___(order_number_ IN NUMBER) RETURN BOOLEAN
+IS
+   
+   FUNCTION Core(order_number_ IN NUMBER) RETURN BOOLEAN
+   IS
+      delivered_count_value_ NUMBER;
+      all_count_value_ NUMBER;
+      CURSOR all_count_ IS
+         SELECT COUNT(ITEM_NO) 
+         FROM ITEM_DETAIL_TAB idt
+         WHERE idt.ORDER_NO = order_number_;
+      CURSOR deliver_count_ IS
+         SELECT COUNT(ITEM_NO) 
+         FROM ITEM_DETAIL_TAB idt
+         WHERE (ROWSTATE = 'Delivered' OR ROWSTATE = 'Cancelled' ) AND idt.ORDER_NO = order_number_;
+   BEGIN
+      OPEN all_count_;
+      FETCH all_count_ INTO all_count_value_;
+      CLOSE all_count_;
+      OPEN deliver_count_;
+      FETCH deliver_count_ INTO delivered_count_value_;
+      CLOSE deliver_count_;
+      IF(all_count_value_ - 1 = delivered_count_value_) THEN
+         RETURN TRUE;
+      ELSE
+         RETURN FALSE;
+      END IF;
+   END Core;
+
+BEGIN
+   RETURN Core(order_number_);
+END Check_Deliveries___;
 
 -----------------------------------------------------------------------------
 -------------------- FOUNDATION1 METHODS ------------------------------------

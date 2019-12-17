@@ -120,6 +120,34 @@
   <metadata name="commandManager.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>17, 17</value>
   </metadata>
+  <data name="cmdRequire.Caption" xml:space="preserve">
+    <value>Require</value>
+  </data>
+  <data name="cmdDeliver.Caption" xml:space="preserve">
+    <value>Deliver</value>
+  </data>
+  <data name="cmdCancel.Caption" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="tsMenuItemRequire.Size" type="System.Drawing.Size, System.Drawing">
+    <value>129, 24</value>
+  </data>
+  <data name="tsMenuItemDeliver.Size" type="System.Drawing.Size, System.Drawing">
+    <value>129, 24</value>
+  </data>
+  <data name="tsMenuItemCancel.Size" type="System.Drawing.Size, System.Drawing">
+    <value>129, 24</value>
+  </data>
+  <data name="contextMenu.Size" type="System.Drawing.Size, System.Drawing">
+    <value>130, 76</value>
+  </data>
+  <data name="&gt;&gt;contextMenu.Name" xml:space="preserve">
+    <value>contextMenu</value>
+  </data>
+  <data name="&gt;&gt;contextMenu.Type" xml:space="preserve">
+    <value>Ifs.Fnd.Windows.Forms.FndContextMenuStrip, Ifs.Fnd.Windows.Forms.CommonControls, Version=4.52.9.0, Culture=neutral, PublicKeyToken=ff90f512e10aef0d</value>
+  </data>
   <assembly alias="mscorlib" name="mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="__colObjid.Width" type="System.Int32, mscorlib">
     <value>100</value>
@@ -226,10 +254,45 @@
   <data name="&gt;&gt;colsState.ZOrder" xml:space="preserve">
     <value>6</value>
   </data>
+  <data name="__colObjstate.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="__colObjstate.Title" xml:space="preserve">
+    <value>(Untitled)</value>
+  </data>
+  <data name="&gt;&gt;__colObjstate.Name" xml:space="preserve">
+    <value>__colObjstate</value>
+  </data>
+  <data name="&gt;&gt;__colObjstate.Type" xml:space="preserve">
+    <value>Ifs.Fnd.ApplicationForms.cStateMachineColumn, Ifs.Fnd.ApplicationForms, Version=4.52.9.0, Culture=neutral, PublicKeyToken=ff90f512e10aef0d</value>
+  </data>
+  <data name="&gt;&gt;__colObjstate.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;__colObjstate.ZOrder" xml:space="preserve">
+    <value>9</value>
+  </data>
+  <data name="__colObjevents.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="__colObjevents.Title" xml:space="preserve">
+    <value>(Untitled)</value>
+  </data>
+  <data name="&gt;&gt;__colObjevents.Name" xml:space="preserve">
+    <value>__colObjevents</value>
+  </data>
+  <data name="&gt;&gt;__colObjevents.Type" xml:space="preserve">
+    <value>Ifs.Fnd.ApplicationForms.cStateMachineColumn, Ifs.Fnd.ApplicationForms, Version=4.52.9.0, Culture=neutral, PublicKeyToken=ff90f512e10aef0d</value>
+  </data>
+  <data name="&gt;&gt;__colObjevents.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;__colObjevents.ZOrder" xml:space="preserve">
+    <value>10</value>
+  </data>
   <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </metadata>
-  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
     <value>804, 430</value>
   </data>
@@ -241,6 +304,42 @@
   </data>
   <data name="&gt;&gt;commandManager.Type" xml:space="preserve">
     <value>Ifs.Fnd.Windows.Forms.FndCommandManager, Ifs.Fnd.Windows.Forms.CommonControls, Version=4.52.9.0, Culture=neutral, PublicKeyToken=ff90f512e10aef0d</value>
+  </data>
+  <data name="&gt;&gt;cmdRequire.Name" xml:space="preserve">
+    <value>cmdRequire</value>
+  </data>
+  <data name="&gt;&gt;cmdRequire.Type" xml:space="preserve">
+    <value>Ifs.Fnd.Windows.Forms.FndCommand, Ifs.Fnd.Windows.Forms.CommonControls, Version=4.52.9.0, Culture=neutral, PublicKeyToken=ff90f512e10aef0d</value>
+  </data>
+  <data name="&gt;&gt;cmdDeliver.Name" xml:space="preserve">
+    <value>cmdDeliver</value>
+  </data>
+  <data name="&gt;&gt;cmdDeliver.Type" xml:space="preserve">
+    <value>Ifs.Fnd.Windows.Forms.FndCommand, Ifs.Fnd.Windows.Forms.CommonControls, Version=4.52.9.0, Culture=neutral, PublicKeyToken=ff90f512e10aef0d</value>
+  </data>
+  <data name="&gt;&gt;cmdCancel.Name" xml:space="preserve">
+    <value>cmdCancel</value>
+  </data>
+  <data name="&gt;&gt;cmdCancel.Type" xml:space="preserve">
+    <value>Ifs.Fnd.Windows.Forms.FndCommand, Ifs.Fnd.Windows.Forms.CommonControls, Version=4.52.9.0, Culture=neutral, PublicKeyToken=ff90f512e10aef0d</value>
+  </data>
+  <data name="&gt;&gt;tsMenuItemRequire.Name" xml:space="preserve">
+    <value>tsMenuItemRequire</value>
+  </data>
+  <data name="&gt;&gt;tsMenuItemRequire.Type" xml:space="preserve">
+    <value>Ifs.Fnd.Windows.Forms.FndToolStripMenuItem, Ifs.Fnd.Windows.Forms.CommonControls, Version=4.52.9.0, Culture=neutral, PublicKeyToken=ff90f512e10aef0d</value>
+  </data>
+  <data name="&gt;&gt;tsMenuItemDeliver.Name" xml:space="preserve">
+    <value>tsMenuItemDeliver</value>
+  </data>
+  <data name="&gt;&gt;tsMenuItemDeliver.Type" xml:space="preserve">
+    <value>Ifs.Fnd.Windows.Forms.FndToolStripMenuItem, Ifs.Fnd.Windows.Forms.CommonControls, Version=4.52.9.0, Culture=neutral, PublicKeyToken=ff90f512e10aef0d</value>
+  </data>
+  <data name="&gt;&gt;tsMenuItemCancel.Name" xml:space="preserve">
+    <value>tsMenuItemCancel</value>
+  </data>
+  <data name="&gt;&gt;tsMenuItemCancel.Type" xml:space="preserve">
+    <value>Ifs.Fnd.Windows.Forms.FndToolStripMenuItem, Ifs.Fnd.Windows.Forms.CommonControls, Version=4.52.9.0, Culture=neutral, PublicKeyToken=ff90f512e10aef0d</value>
   </data>
   <data name="&gt;&gt;$this.Name" xml:space="preserve">
     <value>tbwItemDetails</value>

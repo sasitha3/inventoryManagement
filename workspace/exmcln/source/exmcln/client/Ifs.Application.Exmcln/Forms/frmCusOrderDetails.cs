@@ -84,9 +84,58 @@ namespace Ifs.Application.Exmcln
         #endregion
 
         #region Event Handlers
+        private void cmdPlan_Inquire(object sender, Fnd.Windows.Forms.FndCommandInquireEventArgs e)
+        {
+            Ifs.Fnd.Windows.Forms.FndCommand command = (Ifs.Fnd.Windows.Forms.FndCommand)sender;
+            command.Enabled = this.SendMessage(Const.PM_DataRecordStateEvent, Ifs.Fnd.ApplicationForms.Const.METHOD_Inquire, ((SalString)"Plan").ToHandle());
+            
+        }
 
+        private void cmdPlan_Execute(object sender, Fnd.Windows.Forms.FndCommandExecuteEventArgs e)
+        {
+            SendMessage(Const.PM_DataRecordStateEvent, Ifs.Fnd.ApplicationForms.Const.METHOD_Execute, ((SalString)"Plan").ToHandle());
+
+        }
+
+        private void cmdRelease_Inquire(object sender, Fnd.Windows.Forms.FndCommandInquireEventArgs e)
+        {
+            Ifs.Fnd.Windows.Forms.FndCommand command = (Ifs.Fnd.Windows.Forms.FndCommand)sender;
+            command.Enabled = this.SendMessage(Const.PM_DataRecordStateEvent, Ifs.Fnd.ApplicationForms.Const.METHOD_Inquire, ((SalString)"Release").ToHandle());
+        }
+
+        private void cmdRelease_Execute(object sender, Fnd.Windows.Forms.FndCommandExecuteEventArgs e)
+        {
+            SendMessage(Const.PM_DataRecordStateEvent, Ifs.Fnd.ApplicationForms.Const.METHOD_Execute, ((SalString)"Release").ToHandle());
+
+        }
+
+        private void cmdCancel_Inquire(object sender, Fnd.Windows.Forms.FndCommandInquireEventArgs e)
+        {
+            Ifs.Fnd.Windows.Forms.FndCommand command = (Ifs.Fnd.Windows.Forms.FndCommand)sender;
+            command.Enabled = this.SendMessage(Const.PM_DataRecordStateEvent, Ifs.Fnd.ApplicationForms.Const.METHOD_Inquire, ((SalString)"Cancel").ToHandle());
+
+        }
+
+        private void cmdCancel_Execute(object sender, Fnd.Windows.Forms.FndCommandExecuteEventArgs e)
+        {
+            SendMessage(Const.PM_DataRecordStateEvent, Ifs.Fnd.ApplicationForms.Const.METHOD_Execute, ((SalString)"Cancel").ToHandle());
+
+        }
+        
+        private void cmdClose_Inquire(object sender, Fnd.Windows.Forms.FndCommandInquireEventArgs e)
+        {
+            Ifs.Fnd.Windows.Forms.FndCommand command = (Ifs.Fnd.Windows.Forms.FndCommand)sender;
+            command.Enabled = this.SendMessage(Const.PM_DataRecordStateEvent, Ifs.Fnd.ApplicationForms.Const.METHOD_Inquire, ((SalString)"Close").ToHandle());
+
+        }
+
+        private void cmdClose_Execute(object sender, Fnd.Windows.Forms.FndCommandExecuteEventArgs e)
+        {
+            SendMessage(Const.PM_DataRecordStateEvent, Ifs.Fnd.ApplicationForms.Const.METHOD_Execute, ((SalString)"Close").ToHandle());
+
+        }
         #endregion
-
+                
         #region Menu Event Handlers
 
         #endregion

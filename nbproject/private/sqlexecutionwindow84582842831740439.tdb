@@ -1,0 +1,11 @@
+CURSOR deliver_count_ IS
+      SELECT COUNT(ITEM_NO) 
+      FROM ITEM_DETAIL_TAB idt
+      WHERE (idt.ROWSTATE = 'Delivered' OR idt.ROWSTATE = 'Cancelled' )AND idt.ORDER_NO = 1002;
+      
+      SELECT COUNT(ITEM_NO) 
+      FROM ITEM_DETAIL_TAB idt
+      WHERE idt.ORDER_NO = 1002;
+
+SELECT * 
+      FROM ITEM_DETAIL_TAB;

@@ -85,6 +85,46 @@ namespace Ifs.Application.Exmcln
 
         #region Event Handlers
 
+        private void cmdRequire_Inquire(object sender, Fnd.Windows.Forms.FndCommandInquireEventArgs e)
+        {
+            Ifs.Fnd.Windows.Forms.FndCommand command = (Ifs.Fnd.Windows.Forms.FndCommand)sender;
+            command.Enabled = this.SendMessage(Const.PM_DataRecordStateEvent, Ifs.Fnd.ApplicationForms.Const.METHOD_Inquire, ((SalString)"Require").ToHandle());
+            
+        }
+
+        private void cmdRequire_Execute(object sender, Fnd.Windows.Forms.FndCommandExecuteEventArgs e)
+        {
+            this.SendMessage(Const.PM_DataRecordStateEvent, Ifs.Fnd.ApplicationForms.Const.METHOD_Execute, ((SalString)"Require").ToHandle());
+
+        }
+
+        private void cmdDeliver_Inquire(object sender, Fnd.Windows.Forms.FndCommandInquireEventArgs e)
+        {
+            Ifs.Fnd.Windows.Forms.FndCommand command = (Ifs.Fnd.Windows.Forms.FndCommand)sender;
+            command.Enabled = this.SendMessage(Const.PM_DataRecordStateEvent, Ifs.Fnd.ApplicationForms.Const.METHOD_Inquire, ((SalString)"Deliver").ToHandle());
+            
+        }
+
+        private void cmdDeliver_Execute(object sender, Fnd.Windows.Forms.FndCommandExecuteEventArgs e)
+        {
+            
+            this.SendMessage(Const.PM_DataRecordStateEvent, Ifs.Fnd.ApplicationForms.Const.METHOD_Execute, ((SalString)"Deliver").ToHandle());
+            SendMessageToParent(Const.PM_DataSourceRefresh, Ifs.Fnd.ApplicationForms.Const.METHOD_Execute, 0);
+
+        }
+
+        private void cmdCancel_Inquire(object sender, Fnd.Windows.Forms.FndCommandInquireEventArgs e)
+        {
+            Ifs.Fnd.Windows.Forms.FndCommand command = (Ifs.Fnd.Windows.Forms.FndCommand)sender;
+            command.Enabled = this.SendMessage(Const.PM_DataRecordStateEvent, Ifs.Fnd.ApplicationForms.Const.METHOD_Inquire, ((SalString)"Cancel").ToHandle());
+            
+        }
+
+        private void cmdCancel_Execute(object sender, Fnd.Windows.Forms.FndCommandExecuteEventArgs e)
+        {
+            this.SendMessage(Const.PM_DataRecordStateEvent, Ifs.Fnd.ApplicationForms.Const.METHOD_Execute, ((SalString)"Cancel").ToHandle());
+
+        }
         #endregion
 
         #region Menu Event Handlers

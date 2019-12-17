@@ -6,6 +6,8 @@
 --  IFS Developer Studio Template Version 3.0
 --
 --  Date    Sign    History
+--  191211  Sapdlk  Override Insert___ method
+--  191217  Sapdlk  New public method  change state
 --  ------  ------  ---------------------------------------------------------
 -----------------------------------------------------------------------------
 
@@ -42,4 +44,19 @@ END Insert___;
 
 
 -------------------- LU SPECIFIC PUBLIC METHODS -----------------------------
-
+PROCEDURE Change_State(
+   order_no_ IN NUMBER
+   )
+IS
+   rec_ cus_order_details_tab%ROWTYPE;
+   CURSOR order_detail_ IS
+      SELECT * 
+      FROM CUS_ORDER_DETAILS_TAB ct
+      WHERE ct.ORDER_NO = order_no_;
+BEGIN
+   OPEN order_detail_;
+   FETCH order_detail_ INTO rec_;
+   CLOSE order_detail_;
+   
+   Finite_State_Set___(rec_, 'Released');
+END Change_State;

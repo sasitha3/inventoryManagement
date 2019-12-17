@@ -1533,6 +1533,37 @@ BEGIN
 END Remove___;
 
 -----------------------------------------------------------------------------
+-------------------- LU SPECIFIC PUBLIC METHODS -----------------------------
+-----------------------------------------------------------------------------
+
+PROCEDURE Change_State(
+   order_no_ IN NUMBER
+   )
+IS
+   
+   PROCEDURE Core(
+      order_no_ IN NUMBER
+      )
+   IS
+      rec_ cus_order_details_tab%ROWTYPE;
+      CURSOR order_detail_ IS
+         SELECT * 
+         FROM CUS_ORDER_DETAILS_TAB ct
+         WHERE ct.ORDER_NO = order_no_;
+   BEGIN
+      OPEN order_detail_;
+      FETCH order_detail_ INTO rec_;
+      CLOSE order_detail_;
+      
+      Finite_State_Set___(rec_, 'Released');
+   END Core;
+
+BEGIN
+   General_SYS.Init_Method(Cus_Order_Details_API.lu_name_, 'Cus_Order_Details_API', 'Change_State');
+   Core(order_no_);
+END Change_State;
+
+-----------------------------------------------------------------------------
 -------------------- FINITE STATE MACHINE -----------------------------------
 -----------------------------------------------------------------------------
 

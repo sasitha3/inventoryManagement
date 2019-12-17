@@ -45,9 +45,8 @@ namespace Ifs.Application.Exmcln
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmCusOrderDetails));
-            this.dfnOrderNo = new Ifs.Fnd.ApplicationForms.cDataField();
-            this.labelOrderNo = new Ifs.Fnd.ApplicationForms.cBackgroundText();
             this.dfdOrderDate = new Ifs.Fnd.ApplicationForms.cDataField();
             this.labelOrderDate = new Ifs.Fnd.ApplicationForms.cBackgroundText();
             this.dfsCustomerName = new Ifs.Fnd.ApplicationForms.cDataField();
@@ -58,6 +57,18 @@ namespace Ifs.Application.Exmcln
             this.labelInternalCus = new Ifs.Fnd.ApplicationForms.cBackgroundText();
             this.dfsState = new Ifs.Fnd.ApplicationForms.cDataField();
             this.labelState = new Ifs.Fnd.ApplicationForms.cBackgroundText();
+            this.dfnOrderNo = new Ifs.Fnd.ApplicationForms.cRecListDataField();
+            this.labelOrderNo = new Ifs.Fnd.ApplicationForms.cBackgroundText();
+            this.cmdPlan = new Ifs.Fnd.Windows.Forms.FndCommand(this.components);
+            this.cmdRelease = new Ifs.Fnd.Windows.Forms.FndCommand(this.components);
+            this.cmdCancel = new Ifs.Fnd.Windows.Forms.FndCommand(this.components);
+            this.cmdClose = new Ifs.Fnd.Windows.Forms.FndCommand(this.components);
+            this.contextMenu = new Ifs.Fnd.Windows.Forms.FndContextMenuStrip(this.components);
+            this.tsMenuItemPlan = new Ifs.Fnd.Windows.Forms.FndToolStripMenuItem(this.components);
+            this.tsMenuItemRelease = new Ifs.Fnd.Windows.Forms.FndToolStripMenuItem(this.components);
+            this.tsMenuItemCancel = new Ifs.Fnd.Windows.Forms.FndToolStripMenuItem(this.components);
+            this.tsMenuItemClose = new Ifs.Fnd.Windows.Forms.FndToolStripMenuItem(this.components);
+            this.contextMenu.SuspendLayout();
             this.SuspendLayout();
             // 
             // _cTabManager
@@ -66,23 +77,18 @@ namespace Ifs.Application.Exmcln
             // 
             // picTab
             // 
+            this.picTab.ContextMenuStrip = this.contextMenu;
             resources.ApplyResources(this.picTab, "picTab");
+            this.picTab.SelectedIndex = 1;
             // 
-            // dfnOrderNo
+            // commandManager
             // 
-            this.dfnOrderNo.DataType = PPJ.Runtime.Windows.DataType.Number;
-            resources.ApplyResources(this.dfnOrderNo, "dfnOrderNo");
-            this.dfnOrderNo.Name = "dfnOrderNo";
-            this.dfnOrderNo.NamedProperties.Put("EnumerateMethod", "");
-            this.dfnOrderNo.NamedProperties.Put("FieldFlags", "160");
-            this.dfnOrderNo.NamedProperties.Put("Format", "");
-            this.dfnOrderNo.NamedProperties.Put("LovReference", "");
-            this.dfnOrderNo.NamedProperties.Put("SqlColumn", "ORDER_NO");
-            // 
-            // labelOrderNo
-            // 
-            resources.ApplyResources(this.labelOrderNo, "labelOrderNo");
-            this.labelOrderNo.Name = "labelOrderNo";
+            this.commandManager.Commands.Add(this.cmdPlan);
+            this.commandManager.Commands.Add(this.cmdRelease);
+            this.commandManager.Commands.Add(this.cmdCancel);
+            this.commandManager.Commands.Add(this.cmdClose);
+            this.commandManager.ContextMenus.Add(this.contextMenu);
+            this.commandManager.ImageList = null;
             // 
             // dfdOrderDate
             // 
@@ -157,10 +163,95 @@ namespace Ifs.Application.Exmcln
             resources.ApplyResources(this.labelState, "labelState");
             this.labelState.Name = "labelState";
             // 
+            // dfnOrderNo
+            // 
+            resources.ApplyResources(this.dfnOrderNo, "dfnOrderNo");
+            this.dfnOrderNo.Name = "dfnOrderNo";
+            this.dfnOrderNo.NamedProperties.Put("DataType", "3");
+            this.dfnOrderNo.NamedProperties.Put("EnumerateMethod", "");
+            this.dfnOrderNo.NamedProperties.Put("FieldFlags", "160");
+            this.dfnOrderNo.NamedProperties.Put("Format", "");
+            this.dfnOrderNo.NamedProperties.Put("LovReference", "");
+            this.dfnOrderNo.NamedProperties.Put("SqlColumn", "ORDER_NO");
+            // 
+            // labelOrderNo
+            // 
+            resources.ApplyResources(this.labelOrderNo, "labelOrderNo");
+            this.labelOrderNo.Name = "labelOrderNo";
+            // 
+            // cmdPlan
+            // 
+            resources.ApplyResources(this.cmdPlan, "cmdPlan");
+            this.cmdPlan.Name = "cmdPlan";
+            this.cmdPlan.Execute += new Ifs.Fnd.Windows.Forms.FndCommandExecuteHandler(this.cmdPlan_Execute);
+            this.cmdPlan.Inquire += new Ifs.Fnd.Windows.Forms.FndCommandInquireHandler(this.cmdPlan_Inquire);
+            // 
+            // cmdRelease
+            // 
+            resources.ApplyResources(this.cmdRelease, "cmdRelease");
+            this.cmdRelease.Name = "cmdRelease";
+            this.cmdRelease.Execute += new Ifs.Fnd.Windows.Forms.FndCommandExecuteHandler(this.cmdRelease_Execute);
+            this.cmdRelease.Inquire += new Ifs.Fnd.Windows.Forms.FndCommandInquireHandler(this.cmdRelease_Inquire);
+            // 
+            // cmdCancel
+            // 
+            resources.ApplyResources(this.cmdCancel, "cmdCancel");
+            this.cmdCancel.Name = "cmdCancel";
+            this.cmdCancel.Execute += new Ifs.Fnd.Windows.Forms.FndCommandExecuteHandler(this.cmdCancel_Execute);
+            this.cmdCancel.Inquire += new Ifs.Fnd.Windows.Forms.FndCommandInquireHandler(this.cmdCancel_Inquire);
+            // 
+            // cmdClose
+            // 
+            resources.ApplyResources(this.cmdClose, "cmdClose");
+            this.cmdClose.Name = "cmdClose";
+            this.cmdClose.Execute += new Ifs.Fnd.Windows.Forms.FndCommandExecuteHandler(this.cmdClose_Execute);
+            this.cmdClose.Inquire += new Ifs.Fnd.Windows.Forms.FndCommandInquireHandler(this.cmdClose_Inquire);
+            // 
+            // contextMenu
+            // 
+            this.contextMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tsMenuItemPlan,
+            this.tsMenuItemRelease,
+            this.tsMenuItemCancel,
+            this.tsMenuItemClose});
+            this.contextMenu.Name = "contextMenu";
+            resources.ApplyResources(this.contextMenu, "contextMenu");
+            // 
+            // tsMenuItemPlan
+            // 
+            this.tsMenuItemPlan.Command = this.cmdPlan;
+            this.tsMenuItemPlan.Name = "tsMenuItemPlan";
+            resources.ApplyResources(this.tsMenuItemPlan, "tsMenuItemPlan");
+            this.tsMenuItemPlan.Text = "Plan";
+            // 
+            // tsMenuItemRelease
+            // 
+            this.tsMenuItemRelease.Command = this.cmdRelease;
+            this.tsMenuItemRelease.Name = "tsMenuItemRelease";
+            resources.ApplyResources(this.tsMenuItemRelease, "tsMenuItemRelease");
+            this.tsMenuItemRelease.Text = "Release";
+            // 
+            // tsMenuItemCancel
+            // 
+            this.tsMenuItemCancel.Command = this.cmdCancel;
+            this.tsMenuItemCancel.Name = "tsMenuItemCancel";
+            resources.ApplyResources(this.tsMenuItemCancel, "tsMenuItemCancel");
+            this.tsMenuItemCancel.Text = "Cancel";
+            // 
+            // tsMenuItemClose
+            // 
+            this.tsMenuItemClose.Command = this.cmdClose;
+            this.tsMenuItemClose.Name = "tsMenuItemClose";
+            resources.ApplyResources(this.tsMenuItemClose, "tsMenuItemClose");
+            this.tsMenuItemClose.Text = "Close";
+            // 
             // frmCusOrderDetails
             // 
             this.AutoScaleBaseDpi = new System.Drawing.Size(120, 120);
             resources.ApplyResources(this, "$this");
+            this.ContextMenuStrip = this.contextMenu;
+            this.Controls.Add(this.dfnOrderNo);
+            this.Controls.Add(this.labelOrderNo);
             this.Controls.Add(this.dfsState);
             this.Controls.Add(this.labelState);
             this.Controls.Add(this.cmbInternalCus);
@@ -171,17 +262,13 @@ namespace Ifs.Application.Exmcln
             this.Controls.Add(this.labelCustomerName);
             this.Controls.Add(this.dfdOrderDate);
             this.Controls.Add(this.labelOrderDate);
-            this.Controls.Add(this.dfnOrderNo);
-            this.Controls.Add(this.labelOrderNo);
             this.Name = "frmCusOrderDetails";
             this.NamedProperties.Put("LogicalUnit", "CusOrderDetails");
             this.NamedProperties.Put("Module", "EXMCLN");
             this.NamedProperties.Put("PackageName", "CUS_ORDER_DETAILS_API");
-            this.NamedProperties.Put("SourceFlags", "4545");
+            this.NamedProperties.Put("SourceFlags", "12737");
             this.NamedProperties.Put("ViewName", "CUS_ORDER_DETAILS");
             this.Controls.SetChildIndex(this.picTab, 0);
-            this.Controls.SetChildIndex(this.labelOrderNo, 0);
-            this.Controls.SetChildIndex(this.dfnOrderNo, 0);
             this.Controls.SetChildIndex(this.labelOrderDate, 0);
             this.Controls.SetChildIndex(this.dfdOrderDate, 0);
             this.Controls.SetChildIndex(this.labelCustomerName, 0);
@@ -192,6 +279,9 @@ namespace Ifs.Application.Exmcln
             this.Controls.SetChildIndex(this.cmbInternalCus, 0);
             this.Controls.SetChildIndex(this.labelState, 0);
             this.Controls.SetChildIndex(this.dfsState, 0);
+            this.Controls.SetChildIndex(this.labelOrderNo, 0);
+            this.Controls.SetChildIndex(this.dfnOrderNo, 0);
+            this.contextMenu.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -214,8 +304,6 @@ namespace Ifs.Application.Exmcln
         }
         #endregion
 
-        protected cDataField dfnOrderNo;
-        protected cBackgroundText labelOrderNo;
         protected cDataField dfdOrderDate;
         protected cBackgroundText labelOrderDate;
         protected cDataField dfsCustomerName;
@@ -226,5 +314,16 @@ namespace Ifs.Application.Exmcln
         protected cBackgroundText labelInternalCus;
         protected cDataField dfsState;
         protected cBackgroundText labelState;
+        protected cRecListDataField dfnOrderNo;
+        protected cBackgroundText labelOrderNo;
+        protected Fnd.Windows.Forms.FndCommand cmdPlan;
+        protected Fnd.Windows.Forms.FndCommand cmdRelease;
+        protected Fnd.Windows.Forms.FndCommand cmdCancel;
+        protected Fnd.Windows.Forms.FndCommand cmdClose;
+        protected Fnd.Windows.Forms.FndContextMenuStrip contextMenu;
+        protected Fnd.Windows.Forms.FndToolStripMenuItem tsMenuItemPlan;
+        protected Fnd.Windows.Forms.FndToolStripMenuItem tsMenuItemRelease;
+        protected Fnd.Windows.Forms.FndToolStripMenuItem tsMenuItemCancel;
+        protected Fnd.Windows.Forms.FndToolStripMenuItem tsMenuItemClose;
     }
 }

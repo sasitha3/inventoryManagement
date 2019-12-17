@@ -45,13 +45,31 @@ namespace Ifs.Application.Exmcln
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(tbwItemDetails));
             this.colnOrderNo = new Ifs.Fnd.ApplicationForms.cColumn();
             this.colnItemNo = new Ifs.Fnd.ApplicationForms.cColumn();
             this.colnPrice = new Ifs.Fnd.ApplicationForms.cColumn();
             this.colnQuantity = new Ifs.Fnd.ApplicationForms.cColumn();
             this.colsState = new Ifs.Fnd.ApplicationForms.cColumn();
+            this.cmdRequire = new Ifs.Fnd.Windows.Forms.FndCommand(this.components);
+            this.cmdDeliver = new Ifs.Fnd.Windows.Forms.FndCommand(this.components);
+            this.cmdCancel = new Ifs.Fnd.Windows.Forms.FndCommand(this.components);
+            this.contextMenu = new Ifs.Fnd.Windows.Forms.FndContextMenuStrip(this.components);
+            this.tsMenuItemRequire = new Ifs.Fnd.Windows.Forms.FndToolStripMenuItem(this.components);
+            this.tsMenuItemDeliver = new Ifs.Fnd.Windows.Forms.FndToolStripMenuItem(this.components);
+            this.tsMenuItemCancel = new Ifs.Fnd.Windows.Forms.FndToolStripMenuItem(this.components);
+            this.@__colObjstate = new Ifs.Fnd.ApplicationForms.cStateMachineColumn();
+            this.@__colObjevents = new Ifs.Fnd.ApplicationForms.cStateMachineColumn();
+            this.contextMenu.SuspendLayout();
             this.SuspendLayout();
+            // 
+            // commandManager
+            // 
+            this.commandManager.Commands.Add(this.cmdRequire);
+            this.commandManager.Commands.Add(this.cmdDeliver);
+            this.commandManager.Commands.Add(this.cmdCancel);
+            this.commandManager.ContextMenus.Add(this.contextMenu);
             // 
             // __colObjid
             // 
@@ -124,20 +142,93 @@ namespace Ifs.Application.Exmcln
             this.colsState.Position = 7;
             resources.ApplyResources(this.colsState, "colsState");
             // 
+            // cmdRequire
+            // 
+            resources.ApplyResources(this.cmdRequire, "cmdRequire");
+            this.cmdRequire.Name = "cmdRequire";
+            this.cmdRequire.Execute += new Ifs.Fnd.Windows.Forms.FndCommandExecuteHandler(this.cmdRequire_Execute);
+            this.cmdRequire.Inquire += new Ifs.Fnd.Windows.Forms.FndCommandInquireHandler(this.cmdRequire_Inquire);
+            // 
+            // cmdDeliver
+            // 
+            resources.ApplyResources(this.cmdDeliver, "cmdDeliver");
+            this.cmdDeliver.Name = "cmdDeliver";
+            this.cmdDeliver.Execute += new Ifs.Fnd.Windows.Forms.FndCommandExecuteHandler(this.cmdDeliver_Execute);
+            this.cmdDeliver.Inquire += new Ifs.Fnd.Windows.Forms.FndCommandInquireHandler(this.cmdDeliver_Inquire);
+            // 
+            // cmdCancel
+            // 
+            resources.ApplyResources(this.cmdCancel, "cmdCancel");
+            this.cmdCancel.Name = "cmdCancel";
+            this.cmdCancel.Execute += new Ifs.Fnd.Windows.Forms.FndCommandExecuteHandler(this.cmdCancel_Execute);
+            this.cmdCancel.Inquire += new Ifs.Fnd.Windows.Forms.FndCommandInquireHandler(this.cmdCancel_Inquire);
+            // 
+            // contextMenu
+            // 
+            this.contextMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tsMenuItemRequire,
+            this.tsMenuItemDeliver,
+            this.tsMenuItemCancel});
+            this.contextMenu.Name = "contextMenu";
+            resources.ApplyResources(this.contextMenu, "contextMenu");
+            // 
+            // tsMenuItemRequire
+            // 
+            this.tsMenuItemRequire.Command = this.cmdRequire;
+            this.tsMenuItemRequire.Name = "tsMenuItemRequire";
+            resources.ApplyResources(this.tsMenuItemRequire, "tsMenuItemRequire");
+            this.tsMenuItemRequire.Text = "Require";
+            // 
+            // tsMenuItemDeliver
+            // 
+            this.tsMenuItemDeliver.Command = this.cmdDeliver;
+            this.tsMenuItemDeliver.Name = "tsMenuItemDeliver";
+            resources.ApplyResources(this.tsMenuItemDeliver, "tsMenuItemDeliver");
+            this.tsMenuItemDeliver.Text = "Deliver";
+            // 
+            // tsMenuItemCancel
+            // 
+            this.tsMenuItemCancel.Command = this.cmdCancel;
+            this.tsMenuItemCancel.Name = "tsMenuItemCancel";
+            resources.ApplyResources(this.tsMenuItemCancel, "tsMenuItemCancel");
+            this.tsMenuItemCancel.Text = "Cancel";
+            // 
+            // __colObjstate
+            // 
+            this.@__colObjstate.ContextMenuStrip = this.contextMenu;
+            resources.ApplyResources(this.@__colObjstate, "__colObjstate");
+            this.@__colObjstate.Name = "__colObjstate";
+            this.@__colObjstate.Position = 8;
+            this.@__colObjstate.StateColumnType = Ifs.Fnd.ApplicationForms.Design.StateMachineColumnType.ObjState;
+            // 
+            // __colObjevents
+            // 
+            this.@__colObjevents.ContextMenuStrip = this.contextMenu;
+            resources.ApplyResources(this.@__colObjevents, "__colObjevents");
+            this.@__colObjevents.Name = "__colObjevents";
+            this.@__colObjevents.Position = 9;
+            this.@__colObjevents.StateColumnType = Ifs.Fnd.ApplicationForms.Design.StateMachineColumnType.ObjEvents;
+            // 
             // tbwItemDetails
             // 
             this.AutoScaleBaseDpi = new System.Drawing.Size(120, 120);
             resources.ApplyResources(this, "$this");
+            this.ContextMenuStrip = this.contextMenu;
             this.Controls.Add(this.colnOrderNo);
             this.Controls.Add(this.colnItemNo);
             this.Controls.Add(this.colnPrice);
             this.Controls.Add(this.colnQuantity);
             this.Controls.Add(this.colsState);
+            this.Controls.Add(this.@__colObjstate);
+            this.Controls.Add(this.@__colObjevents);
             this.Name = "tbwItemDetails";
             this.NamedProperties.Put("LogicalUnit", "ItemDetail");
             this.NamedProperties.Put("Module", "EXMCLN");
             this.NamedProperties.Put("PackageName", "ITEM_DETAIL_API");
+            this.NamedProperties.Put("SourceFlags", "25025");
             this.NamedProperties.Put("ViewName", "ITEM_DETAIL");
+            this.Controls.SetChildIndex(this.@__colObjevents, 0);
+            this.Controls.SetChildIndex(this.@__colObjstate, 0);
             this.Controls.SetChildIndex(this.@__colObjversion, 0);
             this.Controls.SetChildIndex(this.colsState, 0);
             this.Controls.SetChildIndex(this.colnQuantity, 0);
@@ -145,6 +236,7 @@ namespace Ifs.Application.Exmcln
             this.Controls.SetChildIndex(this.colnItemNo, 0);
             this.Controls.SetChildIndex(this.colnOrderNo, 0);
             this.Controls.SetChildIndex(this.@__colObjid, 0);
+            this.contextMenu.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -171,5 +263,14 @@ namespace Ifs.Application.Exmcln
         protected cColumn colnPrice;
         protected cColumn colnQuantity;
         protected cColumn colsState;
+        protected Fnd.Windows.Forms.FndCommand cmdRequire;
+        protected Fnd.Windows.Forms.FndCommand cmdDeliver;
+        protected Fnd.Windows.Forms.FndCommand cmdCancel;
+        protected Fnd.Windows.Forms.FndContextMenuStrip contextMenu;
+        protected Fnd.Windows.Forms.FndToolStripMenuItem tsMenuItemRequire;
+        protected Fnd.Windows.Forms.FndToolStripMenuItem tsMenuItemDeliver;
+        protected Fnd.Windows.Forms.FndToolStripMenuItem tsMenuItemCancel;
+        private cStateMachineColumn __colObjstate;
+        private cStateMachineColumn __colObjevents;
     }
 }
