@@ -1091,6 +1091,18 @@ BEGIN
 END Get_Client_Values___;
 
 
+-- Check_Parts___
+--    Evaluates the CheckParts condition within the finite state machine.
+FUNCTION Check_Parts___ (
+   rec_  IN     cus_order_details_tab%ROWTYPE ) RETURN BOOLEAN;
+
+
+-- No_Delivers___
+--    Evaluates the NoDelivers condition within the finite state machine.
+FUNCTION No_Delivers___ (
+   rec_  IN     cus_order_details_tab%ROWTYPE ) RETURN BOOLEAN;
+
+
 -- Finite_State_Set___
 --    Updates the state column in the database for given record.
 PROCEDURE Finite_State_Set___ (
@@ -1136,8 +1148,14 @@ BEGIN
          Error_SYS.State_Event_Not_Handled(lu_name_, event_, Finite_State_Decode__(state_));
       END IF;
    ELSIF (state_ = 'Released') THEN
-      IF (event_ = 'Close') THEN
-         Finite_State_Set___(rec_, 'Closed');
+      IF (event_ = 'CancelR') THEN
+         IF (Check_Parts___(rec_)) THEN
+            Finite_State_Set___(rec_, 'Cancelled');
+         END IF;
+      ELSIF (event_ = 'Close') THEN
+         IF (No_Delivers___(rec_)) THEN
+            Finite_State_Set___(rec_, 'Closed');
+         END IF;
       ELSE
          Error_SYS.State_Event_Not_Handled(lu_name_, event_, Finite_State_Decode__(state_));
       END IF;
@@ -1249,7 +1267,7 @@ BEGIN
    ELSIF (db_state_ = 'Planned') THEN
       RETURN 'Release^Cancel^';
    ELSIF (db_state_ = 'Released') THEN
-      RETURN 'Close^';
+      RETURN 'Close^CancelR^';
    ELSE
       RETURN NULL;
    END IF;
@@ -1263,7 +1281,7 @@ PROCEDURE Enumerate_Events__ (
    db_events_ OUT VARCHAR2 )
 IS
 BEGIN
-   db_events_ := 'Cancel^Close^Release^';
+   db_events_ := 'Cancel^CancelR^Close^Release^';
 END Enumerate_Events__;
 
 
@@ -1288,6 +1306,29 @@ BEGIN
    END IF;
    info_ := Client_SYS.Get_All_Info;
 END Cancel__;
+
+
+-- Cancel_R__
+--   Executes the CancelR event logic as defined in the state machine.
+PROCEDURE Cancel_R__ (
+   info_       OUT    VARCHAR2,
+   objid_      IN     VARCHAR2,
+   objversion_ IN OUT VARCHAR2,
+   attr_       IN OUT VARCHAR2,
+   action_     IN     VARCHAR2 )
+IS
+   rec_ cus_order_details_tab%ROWTYPE;
+BEGIN
+   IF (action_ = 'CHECK') THEN
+      NULL;
+   ELSIF (action_ = 'DO') THEN
+      rec_ := Lock_By_Id___(objid_, objversion_);
+      Finite_State_Machine___(rec_, 'CancelR', attr_);
+      objversion_ := to_char(rec_.rowversion,'YYYYMMDDHH24MISS');
+      Finite_State_Add_To_Attr___(rec_, attr_);
+   END IF;
+   info_ := Client_SYS.Get_All_Info;
+END Cancel_R__;
 
 
 -- Close__

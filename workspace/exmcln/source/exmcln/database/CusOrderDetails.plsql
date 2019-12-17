@@ -8,6 +8,7 @@
 --  Date    Sign    History
 --  191211  Sapdlk  Override Insert___ method
 --  191217  Sapdlk  New public method  change state
+--  191217  Sapdlk  Re wrute the condition created on cancel
 --  ------  ------  ---------------------------------------------------------
 -----------------------------------------------------------------------------
 
@@ -37,6 +38,34 @@ BEGIN
    Client_SYS.Add_To_Attr('ORDER_NO', cus_order_id_, attr_);
    --Add post-processing code here
 END Insert___;
+
+FUNCTION Check_Parts___ (
+   rec_ IN cus_order_details_tab%ROWTYPE ) RETURN BOOLEAN
+IS
+   
+BEGIN
+   
+   IF( Item_Detail_API.Any_Deliver('ANY', rec_.order_no) ) THEN
+      
+      RETURN TRUE;
+   ELSE
+      RETURN FALSE;
+   END IF;
+   
+END Check_Parts___;
+
+FUNCTION No_Delivers___ (
+   rec_ IN cus_order_details_tab%ROWTYPE ) RETURN BOOLEAN
+IS
+   
+BEGIN
+   IF( Item_Detail_API.Any_Deliver('NO', rec_.order_no) ) THEN
+      
+      RETURN TRUE;
+   ELSE
+      RETURN FALSE;
+   END IF;
+END No_Delivers___;
 -------------------- LU SPECIFIC PRIVATE METHODS ----------------------------
 
 

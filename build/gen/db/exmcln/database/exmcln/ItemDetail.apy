@@ -222,6 +222,9 @@ PROCEDURE Qty_Deduction___ (
    rec_  IN OUT NOCOPY item_detail_tab%ROWTYPE,
    attr_ IN OUT NOCOPY VARCHAR2 );
 
+FUNCTION Check_Order_State___ (
+   rec_  IN     item_detail_tab%ROWTYPE ) RETURN BOOLEAN;
+
 PROCEDURE Finite_State_Set___ (
    rec_   IN OUT NOCOPY item_detail_tab%ROWTYPE,
    state_ IN     VARCHAR2 );
@@ -1519,6 +1522,62 @@ BEGIN
 END Remove___;
 
 -----------------------------------------------------------------------------
+-------------------- LU SPECIFIC PUBLIC METHODS -----------------------------
+-----------------------------------------------------------------------------
+
+FUNCTION Any_Deliver(
+                      action_param_ IN VARCHAR2,
+                      order_no_     IN NUMBER
+                      ) RETURN BOOLEAN
+IS
+   
+   FUNCTION Core(
+                         action_param_ IN VARCHAR2,
+                         order_no_     IN NUMBER
+                         ) RETURN BOOLEAN
+   IS
+      delivered_count_value_ NUMBER;
+      del_remcount_value_ NUMBER;
+      
+      CURSOR deliver_count_ IS
+         SELECT COUNT(ITEM_NO) 
+         FROM ITEM_DETAIL_TAB idt
+         WHERE ROWSTATE = 'Delivered' AND idt.ORDER_NO = order_no_;
+      
+      CURSOR deliver_remaining_count_ IS
+         SELECT COUNT(ITEM_NO) 
+         FROM ITEM_DETAIL_TAB idt
+         WHERE ROWSTATE = 'Required' AND idt.ORDER_NO = order_no_;
+   BEGIN
+      
+      IF (action_param_ = 'ANY') THEN
+         OPEN deliver_count_;
+      FETCH deliver_count_ INTO delivered_count_value_;
+      CLOSE deliver_count_;
+         IF(delivered_count_value_ > 0) THEN
+            RETURN TRUE;
+         ELSE
+            RETURN FALSE;
+         END IF;
+         
+      ELSIF(action_param_ = 'NO') THEN
+         OPEN deliver_remaining_count_;
+      FETCH deliver_remaining_count_ INTO del_remcount_value_;
+      CLOSE deliver_remaining_count_;
+         IF(del_remcount_value_ > 0) THEN
+            RETURN TRUE;
+         ELSE
+            RETURN FALSE;
+         END IF;
+      END IF;
+   END Core;
+
+BEGIN
+   General_SYS.Init_Method(Item_Detail_API.lu_name_, 'Item_Detail_API', 'Any_Deliver');
+   RETURN Core(action_param_, order_no_);
+END Any_Deliver;
+
+-----------------------------------------------------------------------------
 -------------------- FINITE STATE MACHINE -----------------------------------
 -----------------------------------------------------------------------------
 
@@ -1801,8 +1860,10 @@ IS
          IF (event_ = 'Cancel') THEN
             Finite_State_Set___(rec_, 'Cancelled');
          ELSIF (event_ = 'Deliver') THEN
-            Qty_Deduction___(rec_, attr_);
-            Finite_State_Set___(rec_, 'Delivered');
+            IF (Check_Order_State___(rec_)) THEN
+               Qty_Deduction___(rec_, attr_);
+               Finite_State_Set___(rec_, 'Delivered');
+            END IF;
          ELSE
             Error_SYS.State_Event_Not_Handled(lu_name_, event_, Finite_State_Decode__(state_));
          END IF;
@@ -1872,13 +1933,36 @@ IS
       
    BEGIN
       IF (Check_Deliveries___(rec_.ORDER_NO)) THEN
-         Cus_Order_Details_API.Change_State(rec_.ORDER_NO);
+         IF(Exm_Inventory_Product_API.Deduct_Prudct(rec_.item_no, rec_.quantity))THEN
+            Cus_Order_Details_API.Change_State(rec_.ORDER_NO);
+         END IF;
       END IF;
    END Core;
 
 BEGIN
    Core(rec_, attr_);
 END Qty_Deduction___;
+
+
+FUNCTION Check_Order_State___ (
+   rec_  IN     item_detail_tab%ROWTYPE ) RETURN BOOLEAN
+IS
+   
+   FUNCTION Core (
+      rec_  IN     item_detail_tab%ROWTYPE ) RETURN BOOLEAN
+   IS
+      rowstate_ VARCHAR2(10);
+   BEGIN
+      rowstate_ := Cus_Order_Details_API.Get(rec_.order_no).rowstate;
+      IF (rowstate_ = 'Released') THEN
+         RETURN TRUE;
+      END IF;
+      RETURN FALSE;
+   END Core;
+
+BEGIN
+   RETURN Core(rec_);
+END Check_Order_State___;
 
 
 FUNCTION Check_Deliveries___(order_number_ IN NUMBER) RETURN BOOLEAN

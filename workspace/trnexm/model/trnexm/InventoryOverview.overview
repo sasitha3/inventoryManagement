@@ -50,8 +50,8 @@
                </PROPERTIES>
                <LOCATION>
                   <POINT>
-                     <X>134</X>
-                     <Y>260</Y>
+                     <X>136</X>
+                     <Y>242</Y>
                   </POINT>
                </LOCATION>
                <SIZE>
@@ -179,13 +179,19 @@
                <CONTROL_POINTS>
                   <POINT>
                      <X>528</X>
-                     <Y>291</Y>
+                     <Y>287</Y>
                   </POINT>
                   <POINT>
-                     <X>261</X>
-                     <Y>303</Y>
+                     <X>263</X>
+                     <Y>288</Y>
                   </POINT>
                </CONTROL_POINTS>
+               <LABEL_LOCATION>
+                  <POINT>
+                     <X>-32</X>
+                     <Y>-10</Y>
+                  </POINT>
+               </LABEL_LOCATION>
             </DIAGRAM_EDGE>
             <DIAGRAM_EDGE>
                <EDGE_TYPE>ASSOCIATION</EDGE_TYPE>
@@ -220,6 +226,12 @@
                      <Y>78</Y>
                   </POINT>
                </CONTROL_POINTS>
+               <LABEL_LOCATION>
+                  <POINT>
+                     <X>-26</X>
+                     <Y>-15</Y>
+                  </POINT>
+               </LABEL_LOCATION>
             </DIAGRAM_EDGE>
          </EDGES>
       </DIAGRAM>

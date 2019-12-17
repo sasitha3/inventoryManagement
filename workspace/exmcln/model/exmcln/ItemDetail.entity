@@ -177,7 +177,7 @@
                   </PROPERTY>
                   <PROPERTY>
                      <NAME>DisplayText</NAME>
-                     <VALUE>Deliver/QtyDeduction</VALUE>
+                     <VALUE>Deliver[CheckOrderState]/QtyDeduction</VALUE>
                   </PROPERTY>
                </PROPERTIES>
                <CONTROL_POINTS>
@@ -330,6 +330,7 @@
             </TRANSITION>
             <TRANSITION>
                <EVENT>Deliver</EVENT>
+               <CONDITION>CheckOrderState</CONDITION>
                <DO_ACTION>QtyDeduction</DO_ACTION>
                <TO_STATE>Delivered</TO_STATE>
             </TRANSITION>

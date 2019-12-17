@@ -156,13 +156,21 @@ PROCEDURE Remove__ (
 -------------------- LU SPECIFIC PUBLIC METHODS -----------------------------
 -----------------------------------------------------------------------------
 -- Add_prudct
+--
+-- Deduct_prudct
 -----------------------------------------------------------------------------
 
 PROCEDURE Add_prudct (
    location_number_ IN EXM_INVENTORY_PRODUCT_TAB.location_number%TYPE,
-   inventory_id_ IN EXM_INVENTORY_PRODUCT_TAB.inventory_id%TYPE,
-   part_no_ IN EXM_INVENTORY_PRODUCT_TAB.part_no%TYPE,
-   quantity_ IN trn_inventory_product_tab.quantity%TYPE);
+   inventory_id_    IN EXM_INVENTORY_PRODUCT_TAB.inventory_id%TYPE,
+   part_no_         IN EXM_INVENTORY_PRODUCT_TAB.part_no%TYPE,
+   quantity_        IN EXM_INVENTORY_PRODUCT_TAB.quantity%TYPE);
+
+FUNCTION Deduct_prudct (
+   
+   part_no_  IN EXM_INVENTORY_PRODUCT_TAB.part_no%TYPE,
+   quantity_ IN EXM_INVENTORY_PRODUCT_TAB.quantity%TYPE)
+   RETURN BOOLEAN;
 
 -----------------------------------------------------------------------------
 -------------------- FOUNDATION1 METHODS ------------------------------------

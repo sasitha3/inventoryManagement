@@ -1035,6 +1035,12 @@ PROCEDURE Qty_Deduction___ (
    attr_ IN OUT VARCHAR2 );
 
 
+-- Check_Order_State___
+--    Evaluates the CheckOrderState condition within the finite state machine.
+FUNCTION Check_Order_State___ (
+   rec_  IN     item_detail_tab%ROWTYPE ) RETURN BOOLEAN;
+
+
 -- Finite_State_Set___
 --    Updates the state column in the database for given record.
 PROCEDURE Finite_State_Set___ (
@@ -1076,8 +1082,10 @@ BEGIN
       IF (event_ = 'Cancel') THEN
          Finite_State_Set___(rec_, 'Cancelled');
       ELSIF (event_ = 'Deliver') THEN
-         Qty_Deduction___(rec_, attr_);
-         Finite_State_Set___(rec_, 'Delivered');
+         IF (Check_Order_State___(rec_)) THEN
+            Qty_Deduction___(rec_, attr_);
+            Finite_State_Set___(rec_, 'Delivered');
+         END IF;
       ELSE
          Error_SYS.State_Event_Not_Handled(lu_name_, event_, Finite_State_Decode__(state_));
       END IF;

@@ -223,6 +223,9 @@ PROCEDURE Change_State(
 -- Cancel__
 --   Executes the Cancel event logic as defined in the state machine.
 --
+-- Cancel_R__
+--   Executes the CancelR event logic as defined in the state machine.
+--
 -- Close__
 --   Executes the Close event logic as defined in the state machine.
 --
@@ -259,6 +262,13 @@ PROCEDURE Enumerate_Events__ (
    db_events_ OUT VARCHAR2 );
 
 PROCEDURE Cancel__ (
+   info_       OUT    VARCHAR2,
+   objid_      IN     VARCHAR2,
+   objversion_ IN OUT NOCOPY VARCHAR2,
+   attr_       IN OUT NOCOPY VARCHAR2,
+   action_     IN     VARCHAR2 );
+
+PROCEDURE Cancel_R__ (
    info_       OUT    VARCHAR2,
    objid_      IN     VARCHAR2,
    objversion_ IN OUT NOCOPY VARCHAR2,

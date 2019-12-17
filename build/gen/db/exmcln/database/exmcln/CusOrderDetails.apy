@@ -216,6 +216,12 @@ FUNCTION Get_Db_Values___ RETURN VARCHAR2 DETERMINISTIC;
 
 FUNCTION Get_Client_Values___ RETURN VARCHAR2 DETERMINISTIC;
 
+FUNCTION Check_Parts___ (
+   rec_ IN cus_order_details_tab%ROWTYPE ) RETURN BOOLEAN;
+
+FUNCTION No_Delivers___ (
+   rec_ IN cus_order_details_tab%ROWTYPE ) RETURN BOOLEAN;
+
 PROCEDURE Finite_State_Set___ (
    rec_   IN OUT NOCOPY cus_order_details_tab%ROWTYPE,
    state_ IN     VARCHAR2 );
@@ -1672,7 +1678,7 @@ IS
       ELSIF (db_state_ = 'Planned') THEN
          RETURN 'Release^Cancel^';
       ELSIF (db_state_ = 'Released') THEN
-         RETURN 'Close^';
+         RETURN 'Close^CancelR^';
       ELSE
          RETURN NULL;
       END IF;
@@ -1692,7 +1698,7 @@ IS
       db_events_ OUT VARCHAR2 )
    IS
    BEGIN
-      db_events_ := 'Cancel^Close^Release^';
+      db_events_ := 'Cancel^CancelR^Close^Release^';
    END Base;
 
 BEGIN
@@ -1732,6 +1738,40 @@ BEGIN
    General_SYS.Init_Method(Cus_Order_Details_API.lu_name_, 'Cus_Order_Details_API', 'Cancel__');
    Base(info_, objid_, objversion_, attr_, action_);
 END Cancel__;
+
+
+PROCEDURE Cancel_R__ (
+   info_       OUT    VARCHAR2,
+   objid_      IN     VARCHAR2,
+   objversion_ IN OUT NOCOPY VARCHAR2,
+   attr_       IN OUT NOCOPY VARCHAR2,
+   action_     IN     VARCHAR2 )
+IS
+   
+   PROCEDURE Base (
+      info_       OUT    VARCHAR2,
+      objid_      IN     VARCHAR2,
+      objversion_ IN OUT NOCOPY VARCHAR2,
+      attr_       IN OUT NOCOPY VARCHAR2,
+      action_     IN     VARCHAR2 )
+   IS
+      rec_ cus_order_details_tab%ROWTYPE;
+   BEGIN
+      IF (action_ = 'CHECK') THEN
+         NULL;
+      ELSIF (action_ = 'DO') THEN
+         rec_ := Lock_By_Id___(objid_, objversion_);
+         Finite_State_Machine___(rec_, 'CancelR', attr_);
+         objversion_ := to_char(rec_.rowversion,'YYYYMMDDHH24MISS');
+         Finite_State_Add_To_Attr___(rec_, attr_);
+      END IF;
+      info_ := Client_SYS.Get_All_Info;
+   END Base;
+
+BEGIN
+   General_SYS.Init_Method(Cus_Order_Details_API.lu_name_, 'Cus_Order_Details_API', 'Cancel_R__');
+   Base(info_, objid_, objversion_, attr_, action_);
+END Cancel_R__;
 
 
 PROCEDURE Close__ (
@@ -1886,8 +1926,14 @@ IS
             Error_SYS.State_Event_Not_Handled(lu_name_, event_, Finite_State_Decode__(state_));
          END IF;
       ELSIF (state_ = 'Released') THEN
-         IF (event_ = 'Close') THEN
-            Finite_State_Set___(rec_, 'Closed');
+         IF (event_ = 'CancelR') THEN
+            IF (Check_Parts___(rec_)) THEN
+               Finite_State_Set___(rec_, 'Cancelled');
+            END IF;
+         ELSIF (event_ = 'Close') THEN
+            IF (No_Delivers___(rec_)) THEN
+               Finite_State_Set___(rec_, 'Closed');
+            END IF;
          ELSE
             Error_SYS.State_Event_Not_Handled(lu_name_, event_, Finite_State_Decode__(state_));
          END IF;
@@ -2002,6 +2048,52 @@ IS
 BEGIN
    Core(objid_, objversion_, newrec_, attr_);
 END Insert___;
+
+
+FUNCTION Check_Parts___ (
+   rec_ IN cus_order_details_tab%ROWTYPE ) RETURN BOOLEAN
+IS
+   
+   FUNCTION Core (
+      rec_ IN cus_order_details_tab%ROWTYPE ) RETURN BOOLEAN
+   IS
+      
+   BEGIN
+      
+      IF( Item_Detail_API.Any_Deliver('ANY', rec_.order_no) ) THEN
+         
+         RETURN TRUE;
+      ELSE
+         RETURN FALSE;
+      END IF;
+      
+   END Core;
+
+BEGIN
+   RETURN Core(rec_);
+END Check_Parts___;
+
+
+FUNCTION No_Delivers___ (
+   rec_ IN cus_order_details_tab%ROWTYPE ) RETURN BOOLEAN
+IS
+   
+   FUNCTION Core (
+      rec_ IN cus_order_details_tab%ROWTYPE ) RETURN BOOLEAN
+   IS
+      
+   BEGIN
+      IF( Item_Detail_API.Any_Deliver('NO', rec_.order_no) ) THEN
+         
+         RETURN TRUE;
+      ELSE
+         RETURN FALSE;
+      END IF;
+   END Core;
+
+BEGIN
+   RETURN Core(rec_);
+END No_Delivers___;
 
 -----------------------------------------------------------------------------
 -------------------- FOUNDATION1 METHODS ------------------------------------
