@@ -1,7 +1,7 @@
 -----------------------------------------------------------------------------
 --
---  Logical unit: ExmInventoryProduct
---  Component:    TRNEXM
+--  Logical unit: ManufacturePart
+--  Component:    SHPORD
 --
 --  Template:     3.0
 --  Built by:     IFS Developer Studio 10.82.6530.20191210
@@ -15,61 +15,51 @@ layer Base;
 -------------------- PUBLIC DECLARATIONS ------------------------------------
 
 --TYPE Primary_Key_Rec IS RECORD
---  (inventory_id                   EXM_INVENTORY_PRODUCT_TAB.inventory_id%TYPE,
---   location_number                EXM_INVENTORY_PRODUCT_TAB.location_number%TYPE,
---   part_no                        EXM_INVENTORY_PRODUCT_TAB.part_no%TYPE);
+--  (manu_id                        MANUFACTURE_PART_TAB.manu_id%TYPE);
 
 TYPE Public_Rec IS RECORD
-  (inventory_id                   EXM_INVENTORY_PRODUCT_TAB.inventory_id%TYPE,
-   location_number                EXM_INVENTORY_PRODUCT_TAB.location_number%TYPE,
-   part_no                        EXM_INVENTORY_PRODUCT_TAB.part_no%TYPE,
+  (manu_id                        MANUFACTURE_PART_TAB.manu_id%TYPE,
    "rowid"                        rowid,
-   rowversion                     EXM_INVENTORY_PRODUCT_TAB.rowversion%TYPE,
-   rowkey                         EXM_INVENTORY_PRODUCT_TAB.rowkey%TYPE,
-   quantity                       EXM_INVENTORY_PRODUCT_TAB.quantity%TYPE);
+   rowversion                     MANUFACTURE_PART_TAB.rowversion%TYPE,
+   rowkey                         MANUFACTURE_PART_TAB.rowkey%TYPE,
+   part_no                        MANUFACTURE_PART_TAB.part_no%TYPE);
 
 -------------------- PRIVATE DECLARATIONS -----------------------------------
 
 TYPE Indicator_Rec IS RECORD
-  (inventory_id                   BOOLEAN := FALSE,
-   location_number                BOOLEAN := FALSE,
-   part_no                        BOOLEAN := FALSE,
-   quantity                       BOOLEAN := FALSE);
+  (manu_id                        BOOLEAN := FALSE,
+   part_no                        BOOLEAN := FALSE);
 
 -------------------- BASE METHODS -------------------------------------------
 
 -- Raise_Too_Many_Rows___
 --    Raises error for: More then one row found for a single key.
 PROCEDURE Raise_Too_Many_Rows___ (
-   inventory_id_ IN NUMBER,
-   location_number_ IN NUMBER,
-   part_no_ IN NUMBER,
+   manu_id_ IN NUMBER,
    methodname_ IN VARCHAR2 )
 IS
 BEGIN
-   Error_SYS.Too_Many_Rows(Exm_Inventory_Product_API.lu_name_, NULL, methodname_);
+   Error_SYS.Too_Many_Rows(Manufacture_Part_API.lu_name_, NULL, methodname_);
 END Raise_Too_Many_Rows___;
 
 
 -- Raise_Record_Not_Exist___
 --    Raises error for: No data found for given key.
 PROCEDURE Raise_Record_Not_Exist___ (
-   inventory_id_ IN NUMBER,
-   location_number_ IN NUMBER,
-   part_no_ IN NUMBER )
+   manu_id_ IN NUMBER )
 IS
 BEGIN
-   Error_SYS.Record_Not_Exist(Exm_Inventory_Product_API.lu_name_);
+   Error_SYS.Record_Not_Exist(Manufacture_Part_API.lu_name_);
 END Raise_Record_Not_Exist___;
 
 
 -- Raise_Record_Exist___
 --    Raises error for: Data with given key value already exist.
 PROCEDURE Raise_Record_Exist___ (
-   rec_ exm_inventory_product_tab%ROWTYPE )
+   rec_ manufacture_part_tab%ROWTYPE )
 IS
 BEGIN
-   Error_SYS.Record_Exist(Exm_Inventory_Product_API.lu_name_);
+   Error_SYS.Record_Exist(Manufacture_Part_API.lu_name_);
 END Raise_Record_Exist___;
 
 
@@ -80,40 +70,36 @@ PROCEDURE Raise_Item_Format___ (
    value_ IN VARCHAR2 )
 IS
 BEGIN
-   Error_SYS.Item_Format(Exm_Inventory_Product_API.lu_name_, name_, value_);
+   Error_SYS.Item_Format(Manufacture_Part_API.lu_name_, name_, value_);
 END Raise_Item_Format___;
 
 -- Raise_Record_Modified___
 --    Raises error for: The database row is newer then the current.
 PROCEDURE Raise_Record_Modified___ (
-   rec_ exm_inventory_product_tab%ROWTYPE )
+   rec_ manufacture_part_tab%ROWTYPE )
 IS
 BEGIN
-   Error_SYS.Record_Modified(Exm_Inventory_Product_API.lu_name_);
+   Error_SYS.Record_Modified(Manufacture_Part_API.lu_name_);
 END Raise_Record_Modified___;
 
 
 -- Raise_Record_Locked___
 --    Raises error for: The database row is already locked.
 PROCEDURE Raise_Record_Locked___ (
-   inventory_id_ IN NUMBER,
-   location_number_ IN NUMBER,
-   part_no_ IN NUMBER )
+   manu_id_ IN NUMBER )
 IS
 BEGIN
-   Error_SYS.Record_Locked(Exm_Inventory_Product_API.lu_name_);
+   Error_SYS.Record_Locked(Manufacture_Part_API.lu_name_);
 END Raise_Record_Locked___;
 
 
 -- Raise_Record_Removed___
 --    Raises error for: The database row is no longer present.
 PROCEDURE Raise_Record_Removed___ (
-   inventory_id_ IN NUMBER,
-   location_number_ IN NUMBER,
-   part_no_ IN NUMBER )
+   manu_id_ IN NUMBER )
 IS
 BEGIN
-   Error_SYS.Record_Removed(Exm_Inventory_Product_API.lu_name_);
+   Error_SYS.Record_Removed(Manufacture_Part_API.lu_name_);
 END Raise_Record_Removed___;
 
 
@@ -121,16 +107,16 @@ END Raise_Record_Removed___;
 --    Locks a database row based on the objid and objversion.
 FUNCTION Lock_By_Id___ (
    objid_      IN VARCHAR2,
-   objversion_ IN VARCHAR2 ) RETURN exm_inventory_product_tab%ROWTYPE
+   objversion_ IN VARCHAR2 ) RETURN manufacture_part_tab%ROWTYPE
 IS
    row_locked  EXCEPTION;
    PRAGMA      EXCEPTION_INIT(row_locked, -0054);
-   rec_        exm_inventory_product_tab%ROWTYPE;
+   rec_        manufacture_part_tab%ROWTYPE;
    dummy_      NUMBER;
 BEGIN
    SELECT *
       INTO  rec_
-      FROM  exm_inventory_product_tab
+      FROM  manufacture_part_tab
       WHERE rowid = objid_
       AND    to_char(rowversion,'YYYYMMDDHH24MISS') = objversion_
       FOR UPDATE NOWAIT;
@@ -139,19 +125,19 @@ EXCEPTION
    WHEN row_locked THEN
       Error_SYS.Record_Locked(lu_name_);
    WHEN too_many_rows THEN
-      Raise_Too_Many_Rows___(NULL, NULL, NULL, 'Lock_By_Id___');
+      Raise_Too_Many_Rows___(NULL, 'Lock_By_Id___');
    WHEN no_data_found THEN
       BEGIN
          SELECT 1
             INTO  dummy_
-            FROM  exm_inventory_product_tab
+            FROM  manufacture_part_tab
             WHERE rowid = objid_;
          Raise_Record_Modified___(rec_);
       EXCEPTION
          WHEN no_data_found THEN
             Error_SYS.Record_Removed(lu_name_);
          WHEN too_many_rows THEN
-            Raise_Too_Many_Rows___(NULL, NULL, NULL, 'Lock_By_Id___');
+            Raise_Too_Many_Rows___(NULL, 'Lock_By_Id___');
       END;
 END Lock_By_Id___;
 
@@ -160,28 +146,24 @@ END Lock_By_Id___;
 --    Locks a database row based on the primary key values.
 --    Waits until record released if locked by another session.
 FUNCTION Lock_By_Keys___ (
-   inventory_id_ IN NUMBER,
-   location_number_ IN NUMBER,
-   part_no_ IN NUMBER) RETURN exm_inventory_product_tab%ROWTYPE
+   manu_id_ IN NUMBER) RETURN manufacture_part_tab%ROWTYPE
 IS
    row_locked  EXCEPTION;
    PRAGMA      EXCEPTION_INIT(row_locked, -0054);
-   rec_        exm_inventory_product_tab%ROWTYPE;
+   rec_        manufacture_part_tab%ROWTYPE;
 BEGIN
    BEGIN
       SELECT *
          INTO  rec_
-         FROM  exm_inventory_product_tab
-         WHERE inventory_id = inventory_id_
-         AND   location_number = location_number_
-         AND   part_no = part_no_
+         FROM  manufacture_part_tab
+         WHERE manu_id = manu_id_
          FOR UPDATE;
       RETURN rec_;
    EXCEPTION
       WHEN no_data_found THEN
-         Raise_Record_Removed___(inventory_id_, location_number_, part_no_);
+         Raise_Record_Removed___(manu_id_);
       WHEN too_many_rows THEN
-         Raise_Too_Many_Rows___(inventory_id_, location_number_, part_no_, 'Lock_By_Keys___');
+         Raise_Too_Many_Rows___(manu_id_, 'Lock_By_Keys___');
    END;
 END Lock_By_Keys___;
 
@@ -190,43 +172,37 @@ END Lock_By_Keys___;
 --    Locks a database row based on the primary key values.
 --    Raises exception if row already locked.
 FUNCTION Lock_By_Keys_Nowait___ (
-   inventory_id_ IN NUMBER,
-   location_number_ IN NUMBER,
-   part_no_ IN NUMBER) RETURN exm_inventory_product_tab%ROWTYPE
+   manu_id_ IN NUMBER) RETURN manufacture_part_tab%ROWTYPE
 IS
    row_locked  EXCEPTION;
    PRAGMA      EXCEPTION_INIT(row_locked, -0054);
-   rec_        exm_inventory_product_tab%ROWTYPE;
+   rec_        manufacture_part_tab%ROWTYPE;
    dummy_      NUMBER;
 BEGIN
    BEGIN
       SELECT *
          INTO  rec_
-         FROM  exm_inventory_product_tab
-         WHERE inventory_id = inventory_id_
-         AND   location_number = location_number_
-         AND   part_no = part_no_
+         FROM  manufacture_part_tab
+         WHERE manu_id = manu_id_
          FOR UPDATE NOWAIT;
       RETURN rec_;
    EXCEPTION
       WHEN row_locked THEN
          Error_SYS.Record_Locked(lu_name_);
       WHEN too_many_rows THEN
-         Raise_Too_Many_Rows___(inventory_id_, location_number_, part_no_, 'Lock_By_Keys___');
+         Raise_Too_Many_Rows___(manu_id_, 'Lock_By_Keys___');
       WHEN no_data_found THEN
          BEGIN
             SELECT 1
                INTO  dummy_
-               FROM  exm_inventory_product_tab
-               WHERE inventory_id = inventory_id_
-               AND   location_number = location_number_
-               AND   part_no = part_no_;
+               FROM  manufacture_part_tab
+               WHERE manu_id = manu_id_;
             Raise_Record_Modified___(rec_);
          EXCEPTION
             WHEN no_data_found THEN
-               Raise_Record_Removed___(inventory_id_, location_number_, part_no_);
+               Raise_Record_Removed___(manu_id_);
             WHEN too_many_rows THEN
-               Raise_Too_Many_Rows___(inventory_id_, location_number_, part_no_, 'Lock_By_Keys___');
+               Raise_Too_Many_Rows___(manu_id_, 'Lock_By_Keys___');
          END;
    END;
 END Lock_By_Keys_Nowait___;
@@ -235,20 +211,20 @@ END Lock_By_Keys_Nowait___;
 -- Get_Object_By_Id___
 --    Fetched a database row based on given the objid.
 FUNCTION Get_Object_By_Id___ (
-   objid_ IN VARCHAR2 ) RETURN exm_inventory_product_tab%ROWTYPE
+   objid_ IN VARCHAR2 ) RETURN manufacture_part_tab%ROWTYPE
 IS
-   lu_rec_ exm_inventory_product_tab%ROWTYPE;
+   lu_rec_ manufacture_part_tab%ROWTYPE;
 BEGIN
    SELECT *
       INTO  lu_rec_
-      FROM  exm_inventory_product_tab
+      FROM  manufacture_part_tab
       WHERE rowid = objid_;
    RETURN lu_rec_;
 EXCEPTION
    WHEN no_data_found THEN
       Error_SYS.Record_Removed(lu_name_);
    WHEN too_many_rows THEN
-      Raise_Too_Many_Rows___(NULL, NULL, NULL, 'Get_Object_By_Id___');
+      Raise_Too_Many_Rows___(NULL, 'Get_Object_By_Id___');
 END Get_Object_By_Id___;
 
 
@@ -256,24 +232,20 @@ END Get_Object_By_Id___;
 --    Fetched a database row based on given the primary key values.
 @UncheckedAccess
 FUNCTION Get_Object_By_Keys___ (
-   inventory_id_ IN NUMBER,
-   location_number_ IN NUMBER,
-   part_no_ IN NUMBER ) RETURN exm_inventory_product_tab%ROWTYPE
+   manu_id_ IN NUMBER ) RETURN manufacture_part_tab%ROWTYPE
 IS
-   lu_rec_ exm_inventory_product_tab%ROWTYPE;
+   lu_rec_ manufacture_part_tab%ROWTYPE;
 BEGIN
    SELECT *
       INTO  lu_rec_
-      FROM  exm_inventory_product_tab
-      WHERE inventory_id = inventory_id_
-      AND   location_number = location_number_
-      AND   part_no = part_no_;
+      FROM  manufacture_part_tab
+      WHERE manu_id = manu_id_;
    RETURN lu_rec_;
 EXCEPTION
    WHEN no_data_found THEN
       RETURN lu_rec_;
    WHEN too_many_rows THEN
-      Raise_Too_Many_Rows___(inventory_id_, location_number_, part_no_, 'Get_Object_By_Keys___');
+      Raise_Too_Many_Rows___(manu_id_, 'Get_Object_By_Keys___');
 END Get_Object_By_Keys___;
 
 
@@ -281,24 +253,20 @@ END Get_Object_By_Keys___;
 --    Checks if a database row is already stored based on the primary key values.
 @UncheckedAccess
 FUNCTION Check_Exist___ (
-   inventory_id_ IN NUMBER,
-   location_number_ IN NUMBER,
-   part_no_ IN NUMBER ) RETURN BOOLEAN
+   manu_id_ IN NUMBER ) RETURN BOOLEAN
 IS
    dummy_ NUMBER;
 BEGIN
    SELECT 1
       INTO  dummy_
-      FROM  exm_inventory_product_tab
-      WHERE inventory_id = inventory_id_
-      AND   location_number = location_number_
-      AND   part_no = part_no_;
+      FROM  manufacture_part_tab
+      WHERE manu_id = manu_id_;
    RETURN TRUE;
 EXCEPTION
    WHEN no_data_found THEN
       RETURN FALSE;
    WHEN too_many_rows THEN
-      Raise_Too_Many_Rows___(inventory_id_, location_number_, part_no_, 'Check_Exist___');
+      Raise_Too_Many_Rows___(manu_id_, 'Check_Exist___');
 END Check_Exist___;
 
 
@@ -311,13 +279,13 @@ IS
 BEGIN
    SELECT to_char(rowversion,'YYYYMMDDHH24MISS')
       INTO  objversion_
-      FROM  exm_inventory_product_tab
+      FROM  manufacture_part_tab
       WHERE rowid = objid_;
 EXCEPTION
    WHEN no_data_found THEN
       objversion_ := NULL;
    WHEN too_many_rows THEN
-      Raise_Too_Many_Rows___(NULL, NULL, NULL, 'Get_Version_By_Id___');
+      Raise_Too_Many_Rows___(NULL, 'Get_Version_By_Id___');
 END Get_Version_By_Id___;
 
 
@@ -326,23 +294,19 @@ END Get_Version_By_Id___;
 PROCEDURE Get_Id_Version_By_Keys___ (
    objid_      IN OUT VARCHAR2,
    objversion_ IN OUT VARCHAR2,
-   inventory_id_ IN NUMBER,
-   location_number_ IN NUMBER,
-   part_no_ IN NUMBER )
+   manu_id_ IN NUMBER )
 IS
 BEGIN
    SELECT rowid, to_char(rowversion,'YYYYMMDDHH24MISS')
       INTO  objid_, objversion_
-      FROM  exm_inventory_product_tab
-      WHERE inventory_id = inventory_id_
-      AND   location_number = location_number_
-      AND   part_no = part_no_;
+      FROM  manufacture_part_tab
+      WHERE manu_id = manu_id_;
 EXCEPTION
    WHEN no_data_found THEN
       objid_      := NULL;
       objversion_ := NULL;
    WHEN too_many_rows THEN
-      Raise_Too_Many_Rows___(inventory_id_, location_number_, part_no_, 'Get_Id_Version_By_Keys___');
+      Raise_Too_Many_Rows___(manu_id_, 'Get_Id_Version_By_Keys___');
 END Get_Id_Version_By_Keys___;
 
 
@@ -350,27 +314,27 @@ END Get_Id_Version_By_Keys___;
 --   Returns a table record with only keys (other attributes are NULL) based on a rowkey.
 @UncheckedAccess
 FUNCTION Get_Key_By_Rowkey (
-   rowkey_ IN VARCHAR2 ) RETURN exm_inventory_product_tab%ROWTYPE
+   rowkey_ IN VARCHAR2 ) RETURN manufacture_part_tab%ROWTYPE
 IS
-   rec_ exm_inventory_product_tab%ROWTYPE;
+   rec_ manufacture_part_tab%ROWTYPE;
 BEGIN
-   SELECT inventory_id, location_number, part_no
-      INTO  rec_.inventory_id, rec_.location_number, rec_.part_no
-      FROM  exm_inventory_product_tab
+   SELECT manu_id
+      INTO  rec_.manu_id
+      FROM  manufacture_part_tab
       WHERE rowkey = rowkey_;
    RETURN rec_;
 EXCEPTION
    WHEN no_data_found THEN
       RETURN rec_;
    WHEN too_many_rows THEN
-      Raise_Too_Many_Rows___(rec_.inventory_id, rec_.location_number, rec_.part_no, 'Get_Key_By_Rowkey');
+      Raise_Too_Many_Rows___(rec_.manu_id, 'Get_Key_By_Rowkey');
 END Get_Key_By_Rowkey;
 
 
 -- Unpack___
 --   Reads an attribute string and unpacks its contents into a record.
 PROCEDURE Unpack___ (
-   newrec_   IN OUT exm_inventory_product_tab%ROWTYPE,
+   newrec_   IN OUT manufacture_part_tab%ROWTYPE,
    indrec_   IN OUT Indicator_Rec,
    attr_     IN OUT VARCHAR2 )
 IS
@@ -384,18 +348,12 @@ BEGIN
    ptr_ := NULL;
    WHILE (Client_SYS.Get_Next_From_Attr(attr_, ptr_, name_, value_)) LOOP
       CASE name_
-      WHEN ('INVENTORY_ID') THEN
-         newrec_.inventory_id := Client_SYS.Attr_Value_To_Number(value_);
-         indrec_.inventory_id := TRUE;
-      WHEN ('LOCATION_NUMBER') THEN
-         newrec_.location_number := Client_SYS.Attr_Value_To_Number(value_);
-         indrec_.location_number := TRUE;
+      WHEN ('MANU_ID') THEN
+         newrec_.manu_id := Client_SYS.Attr_Value_To_Number(value_);
+         indrec_.manu_id := TRUE;
       WHEN ('PART_NO') THEN
          newrec_.part_no := Client_SYS.Attr_Value_To_Number(value_);
          indrec_.part_no := TRUE;
-      WHEN ('QUANTITY') THEN
-         newrec_.quantity := Client_SYS.Attr_Value_To_Number(value_);
-         indrec_.quantity := TRUE;
       ELSE
          Client_SYS.Add_To_Attr(name_, value_, msg_);
       END CASE;
@@ -411,45 +369,33 @@ END Unpack___;
 --   Reads a record and packs its contents into an attribute string.
 --   This is intended to be the reverse of Unpack___
 FUNCTION Pack___ (
-   rec_ IN exm_inventory_product_tab%ROWTYPE ) RETURN VARCHAR2
+   rec_ IN manufacture_part_tab%ROWTYPE ) RETURN VARCHAR2
 IS
    attr_ VARCHAR2(32000);
 BEGIN
    Client_SYS.Clear_Attr(attr_);
-   IF (rec_.inventory_id IS NOT NULL) THEN
-      Client_SYS.Add_To_Attr('INVENTORY_ID', rec_.inventory_id, attr_);
-   END IF;
-   IF (rec_.location_number IS NOT NULL) THEN
-      Client_SYS.Add_To_Attr('LOCATION_NUMBER', rec_.location_number, attr_);
+   IF (rec_.manu_id IS NOT NULL) THEN
+      Client_SYS.Add_To_Attr('MANU_ID', rec_.manu_id, attr_);
    END IF;
    IF (rec_.part_no IS NOT NULL) THEN
       Client_SYS.Add_To_Attr('PART_NO', rec_.part_no, attr_);
-   END IF;
-   IF (rec_.quantity IS NOT NULL) THEN
-      Client_SYS.Add_To_Attr('QUANTITY', rec_.quantity, attr_);
    END IF;
    RETURN attr_;
 END Pack___;
 
 
 FUNCTION Pack___ (
-   rec_ IN exm_inventory_product_tab%ROWTYPE,
+   rec_ IN manufacture_part_tab%ROWTYPE,
    indrec_ IN Indicator_Rec ) RETURN VARCHAR2
 IS
    attr_ VARCHAR2(32000);
 BEGIN
    Client_SYS.Clear_Attr(attr_);
-   IF (indrec_.inventory_id) THEN
-      Client_SYS.Add_To_Attr('INVENTORY_ID', rec_.inventory_id, attr_);
-   END IF;
-   IF (indrec_.location_number) THEN
-      Client_SYS.Add_To_Attr('LOCATION_NUMBER', rec_.location_number, attr_);
+   IF (indrec_.manu_id) THEN
+      Client_SYS.Add_To_Attr('MANU_ID', rec_.manu_id, attr_);
    END IF;
    IF (indrec_.part_no) THEN
       Client_SYS.Add_To_Attr('PART_NO', rec_.part_no, attr_);
-   END IF;
-   IF (indrec_.quantity) THEN
-      Client_SYS.Add_To_Attr('QUANTITY', rec_.quantity, attr_);
    END IF;
    RETURN attr_;
 END Pack___;
@@ -460,15 +406,13 @@ END Pack___;
 --   Reads a record and packs its contents into an attribute string.
 --   Similar to Pack___ but just uses table column names and DB values
 FUNCTION Pack_Table___ (
-   rec_ IN exm_inventory_product_tab%ROWTYPE ) RETURN VARCHAR2
+   rec_ IN manufacture_part_tab%ROWTYPE ) RETURN VARCHAR2
 IS
    attr_ VARCHAR2(32000);
 BEGIN
    Client_SYS.Clear_Attr(attr_);
-   Client_SYS.Add_To_Attr('INVENTORY_ID', rec_.inventory_id, attr_);
-   Client_SYS.Add_To_Attr('LOCATION_NUMBER', rec_.location_number, attr_);
+   Client_SYS.Add_To_Attr('MANU_ID', rec_.manu_id, attr_);
    Client_SYS.Add_To_Attr('PART_NO', rec_.part_no, attr_);
-   Client_SYS.Add_To_Attr('QUANTITY', rec_.quantity, attr_);
    Client_SYS.Add_To_Attr('ROWKEY', rec_.rowkey, attr_);
    RETURN attr_;
 END Pack_Table___;
@@ -488,14 +432,12 @@ END Reset_Indicator_Rec___;
 -- Get_Indicator_Rec___
 --   Returns an Indicator_Rec that reflects the content of a table record.
 FUNCTION Get_Indicator_Rec___ (
-   rec_ IN exm_inventory_product_tab%ROWTYPE ) RETURN Indicator_Rec
+   rec_ IN manufacture_part_tab%ROWTYPE ) RETURN Indicator_Rec
 IS
    indrec_ Indicator_Rec;
 BEGIN
-   indrec_.inventory_id := rec_.inventory_id IS NOT NULL;
-   indrec_.location_number := rec_.location_number IS NOT NULL;
+   indrec_.manu_id := rec_.manu_id IS NOT NULL;
    indrec_.part_no := rec_.part_no IS NOT NULL;
-   indrec_.quantity := rec_.quantity IS NOT NULL;
    RETURN indrec_;
 END Get_Indicator_Rec___;
 
@@ -503,15 +445,13 @@ END Get_Indicator_Rec___;
 -- Get_Indicator_Rec___
 --   Returns an Indicator_Rec that reflects the difference between two table records.
 FUNCTION Get_Indicator_Rec___ (
-   oldrec_ IN exm_inventory_product_tab%ROWTYPE,
-   newrec_ IN exm_inventory_product_tab%ROWTYPE ) RETURN Indicator_Rec
+   oldrec_ IN manufacture_part_tab%ROWTYPE,
+   newrec_ IN manufacture_part_tab%ROWTYPE ) RETURN Indicator_Rec
 IS
    indrec_ Indicator_Rec;
 BEGIN
-   indrec_.inventory_id := Validate_SYS.Is_Changed(oldrec_.inventory_id, newrec_.inventory_id);
-   indrec_.location_number := Validate_SYS.Is_Changed(oldrec_.location_number, newrec_.location_number);
+   indrec_.manu_id := Validate_SYS.Is_Changed(oldrec_.manu_id, newrec_.manu_id);
    indrec_.part_no := Validate_SYS.Is_Changed(oldrec_.part_no, newrec_.part_no);
-   indrec_.quantity := Validate_SYS.Is_Changed(oldrec_.quantity, newrec_.quantity);
    RETURN indrec_;
 END Get_Indicator_Rec___;
 
@@ -519,27 +459,17 @@ END Get_Indicator_Rec___;
 -- Check_Common___
 --   Perform validations on a record, that should be done for both insert and delete.
 PROCEDURE Check_Common___ (
-   oldrec_ IN     exm_inventory_product_tab%ROWTYPE,
-   newrec_ IN OUT exm_inventory_product_tab%ROWTYPE,
+   oldrec_ IN     manufacture_part_tab%ROWTYPE,
+   newrec_ IN OUT manufacture_part_tab%ROWTYPE,
    indrec_ IN OUT Indicator_Rec,
    attr_   IN OUT VARCHAR2 )
 IS
 BEGIN
-   IF (newrec_.inventory_id IS NOT NULL AND newrec_.location_number IS NOT NULL)
-   AND (indrec_.inventory_id OR indrec_.location_number)
-   AND (Validate_SYS.Is_Changed(oldrec_.inventory_id, newrec_.inventory_id)
-     OR Validate_SYS.Is_Changed(oldrec_.location_number, newrec_.location_number)) THEN
-      Exm_Inventory_Location_API.Exist(newrec_.inventory_id, newrec_.location_number);
-   END IF;
    IF (newrec_.part_no IS NOT NULL)
    AND (indrec_.part_no)
    AND (Validate_SYS.Is_Changed(oldrec_.part_no, newrec_.part_no)) THEN
       Exm_Part_API.Exist(newrec_.part_no);
    END IF;
-   Error_SYS.Check_Not_Null(lu_name_, 'INVENTORY_ID', newrec_.inventory_id);
-   Error_SYS.Check_Not_Null(lu_name_, 'LOCATION_NUMBER', newrec_.location_number);
-   Error_SYS.Check_Not_Null(lu_name_, 'PART_NO', newrec_.part_no);
-   Error_SYS.Check_Not_Null(lu_name_, 'QUANTITY', newrec_.quantity);
 END Check_Common___;
 
 
@@ -556,11 +486,11 @@ END Prepare_Insert___;
 -- Check_Insert___
 --   Perform validations on a new record before it is insert.
 PROCEDURE Check_Insert___ (
-   newrec_ IN OUT exm_inventory_product_tab%ROWTYPE,
+   newrec_ IN OUT manufacture_part_tab%ROWTYPE,
    indrec_ IN OUT Indicator_Rec,
    attr_   IN OUT VARCHAR2 )
 IS
-   oldrec_ exm_inventory_product_tab%ROWTYPE;
+   oldrec_ manufacture_part_tab%ROWTYPE;
 BEGIN
    Check_Common___(oldrec_, newrec_, indrec_, attr_);
 END Check_Insert___;
@@ -571,7 +501,7 @@ END Check_Insert___;
 PROCEDURE Insert___ (
    objid_      OUT    VARCHAR2,
    objversion_ OUT    VARCHAR2,
-   newrec_     IN OUT exm_inventory_product_tab%ROWTYPE,
+   newrec_     IN OUT manufacture_part_tab%ROWTYPE,
    attr_       IN OUT VARCHAR2 )
 IS
 BEGIN
@@ -579,7 +509,7 @@ BEGIN
    newrec_.rowkey := sys_guid();
    Client_SYS.Add_To_Attr('OBJKEY', newrec_.rowkey, attr_);
    INSERT
-      INTO exm_inventory_product_tab
+      INTO manufacture_part_tab
       VALUES newrec_
       RETURNING rowid INTO objid_;
    objversion_ := to_char(newrec_.rowversion,'YYYYMMDDHH24MISS');
@@ -588,7 +518,7 @@ EXCEPTION
       DECLARE
          constraint_ VARCHAR2(4000) := Utility_SYS.Between_Str(Utility_SYS.Between_Str(sqlerrm, '(', ')'), '.', ')', 'FALSE');
       BEGIN
-         IF (constraint_ = 'EXM_INVENTORY_PRODUCT_RK') THEN
+         IF (constraint_ = 'MANUFACTURE_PART_RK') THEN
             Error_SYS.Rowkey_Exist(lu_name_, newrec_.rowkey);
          ELSE
             Raise_Record_Exist___(newrec_);
@@ -600,7 +530,7 @@ END Insert___;
 -- Prepare_New___
 --    Set default values for a table record.
 PROCEDURE Prepare_New___ (
-   newrec_ IN OUT exm_inventory_product_tab%ROWTYPE )
+   newrec_ IN OUT manufacture_part_tab%ROWTYPE )
 IS
    attr_    VARCHAR2(32000);
    indrec_  Indicator_Rec;
@@ -613,13 +543,13 @@ END Prepare_New___;
 -- New___
 --    Checks and creates a new record.
 PROCEDURE New___ (
-   newrec_ IN OUT exm_inventory_product_tab%ROWTYPE )
+   newrec_ IN OUT manufacture_part_tab%ROWTYPE )
 IS
    objid_         VARCHAR2(20);
    objversion_    VARCHAR2(100);
    attr_          VARCHAR2(32000);
    indrec_        Indicator_Rec;
-   emptyrec_      exm_inventory_product_tab%ROWTYPE;
+   emptyrec_      manufacture_part_tab%ROWTYPE;
 BEGIN
    indrec_ := Get_Indicator_Rec___(emptyrec_, newrec_);
    Check_Insert___(newrec_, indrec_, attr_);
@@ -630,15 +560,13 @@ END New___;
 -- Check_Update___
 --   Perform validations on a new record before it is updated.
 PROCEDURE Check_Update___ (
-   oldrec_ IN     exm_inventory_product_tab%ROWTYPE,
-   newrec_ IN OUT exm_inventory_product_tab%ROWTYPE,
+   oldrec_ IN     manufacture_part_tab%ROWTYPE,
+   newrec_ IN OUT manufacture_part_tab%ROWTYPE,
    indrec_ IN OUT Indicator_Rec,
    attr_   IN OUT VARCHAR2 )
 IS
 BEGIN
-   Validate_SYS.Item_Update(lu_name_, 'INVENTORY_ID', indrec_.inventory_id);
-   Validate_SYS.Item_Update(lu_name_, 'LOCATION_NUMBER', indrec_.location_number);
-   Validate_SYS.Item_Update(lu_name_, 'PART_NO', indrec_.part_no);
+   Validate_SYS.Item_Update(lu_name_, 'MANU_ID', indrec_.manu_id);
    Check_Common___(oldrec_, newrec_, indrec_, attr_);
 END Check_Update___;
 
@@ -647,8 +575,8 @@ END Check_Update___;
 --   Update a record in database with new data.
 PROCEDURE Update___ (
    objid_      IN     VARCHAR2,
-   oldrec_     IN     exm_inventory_product_tab%ROWTYPE,
-   newrec_     IN OUT exm_inventory_product_tab%ROWTYPE,
+   oldrec_     IN     manufacture_part_tab%ROWTYPE,
+   newrec_     IN OUT manufacture_part_tab%ROWTYPE,
    attr_       IN OUT VARCHAR2,
    objversion_ IN OUT VARCHAR2,
    by_keys_    IN     BOOLEAN DEFAULT FALSE )
@@ -656,13 +584,11 @@ IS
 BEGIN
    newrec_.rowversion := sysdate;
    IF by_keys_ THEN
-      UPDATE exm_inventory_product_tab
+      UPDATE manufacture_part_tab
          SET ROW = newrec_
-         WHERE inventory_id = newrec_.inventory_id
-         AND   location_number = newrec_.location_number
-         AND   part_no = newrec_.part_no;
+         WHERE manu_id = newrec_.manu_id;
    ELSE
-      UPDATE exm_inventory_product_tab
+      UPDATE manufacture_part_tab
          SET ROW = newrec_
          WHERE rowid = objid_;
    END IF;
@@ -672,8 +598,8 @@ EXCEPTION
       DECLARE
          constraint_ VARCHAR2(4000) := Utility_SYS.Between_Str(Utility_SYS.Between_Str(sqlerrm, '(', ')'), '.', ')', 'FALSE');
       BEGIN
-         IF (constraint_ = 'EXM_INVENTORY_PRODUCT_RK') THEN
-            Error_SYS.Rowkey_Exist(Exm_Inventory_Product_API.lu_name_, newrec_.rowkey);
+         IF (constraint_ = 'MANUFACTURE_PART_RK') THEN
+            Error_SYS.Rowkey_Exist(Manufacture_Part_API.lu_name_, newrec_.rowkey);
          ELSE
             Raise_Record_Exist___(newrec_);
          END IF;
@@ -684,19 +610,19 @@ END Update___;
 -- Modify___
 --    Modifies an existing instance of the logical unit.
 PROCEDURE Modify___ (
-   newrec_         IN OUT exm_inventory_product_tab%ROWTYPE,
+   newrec_         IN OUT manufacture_part_tab%ROWTYPE,
    lock_mode_wait_ IN     BOOLEAN DEFAULT TRUE )
 IS
    objid_      VARCHAR2(20);
    objversion_ VARCHAR2(100);
    attr_       VARCHAR2(32000);
    indrec_     Indicator_rec;
-   oldrec_     exm_inventory_product_tab%ROWTYPE;
+   oldrec_     manufacture_part_tab%ROWTYPE;
 BEGIN
    IF (lock_mode_wait_) THEN
-      oldrec_ := Lock_By_Keys___(newrec_.inventory_id, newrec_.location_number, newrec_.part_no);
+      oldrec_ := Lock_By_Keys___(newrec_.manu_id);
    ELSE
-      oldrec_ := Lock_By_Keys_Nowait___(newrec_.inventory_id, newrec_.location_number, newrec_.part_no);
+      oldrec_ := Lock_By_Keys_Nowait___(newrec_.manu_id);
    END IF;
    indrec_ := Get_Indicator_Rec___(oldrec_, newrec_);
    Check_Update___(oldrec_, newrec_, indrec_, attr_);
@@ -707,11 +633,11 @@ END Modify___;
 -- Check_Delete___
 --   Perform validations on a new record before it is deleted.
 PROCEDURE Check_Delete___ (
-   remrec_ IN exm_inventory_product_tab%ROWTYPE )
+   remrec_ IN manufacture_part_tab%ROWTYPE )
 IS
    key_ VARCHAR2(2000);
 BEGIN
-   key_ := remrec_.inventory_id||'^'||remrec_.location_number||'^'||remrec_.part_no||'^';
+   key_ := remrec_.manu_id||'^';
    Reference_SYS.Check_Restricted_Delete(lu_name_, key_);
 END Check_Delete___;
 
@@ -720,22 +646,20 @@ END Check_Delete___;
 --   Delete a record from the database.
 PROCEDURE Delete___ (
    objid_  IN VARCHAR2,
-   remrec_ IN exm_inventory_product_tab%ROWTYPE )
+   remrec_ IN manufacture_part_tab%ROWTYPE )
 IS
    key_ VARCHAR2(2000);
 BEGIN
-   key_ := remrec_.inventory_id||'^'||remrec_.location_number||'^'||remrec_.part_no||'^';
+   key_ := remrec_.manu_id||'^';
    Reference_SYS.Do_Cascade_Delete(lu_name_, key_);
    IF (objid_ IS NOT NULL) THEN
       DELETE
-         FROM  exm_inventory_product_tab
+         FROM  manufacture_part_tab
          WHERE rowid = objid_;
    ELSE
       DELETE
-         FROM  exm_inventory_product_tab
-         WHERE inventory_id = remrec_.inventory_id
-         AND   location_number = remrec_.location_number
-         AND   part_no = remrec_.part_no;
+         FROM  manufacture_part_tab
+         WHERE manu_id = remrec_.manu_id;
    END IF;
 END Delete___;
 
@@ -744,7 +668,7 @@ END Delete___;
 --   Delete a record from the database.
 @Deprecated
 PROCEDURE Delete___ (
-   remrec_ IN exm_inventory_product_tab%ROWTYPE )
+   remrec_ IN manufacture_part_tab%ROWTYPE )
 IS
 BEGIN
    Delete___(NULL, remrec_);
@@ -754,15 +678,15 @@ END Delete___;
 -- Remove___
 --    Removes an existing instance of the logical unit.
 PROCEDURE Remove___ (
-   remrec_         IN OUT exm_inventory_product_tab%ROWTYPE,
+   remrec_         IN OUT manufacture_part_tab%ROWTYPE,
    lock_mode_wait_ IN     BOOLEAN DEFAULT TRUE )
 IS
-   oldrec_     exm_inventory_product_tab%ROWTYPE;
+   oldrec_     manufacture_part_tab%ROWTYPE;
 BEGIN
    IF (lock_mode_wait_) THEN
-      oldrec_ := Lock_By_Keys___(remrec_.inventory_id, remrec_.location_number, remrec_.part_no);
+      oldrec_ := Lock_By_Keys___(remrec_.manu_id);
    ELSE
-      oldrec_ := Lock_By_Keys_Nowait___(remrec_.inventory_id, remrec_.location_number, remrec_.part_no);
+      oldrec_ := Lock_By_Keys_Nowait___(remrec_.manu_id);
    END IF;
    Check_Delete___(oldrec_);
    Delete___(NULL, oldrec_);
@@ -777,7 +701,7 @@ PROCEDURE Lock__ (
    objid_      IN  VARCHAR2,
    objversion_ IN  VARCHAR2 )
 IS
-   dummy_ exm_inventory_product_tab%ROWTYPE;
+   dummy_ manufacture_part_tab%ROWTYPE;
 BEGIN
    dummy_ := Lock_By_Id___(objid_, objversion_);
    info_ := Client_SYS.Get_All_Info;
@@ -805,7 +729,7 @@ PROCEDURE New__ (
    attr_       IN OUT VARCHAR2,
    action_     IN     VARCHAR2 )
 IS
-   newrec_   exm_inventory_product_tab%ROWTYPE;
+   newrec_   manufacture_part_tab%ROWTYPE;
    indrec_   Indicator_Rec;
 BEGIN
    IF (action_ = 'PREPARE') THEN
@@ -839,8 +763,8 @@ PROCEDURE Modify__ (
    attr_       IN OUT VARCHAR2,
    action_     IN     VARCHAR2 )
 IS
-   oldrec_   exm_inventory_product_tab%ROWTYPE;
-   newrec_   exm_inventory_product_tab%ROWTYPE;
+   oldrec_   manufacture_part_tab%ROWTYPE;
+   newrec_   manufacture_part_tab%ROWTYPE;
    indrec_   Indicator_Rec;
 BEGIN
    IF (action_ = 'CHECK') THEN
@@ -876,7 +800,7 @@ PROCEDURE Remove__ (
    objversion_ IN  VARCHAR2,
    action_     IN  VARCHAR2 )
 IS
-   remrec_ exm_inventory_product_tab%ROWTYPE;
+   remrec_ manufacture_part_tab%ROWTYPE;
 BEGIN
    IF (action_ = 'CHECK') THEN
       remrec_ := Get_Object_By_Id___(objid_);
@@ -895,13 +819,11 @@ END Remove__;
 --   logical unit exists. If not an exception will be raised.
 @UncheckedAccess
 PROCEDURE Exist (
-   inventory_id_ IN NUMBER,
-   location_number_ IN NUMBER,
-   part_no_ IN NUMBER )
+   manu_id_ IN NUMBER )
 IS
 BEGIN
-   IF (NOT Check_Exist___(inventory_id_, location_number_, part_no_)) THEN
-      Raise_Record_Not_Exist___(inventory_id_, location_number_, part_no_);
+   IF (NOT Check_Exist___(manu_id_)) THEN
+      Raise_Record_Not_Exist___(manu_id_);
    END IF;
 END Exist;
 
@@ -910,70 +832,60 @@ END Exist;
 --   Same check as Exist, but returns a BOOLEAN value instead of exception.
 @UncheckedAccess
 FUNCTION Exists (
-   inventory_id_ IN NUMBER,
-   location_number_ IN NUMBER,
-   part_no_ IN NUMBER ) RETURN BOOLEAN
+   manu_id_ IN NUMBER ) RETURN BOOLEAN
 IS
 BEGIN
-   RETURN Check_Exist___(inventory_id_, location_number_, part_no_);
+   RETURN Check_Exist___(manu_id_);
 END Exists;
 
 
--- Get_Quantity
---   Fetches the Quantity attribute for a record.
+-- Get_Part_No
+--   Fetches the PartNo attribute for a record.
 @UncheckedAccess
-FUNCTION Get_Quantity (
-   inventory_id_ IN NUMBER,
-   location_number_ IN NUMBER,
-   part_no_ IN NUMBER ) RETURN NUMBER
+FUNCTION Get_Part_No (
+   manu_id_ IN NUMBER ) RETURN NUMBER
 IS
-   temp_ exm_inventory_product_tab.quantity%TYPE;
+   temp_ manufacture_part_tab.part_no%TYPE;
 BEGIN
-   IF (inventory_id_ IS NULL OR location_number_ IS NULL OR part_no_ IS NULL) THEN
+   IF (manu_id_ IS NULL) THEN
       RETURN NULL;
    END IF;
-   SELECT quantity
+   SELECT part_no
       INTO  temp_
-      FROM  exm_inventory_product_tab
-      WHERE inventory_id = inventory_id_
-      AND   location_number = location_number_
-      AND   part_no = part_no_;
+      FROM  manufacture_part_tab
+      WHERE manu_id = manu_id_;
    RETURN temp_;
 EXCEPTION
    WHEN no_data_found THEN
       RETURN NULL;
    WHEN too_many_rows THEN
-      Raise_Too_Many_Rows___(inventory_id_, location_number_, part_no_, 'Get_Quantity');
-END Get_Quantity;
+      Raise_Too_Many_Rows___(manu_id_, 'Get_Part_No');
+END Get_Part_No;
 
 
 -- Get
 --   Fetches a record containing the public attributes.
 @UncheckedAccess
 FUNCTION Get (
-   inventory_id_ IN NUMBER,
-   location_number_ IN NUMBER,
-   part_no_ IN NUMBER ) RETURN Public_Rec
+   manu_id_ IN NUMBER ) RETURN Public_Rec
 IS
    temp_ Public_Rec;
 BEGIN
-   IF (inventory_id_ IS NULL OR location_number_ IS NULL OR part_no_ IS NULL) THEN
+   IF (manu_id_ IS NULL) THEN
       RETURN NULL;
    END IF;
-   SELECT inventory_id, location_number, part_no,
+   SELECT manu_id,
           rowid, rowversion, rowkey,
-          quantity
+          part_no
       INTO  temp_
-      FROM  exm_inventory_product_tab
-      WHERE inventory_id = inventory_id_
-      AND   location_number = location_number_
-      AND   part_no = part_no_;
+      FROM  manufacture_part_tab
+      WHERE manu_id = manu_id_;
    RETURN temp_;
 EXCEPTION
    WHEN no_data_found THEN
       RETURN NULL;
    WHEN too_many_rows THEN
-      Raise_Too_Many_Rows___(inventory_id_, location_number_, part_no_, 'Get');
+      Raise_Too_Many_Rows___(manu_id_, 'Get');
 END Get;
 
 
@@ -981,27 +893,23 @@ END Get;
 --   Fetches the objkey attribute for a record.
 @UncheckedAccess
 FUNCTION Get_Objkey (
-   inventory_id_ IN NUMBER,
-   location_number_ IN NUMBER,
-   part_no_ IN NUMBER ) RETURN VARCHAR2
+   manu_id_ IN NUMBER ) RETURN VARCHAR2
 IS
-   rowkey_ exm_inventory_product_tab.rowkey%TYPE;
+   rowkey_ manufacture_part_tab.rowkey%TYPE;
 BEGIN
-   IF (inventory_id_ IS NULL OR location_number_ IS NULL OR part_no_ IS NULL) THEN
+   IF (manu_id_ IS NULL) THEN
       RETURN NULL;
    END IF;
    SELECT rowkey
       INTO  rowkey_
-      FROM  exm_inventory_product_tab
-      WHERE inventory_id = inventory_id_
-      AND   location_number = location_number_
-      AND   part_no = part_no_;
+      FROM  manufacture_part_tab
+      WHERE manu_id = manu_id_;
    RETURN rowkey_;
 EXCEPTION
    WHEN no_data_found THEN
       RETURN NULL;
    WHEN too_many_rows THEN
-      Raise_Too_Many_Rows___(inventory_id_, location_number_, part_no_, 'Get_Objkey');
+      Raise_Too_Many_Rows___(manu_id_, 'Get_Objkey');
 END Get_Objkey;
 
 -------------------- FOUNDATION1 METHODS ------------------------------------

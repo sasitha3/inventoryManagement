@@ -1,7 +1,7 @@
 -----------------------------------------------------------------------------
 --
---  Logical unit: ExmInventoryProduct
---  Component:    TRNEXM
+--  Logical unit: ManufacturePart
+--  Component:    SHPORD
 --
 --  Template:     3.0
 --  Built by:     IFS Developer Studio 10.82.6530.20191210
@@ -15,38 +15,27 @@ layer Base;
 
 -------------------- COMMON COLUMN DEFINITIONS ------------------------------
 
-COLUMN Inventory_Id IS
-   Flags      = 'PMI-L'
+COLUMN Manu_Id IS
+   Flags      = 'K-I-L'
    Datatype   = 'NUMBER'
-   Prompt     = 'Inventory Id';
-COLUMN Location_Number IS
-   Flags      = 'PMI-L'
-   Datatype   = 'NUMBER'
-   Prompt     = 'Location Number'
-   Ref        = 'ExmInventoryLocation(inventory_id)';
+   Prompt     = 'Manu Id';
 COLUMN Part_No IS
-   Flags      = 'PMI-L'
+   Flags      = 'A-IUL'
    Datatype   = 'NUMBER'
    Prompt     = 'Part No'
    Ref        = 'ExmPart';
-COLUMN Quantity IS
-   Flags      = 'AMIUL'
-   Datatype   = 'NUMBER'
-   Prompt     = 'Quantity';
 
 -------------------- PUBLIC VIEW DEFINITIONS --------------------------------
 
 
 -------------------- PRIVATE VIEW DEFINITIONS -------------------------------
 
-VIEW Exm_Inventory_Product IS
-   Prompt     = 'Exm Inventory Product'
+VIEW Manufacture_Part IS
+   Prompt     = 'Manufacture Part'
 SELECT
-       inventory_id                   inventory_id,
-       location_number                location_number,
+       manu_id                        manu_id,
        part_no                        part_no,
-       quantity                       quantity,
        rowkey                         objkey,
        to_char(rowversion,'YYYYMMDDHH24MISS') objversion,
        rowid                          objid
-FROM   exm_inventory_product_tab;
+FROM   manufacture_part_tab;

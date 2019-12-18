@@ -73,7 +73,6 @@ namespace Ifs.Application.Trnexm
             this.commandManager.Components.Add(this.cCommandButtonOK);
             this.commandManager.Components.Add(this.cCommandButtonCancel);
             this.commandManager.Components.Add(this.cCommandButtonList);
-            this.commandManager.ImageList = null;
             // 
             // cCommandButtonOK
             // 
@@ -163,7 +162,7 @@ namespace Ifs.Application.Trnexm
             resources.ApplyResources(this.dfnInventoryLocationId, "dfnInventoryLocationId");
             this.dfnInventoryLocationId.Name = "dfnInventoryLocationId";
             this.dfnInventoryLocationId.NamedProperties.Put("FieldFlags", "260");
-            this.dfnInventoryLocationId.NamedProperties.Put("LovReference", "EXM_INVENTORY_LOCATION");
+            this.dfnInventoryLocationId.NamedProperties.Put("LovReference", "EXM_INVENTORY_LOCATION(INVENTORY_ID)");
             // 
             // dfnPartId
             // 

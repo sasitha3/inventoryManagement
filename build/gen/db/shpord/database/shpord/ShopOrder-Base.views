@@ -1,7 +1,7 @@
 -----------------------------------------------------------------------------
 --
---  Logical unit: ExmInventoryProduct
---  Component:    TRNEXM
+--  Logical unit: ShopOrder
+--  Component:    SHPORD
 --
 --  Template:     3.0
 --  Built by:     IFS Developer Studio 10.82.6530.20191210
@@ -15,38 +15,36 @@ layer Base;
 
 -------------------- COMMON COLUMN DEFINITIONS ------------------------------
 
-COLUMN Inventory_Id IS
-   Flags      = 'PMI-L'
+COLUMN Order_No IS
+   Flags      = 'KMI-L'
    Datatype   = 'NUMBER'
-   Prompt     = 'Inventory Id';
-COLUMN Location_Number IS
-   Flags      = 'PMI-L'
-   Datatype   = 'NUMBER'
-   Prompt     = 'Location Number'
-   Ref        = 'ExmInventoryLocation(inventory_id)';
-COLUMN Part_No IS
-   Flags      = 'PMI-L'
-   Datatype   = 'NUMBER'
-   Prompt     = 'Part No'
-   Ref        = 'ExmPart';
-COLUMN Quantity IS
+   Prompt     = 'Order No';
+COLUMN Order_Date IS
+   Flags      = 'AMIUL'
+   Datatype   = 'DATE/DATE'
+   Prompt     = 'Order Date';
+COLUMN Require_Date IS
+   Flags      = 'AMIUL'
+   Datatype   = 'DATE/DATE'
+   Prompt     = 'Require Date';
+COLUMN Lot_Size IS
    Flags      = 'AMIUL'
    Datatype   = 'NUMBER'
-   Prompt     = 'Quantity';
+   Prompt     = 'Lot Size';
 
 -------------------- PUBLIC VIEW DEFINITIONS --------------------------------
 
 
 -------------------- PRIVATE VIEW DEFINITIONS -------------------------------
 
-VIEW Exm_Inventory_Product IS
-   Prompt     = 'Exm Inventory Product'
+VIEW Shop_Order IS
+   Prompt     = 'Shop Order'
 SELECT
-       inventory_id                   inventory_id,
-       location_number                location_number,
-       part_no                        part_no,
-       quantity                       quantity,
+       order_no                       order_no,
+       order_date                     order_date,
+       require_date                   require_date,
+       lot_size                       lot_size,
        rowkey                         objkey,
        to_char(rowversion,'YYYYMMDDHH24MISS') objversion,
        rowid                          objid
-FROM   exm_inventory_product_tab;
+FROM   shop_order_tab;

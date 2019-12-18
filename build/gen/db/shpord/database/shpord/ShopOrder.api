@@ -1,8 +1,8 @@
 -----------------------------------------------------------------------------
 --
---  Logical unit: ExmInventoryProduct
+--  Logical unit: ShopOrder
 --  Type:         Entity
---  Component:    TRNEXM
+--  Component:    SHPORD
 --
 --  Template:     3.0
 --  Built by:     IFS Developer Studio
@@ -11,12 +11,12 @@
 --        overwritten next time the corresponding model is saved.
 -----------------------------------------------------------------------------
 
-PROMPT Creating Exm_Inventory_Product_API specification
+PROMPT Creating Shop_Order_API specification
 
-CREATE OR REPLACE PACKAGE Exm_Inventory_Product_API IS
+CREATE OR REPLACE PACKAGE Shop_Order_API IS
 
-module_  CONSTANT VARCHAR2(25) := 'TRNEXM';
-lu_name_ CONSTANT VARCHAR2(25) := 'ExmInventoryProduct';
+module_  CONSTANT VARCHAR2(25) := 'SHPORD';
+lu_name_ CONSTANT VARCHAR2(25) := 'ShopOrder';
 lu_type_ CONSTANT VARCHAR2(25) := 'Entity';
 
 -----------------------------------------------------------------------------
@@ -24,13 +24,13 @@ lu_type_ CONSTANT VARCHAR2(25) := 'Entity';
 -----------------------------------------------------------------------------
 
 TYPE Public_Rec IS RECORD
-  (inventory_id                   EXM_INVENTORY_PRODUCT_TAB.inventory_id%TYPE,
-   location_number                EXM_INVENTORY_PRODUCT_TAB.location_number%TYPE,
-   part_no                        EXM_INVENTORY_PRODUCT_TAB.part_no%TYPE,
+  (order_no                       SHOP_ORDER_TAB.order_no%TYPE,
    "rowid"                        rowid,
-   rowversion                     EXM_INVENTORY_PRODUCT_TAB.rowversion%TYPE,
-   rowkey                         EXM_INVENTORY_PRODUCT_TAB.rowkey%TYPE,
-   quantity                       EXM_INVENTORY_PRODUCT_TAB.quantity%TYPE);
+   rowversion                     SHOP_ORDER_TAB.rowversion%TYPE,
+   rowkey                         SHOP_ORDER_TAB.rowkey%TYPE,
+   order_date                     SHOP_ORDER_TAB.order_date%TYPE,
+   require_date                   SHOP_ORDER_TAB.require_date%TYPE,
+   lot_size                       SHOP_ORDER_TAB.lot_size%TYPE);
 
 
 -----------------------------------------------------------------------------
@@ -46,8 +46,14 @@ TYPE Public_Rec IS RECORD
 -- Exists
 --   Same check as Exist, but returns a BOOLEAN value instead of exception.
 --
--- Get_Quantity
---   Fetches the Quantity attribute for a record.
+-- Get_Order_Date
+--   Fetches the OrderDate attribute for a record.
+--
+-- Get_Require_Date
+--   Fetches the RequireDate attribute for a record.
+--
+-- Get_Lot_Size
+--   Fetches the LotSize attribute for a record.
 --
 -- Get
 --   Fetches a record containing the public attributes.
@@ -94,37 +100,35 @@ TYPE Public_Rec IS RECORD
 
 --@PoReadOnly(Get_Key_By_Rowkey)
 FUNCTION Get_Key_By_Rowkey (
-   rowkey_ IN VARCHAR2 ) RETURN exm_inventory_product_tab%ROWTYPE;
+   rowkey_ IN VARCHAR2 ) RETURN shop_order_tab%ROWTYPE;
 
 --@PoReadOnly(Exist)
 PROCEDURE Exist (
-   inventory_id_ IN NUMBER,
-   location_number_ IN NUMBER,
-   part_no_ IN NUMBER );
+   order_no_ IN NUMBER );
 
 --@PoReadOnly(Exists)
 FUNCTION Exists (
-   inventory_id_ IN NUMBER,
-   location_number_ IN NUMBER,
-   part_no_ IN NUMBER ) RETURN BOOLEAN;
+   order_no_ IN NUMBER ) RETURN BOOLEAN;
 
---@PoReadOnly(Get_Quantity)
-FUNCTION Get_Quantity (
-   inventory_id_ IN NUMBER,
-   location_number_ IN NUMBER,
-   part_no_ IN NUMBER ) RETURN NUMBER;
+--@PoReadOnly(Get_Order_Date)
+FUNCTION Get_Order_Date (
+   order_no_ IN NUMBER ) RETURN DATE;
+
+--@PoReadOnly(Get_Require_Date)
+FUNCTION Get_Require_Date (
+   order_no_ IN NUMBER ) RETURN DATE;
+
+--@PoReadOnly(Get_Lot_Size)
+FUNCTION Get_Lot_Size (
+   order_no_ IN NUMBER ) RETURN NUMBER;
 
 --@PoReadOnly(Get)
 FUNCTION Get (
-   inventory_id_ IN NUMBER,
-   location_number_ IN NUMBER,
-   part_no_ IN NUMBER ) RETURN Public_Rec;
+   order_no_ IN NUMBER ) RETURN Public_Rec;
 
 --@PoReadOnly(Get_Objkey)
 FUNCTION Get_Objkey (
-   inventory_id_ IN NUMBER,
-   location_number_ IN NUMBER,
-   part_no_ IN NUMBER ) RETURN VARCHAR2;
+   order_no_ IN NUMBER ) RETURN VARCHAR2;
 
 --@PoReadOnly(Lock__)
 PROCEDURE Lock__ (
@@ -153,26 +157,6 @@ PROCEDURE Remove__ (
    action_     IN  VARCHAR2 );
 
 -----------------------------------------------------------------------------
--------------------- LU SPECIFIC PUBLIC METHODS -----------------------------
------------------------------------------------------------------------------
--- Add_prudct
---
--- Deduct_prudct
------------------------------------------------------------------------------
-
-PROCEDURE Add_prudct (
-   location_number_ IN EXM_INVENTORY_PRODUCT_TAB.location_number%TYPE,
-   inventory_id_    IN EXM_INVENTORY_PRODUCT_TAB.inventory_id%TYPE,
-   part_no_         IN EXM_INVENTORY_PRODUCT_TAB.part_no%TYPE,
-   quantity_        IN EXM_INVENTORY_PRODUCT_TAB.quantity%TYPE);
-
-FUNCTION Deduct_prudct (
-   
-   part_no_  IN EXM_INVENTORY_PRODUCT_TAB.part_no%TYPE,
-   quantity_ IN EXM_INVENTORY_PRODUCT_TAB.quantity%TYPE)
-   RETURN BOOLEAN;
-
------------------------------------------------------------------------------
 -------------------- FOUNDATION1 METHODS ------------------------------------
 -----------------------------------------------------------------------------
 -- Init
@@ -182,7 +166,7 @@ FUNCTION Deduct_prudct (
 --@PoReadOnly(Init)
 PROCEDURE Init;
 
-END Exm_Inventory_Product_API;
+END Shop_Order_API;
 /
 SHOW ERROR
 

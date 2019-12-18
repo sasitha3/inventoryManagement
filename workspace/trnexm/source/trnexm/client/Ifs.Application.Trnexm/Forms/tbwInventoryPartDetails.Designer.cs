@@ -68,6 +68,7 @@ namespace Ifs.Application.Trnexm
             // 
             // __colObjversion
             // 
+            this.@__colObjversion.Position = 4;
             resources.ApplyResources(this.@__colObjversion, "__colObjversion");
             // 
             // colnInventoryId
@@ -77,9 +78,9 @@ namespace Ifs.Application.Trnexm
             this.colnInventoryId.NamedProperties.Put("EnumerateMethod", "");
             this.colnInventoryId.NamedProperties.Put("FieldFlags", "99");
             this.colnInventoryId.NamedProperties.Put("Format", "");
-            this.colnInventoryId.NamedProperties.Put("LovReference", "EXM_INVENTORY_LOCATION(LOCATION_NUMBER)");
+            this.colnInventoryId.NamedProperties.Put("LovReference", "EXM_INVENTORY_LOCATION()");
             this.colnInventoryId.NamedProperties.Put("SqlColumn", "INVENTORY_ID");
-            this.colnInventoryId.Position = 3;
+            this.colnInventoryId.Position = 2;
             this.colnInventoryId.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             resources.ApplyResources(this.colnInventoryId, "colnInventoryId");
             // 
@@ -90,9 +91,9 @@ namespace Ifs.Application.Trnexm
             this.colnLocationNumber.NamedProperties.Put("EnumerateMethod", "");
             this.colnLocationNumber.NamedProperties.Put("FieldFlags", "99");
             this.colnLocationNumber.NamedProperties.Put("Format", "");
-            this.colnLocationNumber.NamedProperties.Put("LovReference", "");
+            this.colnLocationNumber.NamedProperties.Put("LovReference", "EXM_INVENTORY_LOCATION(INVENTORY_ID)");
             this.colnLocationNumber.NamedProperties.Put("SqlColumn", "LOCATION_NUMBER");
-            this.colnLocationNumber.Position = 4;
+            this.colnLocationNumber.Position = 3;
             this.colnLocationNumber.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             resources.ApplyResources(this.colnLocationNumber, "colnLocationNumber");
             // 
@@ -157,9 +158,9 @@ namespace Ifs.Application.Trnexm
             this.NamedProperties.Put("Module", "TRNEXM");
             this.NamedProperties.Put("PackageName", "EXM_INVENTORY_PRODUCT_API");
             this.NamedProperties.Put("ViewName", "EXM_INVENTORY_PRODUCT");
-            this.Controls.SetChildIndex(this.@__colObjversion, 0);
             this.Controls.SetChildIndex(this.colnQuantity, 0);
             this.Controls.SetChildIndex(this.colnPartNo, 0);
+            this.Controls.SetChildIndex(this.@__colObjversion, 0);
             this.Controls.SetChildIndex(this.colnLocationNumber, 0);
             this.Controls.SetChildIndex(this.colnInventoryId, 0);
             this.Controls.SetChildIndex(this.@__colObjid, 0);

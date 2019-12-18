@@ -4,11 +4,11 @@
       <Text><![CDATA[Exm Inventory Product]]></Text>
       <View ID="ExmInventoryProduct.EXM_INVENTORY_PRODUCT">
          <Text><![CDATA[Exm Inventory Product]]></Text>
-         <Column ID="ExmInventoryProduct.EXM_INVENTORY_PRODUCT.LOCATION_NUMBER">
-            <Text><![CDATA[Location Number]]></Text>
-         </Column>
          <Column ID="ExmInventoryProduct.EXM_INVENTORY_PRODUCT.INVENTORY_ID">
             <Text><![CDATA[Inventory Id]]></Text>
+         </Column>
+         <Column ID="ExmInventoryProduct.EXM_INVENTORY_PRODUCT.LOCATION_NUMBER">
+            <Text><![CDATA[Location Number]]></Text>
          </Column>
          <Column ID="ExmInventoryProduct.EXM_INVENTORY_PRODUCT.PART_NO">
             <Text><![CDATA[Part No]]></Text>

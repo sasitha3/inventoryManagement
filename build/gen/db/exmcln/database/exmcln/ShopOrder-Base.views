@@ -1,0 +1,50 @@
+-----------------------------------------------------------------------------
+--
+--  Logical unit: ShopOrder
+--  Component:    EXMCLN
+--
+--  Template:     3.0
+--  Built by:     IFS Developer Studio 10.82.6479.20191204
+--
+--  NOTE! Do not edit!! This file is completely generated and will be
+--        overwritten next time the corresponding model is saved.
+-----------------------------------------------------------------------------
+
+
+layer Base;
+
+-------------------- COMMON COLUMN DEFINITIONS ------------------------------
+
+COLUMN Order_No IS
+   Flags      = 'KMI-L'
+   Datatype   = 'NUMBER'
+   Prompt     = 'Order No';
+COLUMN Order_Date IS
+   Flags      = 'AMIUL'
+   Datatype   = 'DATE/DATE'
+   Prompt     = 'Order Date';
+COLUMN Require_Date IS
+   Flags      = 'AMIUL'
+   Datatype   = 'DATE/DATE'
+   Prompt     = 'Require Date';
+COLUMN Lot_Size IS
+   Flags      = 'AMIUL'
+   Datatype   = 'NUMBER'
+   Prompt     = 'Lot Size';
+
+-------------------- PUBLIC VIEW DEFINITIONS --------------------------------
+
+
+-------------------- PRIVATE VIEW DEFINITIONS -------------------------------
+
+VIEW Shop_Order IS
+   Prompt     = 'Shop Order'
+SELECT
+       order_no                       order_no,
+       order_date                     order_date,
+       require_date                   require_date,
+       lot_size                       lot_size,
+       rowkey                         objkey,
+       to_char(rowversion,'YYYYMMDDHH24MISS') objversion,
+       rowid                          objid
+FROM   shop_order_tab;

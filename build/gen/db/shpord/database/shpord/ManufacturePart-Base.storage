@@ -1,7 +1,7 @@
 -----------------------------------------------------------------------------
 --
---  Logical unit: ExmInventoryProduct
---  Component:    TRNEXM
+--  Logical unit: ManufacturePart
+--  Component:    SHPORD
 --
 --  Template:     3.0
 --  Built by:     IFS Developer Studio 10.82.6530.20191210
@@ -15,22 +15,18 @@ layer Base;
 
 -------------------- TABLE DEFINITIONS --------------------------------------
 
-TABLE exm_inventory_product_tab IS (
-   inventory_id                   NUMBER         NOT NULL,
-   location_number                NUMBER         NOT NULL,
-   part_no                        NUMBER         NOT NULL,
-   quantity                       NUMBER         NOT NULL,
+TABLE manufacture_part_tab IS (
+   manu_id                        NUMBER         NOT NULL,
+   part_no                        NUMBER         NULL,
    rowversion                     DATE           NOT NULL,
    rowkey                         VARCHAR2(50)   DEFAULT sys_guid() NOT NULL);
 
 
-PRIMARY KEY exm_inventory_product_pk IS exm_inventory_product_tab (
-   inventory_id,
-   location_number,
-   part_no);
+PRIMARY KEY manufacture_part_pk IS manufacture_part_tab (
+   manu_id);
 
 
-UNIQUE CONSTRAINT exm_inventory_product_rk IS exm_inventory_product_tab (
+UNIQUE CONSTRAINT manufacture_part_rk IS manufacture_part_tab (
    rowkey);
 
 -------------------- OTHER DEFINITIONS --------------------------------------

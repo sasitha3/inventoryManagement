@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LogicalUnits version="1.0" module="SHPORD" type="LU" layer="Core">
+   <LogicalUnit name="ManufacturePart">
+      <Text><![CDATA[Manufacture Part]]></Text>
+      <View ID="ManufacturePart.MANUFACTURE_PART">
+         <Text><![CDATA[Manufacture Part]]></Text>
+         <Column ID="ManufacturePart.MANUFACTURE_PART.MANU_ID">
+            <Text><![CDATA[Manu Id]]></Text>
+         </Column>
+         <Column ID="ManufacturePart.MANUFACTURE_PART.PART_NO">
+            <Text><![CDATA[Part No]]></Text>
+         </Column>
+      </View>
+   </LogicalUnit>
+</LogicalUnits>

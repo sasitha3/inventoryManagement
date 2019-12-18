@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LogicalUnits version="1.0" module="SHPORD" type="LU" layer="Core">
+   <LogicalUnit name="ShopOrder">
+      <Text><![CDATA[Shop Order]]></Text>
+      <View ID="ShopOrder.SHOP_ORDER">
+         <Text><![CDATA[Shop Order]]></Text>
+         <Column ID="ShopOrder.SHOP_ORDER.ORDER_NO">
+            <Text><![CDATA[Order No]]></Text>
+         </Column>
+         <Column ID="ShopOrder.SHOP_ORDER.ORDER_DATE">
+            <Text><![CDATA[Order Date]]></Text>
+         </Column>
+         <Column ID="ShopOrder.SHOP_ORDER.REQUIRE_DATE">
+            <Text><![CDATA[Require Date]]></Text>
+         </Column>
+         <Column ID="ShopOrder.SHOP_ORDER.LOT_SIZE">
+            <Text><![CDATA[Lot Size]]></Text>
+         </Column>
+      </View>
+   </LogicalUnit>
+</LogicalUnits>

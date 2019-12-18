@@ -1,7 +1,7 @@
 -----------------------------------------------------------------------------
 --
---  Logical unit: ExmInventoryProduct
---  Component:    TRNEXM
+--  Logical unit: ShopOrder
+--  Component:    SHPORD
 --
 --  Template:     3.0
 --  Built by:     IFS Developer Studio 10.82.6530.20191210
@@ -15,22 +15,20 @@ layer Base;
 
 -------------------- TABLE DEFINITIONS --------------------------------------
 
-TABLE exm_inventory_product_tab IS (
-   inventory_id                   NUMBER         NOT NULL,
-   location_number                NUMBER         NOT NULL,
-   part_no                        NUMBER         NOT NULL,
-   quantity                       NUMBER         NOT NULL,
+TABLE shop_order_tab IS (
+   order_no                       NUMBER         NOT NULL,
+   order_date                     DATE           NOT NULL,
+   require_date                   DATE           NOT NULL,
+   lot_size                       NUMBER         NOT NULL,
    rowversion                     DATE           NOT NULL,
    rowkey                         VARCHAR2(50)   DEFAULT sys_guid() NOT NULL);
 
 
-PRIMARY KEY exm_inventory_product_pk IS exm_inventory_product_tab (
-   inventory_id,
-   location_number,
-   part_no);
+PRIMARY KEY shop_order_pk IS shop_order_tab (
+   order_no);
 
 
-UNIQUE CONSTRAINT exm_inventory_product_rk IS exm_inventory_product_tab (
+UNIQUE CONSTRAINT shop_order_rk IS shop_order_tab (
    rowkey);
 
 -------------------- OTHER DEFINITIONS --------------------------------------
